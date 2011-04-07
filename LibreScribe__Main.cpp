@@ -1,5 +1,5 @@
 /***************************************************************
- * Name:      libreScribe__Main.cpp
+ * Name:      LibreScribe__Main.cpp
  * Purpose:   Code for Application Frame
  * Author:    Dylan Taylor (aliendude5300@gmail.com)
  * Created:   2011-04-07
@@ -40,39 +40,39 @@ static struct usb_device *findSmartpen()
   return NULL;
 }
 
-libreScribe__Frame::libreScribe__Frame(wxFrame *frame)
+LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
     : GUIFrame(frame)
 {
-    printf("libreScribe Alpha version 0.01, written by Dylan Taylor\n");
+    printf("LibreScribe Alpha version 0.01, written by Dylan Taylor\n");
 #if wxUSE_STATUSBAR
     statusBar->SetStatusText(_("The status bar is still a work-in-progress."), 0);
 #endif
     refreshDeviceState();
 }
 
-void libreScribe__Frame::updateStatusbar() {
+void LibreScribe__Frame::updateStatusbar() {
 
 }
 
-libreScribe__Frame::~libreScribe__Frame()
+LibreScribe__Frame::~LibreScribe__Frame()
 {
 }
 
-void libreScribe__Frame::OnClose(wxCloseEvent &event)
-{
-    Destroy();
-}
-
-void libreScribe__Frame::OnQuit(wxCommandEvent &event)
+void LibreScribe__Frame::OnClose(wxCloseEvent &event)
 {
     Destroy();
 }
 
-void libreScribe__Frame::OnInfo(wxCommandEvent &event) {
+void LibreScribe__Frame::OnQuit(wxCommandEvent &event)
+{
+    Destroy();
+}
+
+void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
 
 }
 
-void libreScribe__Frame::refreshDeviceState() {
+void LibreScribe__Frame::refreshDeviceState() {
     statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
     printf("Searching for your Smartpen... ");
     dev = findSmartpen();
@@ -94,12 +94,12 @@ void libreScribe__Frame::refreshDeviceState() {
 
 }
 
-void libreScribe__Frame::OnRefresh(wxCommandEvent &event) {
+void LibreScribe__Frame::OnRefresh(wxCommandEvent &event) {
     refreshDeviceState();
 //    wxMessageBox(_("Refreshing device information..."), _("LibreScribe Smartpen Manager"));
 }
 
-void libreScribe__Frame::OnAbout(wxCommandEvent &event)
+void LibreScribe__Frame::OnAbout(wxCommandEvent &event)
 {
     wxMessageBox(_("Written by Dylan Taylor. A large portion of the code is taken from libsmartpen, written by Steven Walter. This is alpha quality software. Use in production environments is NOT recommended."), _("LibreScribe Smartpen Manager"));
 }

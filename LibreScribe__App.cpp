@@ -1,5 +1,5 @@
 /***************************************************************
- * Name:      libreScribe__App.cpp
+ * Name:      LibreScribe__App.cpp
  * Purpose:   Code for Application Class
  * Author:    Dylan Taylor (aliendude5300@gmail.com)
  * Created:   2011-04-07
@@ -17,7 +17,7 @@
 
 #include "LibreScribe__App.h"
 #include "LibreScribe__Main.h"
-IMPLEMENT_APP(libreScribe__App);
+IMPLEMENT_APP(LibreScribe__App);
 
 static void
 showStorageInformation(xmlNode * a_node)
@@ -75,10 +75,10 @@ showSmartpenTimeInfo(xmlNode * a_node)
     }
 }
 
-bool libreScribe__App::OnInit()
+bool LibreScribe__App::OnInit()
 {
     wxImage::AddHandler(new wxPNGHandler());
-    libreScribe__Frame* frame = new libreScribe__Frame(0L);
+    LibreScribe__Frame* frame = new LibreScribe__Frame(0L);
     frame->Show();
 //    getPenInfo();
 
