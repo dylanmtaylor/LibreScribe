@@ -15,8 +15,8 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 
-#include "libreScribe__App.h"
-#include "libreScribe__Main.h"
+#include "LibreScribe__App.h"
+#include "LibreScribe__Main.h"
 IMPLEMENT_APP(libreScribe__App);
 
 static void
