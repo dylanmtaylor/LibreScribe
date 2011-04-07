@@ -1,5 +1,5 @@
 /***************************************************************
- * Name:      libreScribe__Main.h
+ * Name:      LibreScribe__Main.h
  * Purpose:   Defines Application Frame
  * Author:    Dylan Taylor (aliendude5300@gmail.com)
  * Created:   2011-04-07
@@ -7,8 +7,8 @@
  * License:
  **************************************************************/
 
-#ifndef LIBRESCRIBE__MAIN_H
-#define LIBRESCRIBE__MAIN_H
+#ifndef LibreScribe__MAIN_H
+#define LibreScribe__MAIN_H
 #include <openobex/obex.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -25,11 +25,11 @@
 #define LS_ECHO 0x0000 //currently unknown
 #include "GUIFrame.h"
 
-class libreScribe__Frame: public GUIFrame
+class LibreScribe__Frame: public GUIFrame
 {
     public:
-        libreScribe__Frame(wxFrame *frame);
-        ~libreScribe__Frame();
+        LibreScribe__Frame(wxFrame *frame);
+        ~LibreScribe__Frame();
         void updateStatusbar();
     private:
         void refreshDeviceState();
@@ -40,4 +40,4 @@ class libreScribe__Frame: public GUIFrame
         virtual void OnInfo(wxCommandEvent& event);
 };
 
-#endif // LIBRESCRIBE__MAIN_H
+#endif // LibreScribe__MAIN_H
