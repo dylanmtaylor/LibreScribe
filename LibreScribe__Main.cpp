@@ -15,7 +15,7 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 
-#include "libreScribe__Main.h"
+#include "LibreScribe__Main.h"
 
 struct usb_device *dev;
 

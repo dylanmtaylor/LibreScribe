@@ -2115,3 +2115,25 @@
 1298507237 /usr/include/wx-2.8/wx/gtk/notebook.h
 	"wx/list.h"
 
+1302218375 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
+	"wx_pch.h"
+	"LibreScribe__App.h"
+	"LibreScribe__Main.h"
+
+1302203875 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
+	<wx/app.h>
+
+1302218381 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+	<openobex/obex.h>
+	<libxml/tree.h>
+	<libxml/parser.h>
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<assert.h>
+	<arpa/inet.h>
+	<usb.h>
+	<glib-2.0/glib.h>
+	"LibreScribe__App.h"
+	"GUIFrame.h"
+
