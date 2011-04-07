@@ -289,7 +289,7 @@
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">refresh</property>
                     <property name="name">refresh</property>
-                    <property name="statusbar">Click this to scan for a compatible Smartpen device.</property>
+                    <property name="statusbar">Click this to scan for a compatible smartpen device.</property>
                     <property name="tooltip">Refresh Connection</property>
                     <event name="OnMenuSelection"></event>
                     <event name="OnToolClicked">OnRefresh</event>

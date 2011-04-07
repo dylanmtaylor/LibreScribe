@@ -2137,3 +2137,7 @@
 	"LibreScribe__App.h"
 	"GUIFrame.h"
 
+1302218388 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+	"wx_pch.h"
+	"LibreScribe__Main.h"
+

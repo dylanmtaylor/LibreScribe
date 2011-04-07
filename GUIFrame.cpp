@@ -67,7 +67,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->SetMenuBar( mbar );
 	
 	m_toolBar1 = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
-	m_toolBar1->AddTool( idToolbarRefresh, wxT("refresh"), wxBitmap( wxT("res/view-refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh Connection"), wxT("Click this to scan for a compatible Smartpen device.") );
+	m_toolBar1->AddTool( idToolbarRefresh, wxT("refresh"), wxBitmap( wxT("res/view-refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh Connection"), wxT("Click this to scan for a compatible smartpen device.") );
 	m_toolBar1->AddTool( idToolbarInfo, wxT("info"), wxBitmap( wxT("res/emblem-system.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Device Status"), wxEmptyString );
 	m_toolBar1->AddTool( idToolbarQuit, wxT("quit"), wxBitmap( wxT("res/process-stop.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Quit Smartpen Manager"), wxEmptyString );
 	m_toolBar1->AddSeparator();
