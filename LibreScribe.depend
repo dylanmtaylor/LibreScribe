@@ -1467,12 +1467,12 @@
 1298507237 /usr/include/wx-2.8/wx/gtk/filedlg.h
 	"wx/generic/filedlgg.h"
 
-1302218651 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
+1302221005 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
 
-1302215562 /home/dylan/cpp/libreScribe++/GUIFrame.h
+1302221005 /home/dylan/cpp/libreScribe++/GUIFrame.h
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
@@ -2115,15 +2115,15 @@
 1298507237 /usr/include/wx-2.8/wx/gtk/notebook.h
 	"wx/list.h"
 
-1302218375 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
+1302219627 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
 
-1302203875 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
+1302218880 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1302218381 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1302227324 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<libxml/tree.h>
 	<libxml/parser.h>
@@ -2132,12 +2132,33 @@
 	<stdio.h>
 	<assert.h>
 	<arpa/inet.h>
-	<usb.h>
 	<glib-2.0/glib.h>
 	"LibreScribe__App.h"
 	"GUIFrame.h"
 
-1302218388 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1302227208 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
+	"DeviceInformation.h"
+	"usb_device.h"
+
+1302204327 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
+	<openobex/obex.h>
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<glib.h>
+	<libusb.h>
+	<assert.h>
+	<arpa/inet.h>
+
+1302227087 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
+	"DeviceInformation.h"
+
+1302227236 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
+	"../GUIFrame.h"
+	"usb_device.h"
+
+1302227341 /home/dylan/cpp/libreScribe++/include/usb_device.h
+	<usb.h>
 

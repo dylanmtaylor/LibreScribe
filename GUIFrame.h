@@ -39,6 +39,7 @@
 #define idToolbarRefresh 1004
 #define idToolbarInfo 1005
 #define idToolbarQuit 1006
+#define idDeviceInfo 1007
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -48,10 +49,10 @@ class GUIFrame : public wxFrame
 	private:
 	
 	protected:
-		wxMenuBar* mbar;
+		wxMenuBar* menuBar;
 		wxMenu* fileMenu;
 		wxMenu* helpMenu;
-		wxToolBar* m_toolBar1;
+		wxToolBar* mainToolbar;
 		wxStatusBar* statusBar;
 		wxNotebook* tabContainer;
 		wxPanel* pagesTab;
@@ -94,11 +95,15 @@ class DeviceInfo : public wxDialog
 		wxStaticText* batteryLabel;
 		wxGauge* batteryGauge;
 		wxStaticText* storageLabel;
-		wxStaticText* m_staticText8;
+		wxStaticText* storageRemaining;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnShowDialog( wxInitDialogEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		DeviceInfo( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Smartpen Device Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 585,165 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
+		DeviceInfo( wxWindow* parent, wxWindowID id = idDeviceInfo, const wxString& title = wxT("Smartpen Device Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 585,165 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
 		~DeviceInfo();
 	
 };

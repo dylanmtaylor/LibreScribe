@@ -86,7 +86,7 @@
                 <property name="label"></property>
                 <property name="maximum_size"></property>
                 <property name="minimum_size"></property>
-                <property name="name">mbar</property>
+                <property name="name">menuBar</property>
                 <property name="permission">protected</property>
                 <property name="pos"></property>
                 <property name="size"></property>
@@ -244,7 +244,7 @@
                 <property name="margins"></property>
                 <property name="maximum_size"></property>
                 <property name="minimum_size"></property>
-                <property name="name">m_toolBar1</property>
+                <property name="name">mainToolbar</property>
                 <property name="packing">1</property>
                 <property name="permission">protected</property>
                 <property name="pos"></property>
@@ -288,8 +288,8 @@
                     <property name="id">idToolbarRefresh</property>
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">refresh</property>
-                    <property name="name">refresh</property>
-                    <property name="statusbar">Click this to scan for a compatible smartpen device.</property>
+                    <property name="name">refreshButton</property>
+                    <property name="statusbar">Scan for a compatible smartpen device.</property>
                     <property name="tooltip">Refresh Connection</property>
                     <event name="OnMenuSelection"></event>
                     <event name="OnToolClicked">OnRefresh</event>
@@ -302,8 +302,8 @@
                     <property name="id">idToolbarInfo</property>
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">info</property>
-                    <property name="name">info</property>
-                    <property name="statusbar"></property>
+                    <property name="name">infoButton</property>
+                    <property name="statusbar">Display connected smartpen device information.</property>
                     <property name="tooltip">Device Status</property>
                     <event name="OnMenuSelection"></event>
                     <event name="OnToolClicked">OnInfo</event>
@@ -316,8 +316,8 @@
                     <property name="id">idToolbarQuit</property>
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">quit</property>
-                    <property name="name">quit</property>
-                    <property name="statusbar"></property>
+                    <property name="name">quitButton</property>
+                    <property name="statusbar">Quit this application.</property>
                     <property name="tooltip">Quit Smartpen Manager</property>
                     <event name="OnMenuSelection"></event>
                     <event name="OnToolClicked">OnQuit</event>
@@ -842,7 +842,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="wxBoxSizer" expanded="1">
                                     <property name="minimum_size"></property>
-                                    <property name="name">bSizer7</property>
+                                    <property name="name">audioTabContainer</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="1">
@@ -1021,14 +1021,14 @@
         </object>
         <object class="Dialog" expanded="1">
             <property name="bg"></property>
-            <property name="center"></property>
+            <property name="center">wxBOTH</property>
             <property name="context_help"></property>
             <property name="enabled">1</property>
             <property name="extra_style"></property>
             <property name="fg"></property>
             <property name="font"></property>
             <property name="hidden">0</property>
-            <property name="id">wxID_ANY</property>
+            <property name="id">idDeviceInfo</property>
             <property name="maximum_size"></property>
             <property name="minimum_size"></property>
             <property name="name">DeviceInfo</property>
@@ -1054,7 +1054,7 @@
             <event name="OnHibernate"></event>
             <event name="OnIconize"></event>
             <event name="OnIdle"></event>
-            <event name="OnInitDialog"></event>
+            <event name="OnInitDialog">OnShowDialog</event>
             <event name="OnKeyDown"></event>
             <event name="OnKeyUp"></event>
             <event name="OnKillFocus"></event>
@@ -1510,7 +1510,7 @@
                                         <property name="label">1.55GB of 2.13GB remaining</property>
                                         <property name="maximum_size"></property>
                                         <property name="minimum_size"></property>
-                                        <property name="name">m_staticText8</property>
+                                        <property name="name">storageRemaining</property>
                                         <property name="permission">protected</property>
                                         <property name="pos"></property>
                                         <property name="size"></property>

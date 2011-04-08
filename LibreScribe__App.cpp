@@ -80,7 +80,5 @@ bool LibreScribe__App::OnInit()
     wxImage::AddHandler(new wxPNGHandler());
     LibreScribe__Frame* frame = new LibreScribe__Frame(0L);
     frame->Show();
-//    getPenInfo();
-
     return true;
 }
