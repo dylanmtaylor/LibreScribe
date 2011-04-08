@@ -65,13 +65,15 @@ void LibreScribe__Frame::refreshDeviceState() {
         printf("Sorry! No compatible smartpen device found!\n");
 //        statusBar->SetStatusText(_("Please connect your smartpen device."), 1);
         statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
-//        wxToolBar::EnableTool(idToolbarInfo,true);
     } else {
         if (dev->descriptor.idProduct == LS_PULSE) {
             this->mainToolbar->EnableTool(idToolbarInfo,true);
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
             statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
-            //exit(2);
+        } else if (dev->descriptor.idProduct == LS_ECHO) {
+            this->mainToolbar->EnableTool(idToolbarInfo,true);
+            printf("LiveScribe Echo(TM) Smartpen Detected!\n");
+            statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);

@@ -221,8 +221,8 @@ DeviceInfo::DeviceInfo( wxWindow* parent, wxWindowID id, const wxString& title, 
 	
 	wxFlexGridSizer* informationSizer;
 	informationSizer = new wxFlexGridSizer( 2, 2, 5, 15 );
-	informationSizer->SetFlexibleDirection( wxVERTICAL );
-	informationSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	informationSizer->SetFlexibleDirection( wxBOTH );
+	informationSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_NONE );
 	
 	nameLabel = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
 	nameLabel->Wrap( -1 );
