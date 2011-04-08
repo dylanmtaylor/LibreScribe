@@ -20,13 +20,13 @@
 #include "LibreScribe__App.h"
 #include "GUIFrame.h"
 #include <thread>
+uint16_t refreshDeviceState();
 class LibreScribe__Frame: public GUIFrame
 {
     public:
         LibreScribe__Frame(wxFrame *frame);
         ~LibreScribe__Frame();
-        void updateStatusbar();
-        void refreshDeviceState();
+        void doRefreshDeviceState();
     private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);

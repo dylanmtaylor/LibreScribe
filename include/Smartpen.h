@@ -13,7 +13,7 @@
 
 #define LS_VENDOR_ID 0x1cfb //LiveScribe Vendor ID
 #define LS_PULSE 0x1020 //LiveScribe Pulse(TM) SmartPen
-#define LS_ECHO 0x0000 //currently unknown
+#define LS_ECHO 0x9999 //currently unknown
 
 static struct usb_device *findSmartpen()
 {
