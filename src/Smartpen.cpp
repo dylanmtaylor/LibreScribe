@@ -1,22 +1,4 @@
-/* vim: set sw=8 noet: */
-
-#include <openobex/obex.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <glib.h>
-#include <libusb.h>
-#include <assert.h>
-#include <arpa/inet.h>
-
-struct obex_state {
-    obex_t *handle;
-    int req_done;
-    char *body;
-    int body_len;
-    int got_connid;
-    int connid;
-};
+#include "Smartpen.h"
 
 static void obex_requestdone (struct obex_state *state, obex_t *hdl,
                               obex_object_t *obj, int cmd, int resp)
@@ -134,8 +116,7 @@ static void swizzle_usb (short vendor, short product)
 
 static char *get_named_object(obex_t *handle, char *name, int *len);
 
-obex_t *smartpen_connect(short vendor, short product)
-{
+obex_t* smartpen_connect(short vendor, short product) {
 	obex_t *handle;
 	obex_object_t *obj;
 	int rc, num, i;
@@ -338,3 +319,4 @@ char * smartpen_get_peninfo (obex_t *handle)
 
 	return get_named_object(handle, name, &len);
 }
+

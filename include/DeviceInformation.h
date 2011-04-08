@@ -1,35 +1,36 @@
 #ifndef DEVICEINFORMATION_H
 #define DEVICEINFORMATION_H
 #include "../GUIFrame.h"
-#include "usb_device.h"
 #include "Smartpen.h"
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <boost/lexical_cast.hpp>
 class DeviceInformation : public DeviceInfo
 {
     public:
-        DeviceInformation(wxWindow* parent) : DeviceInfo(parent) { //TODO: get actual device status instead of faking it with hard-coded values
-//            obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-//            char* s = smartpen_get_peninfo(handle);
-//            xmlDocPtr doc = xmlParseMemory(s, strlen(s));
-//            xmlNodePtr cur = xmlDocGetRootElement(doc);
-            int battery = 24; //getBatteryRemaining(cur);
-            deviceName->SetLabel(_("Dylan Taylor's Smartpen"));
-//            switch (dev->descriptor.idProduct) {
-//                case LS_PULSE:
-                    deviceType->SetLabel(_("LightScribe Pulse(TM) Smartpen"));
-//                case LS_ECHO:
-//                    deviceType->SetLabel(_("LightScribe Echo(TM) Smartpen"));
-//                default:
-//                    deviceType->SetLabel(_("Unknown LightScribe Device"));
-//            }
-            batteryGauge->SetValue(battery);
+        DeviceInformation(wxWindow* parent, wxString devName, uint16_t productID, obex_t *handle) : DeviceInfo(parent) { //TODO: get actual device status instead of faking it with hard-coded values
+            char* s = smartpen_get_peninfo(handle);
+            printf("%s\n",s);
+            xmlDocPtr doc = xmlParseMemory(s, strlen(s));
+            xmlNode *cur = xmlDocGetRootElement(doc);
+            int batteryLevel = getBatteryRemaining(cur);
+            printf("batteryLevel: %d\n", batteryLevel);
+            deviceName->SetLabel(devName);
+            if (productID == LS_PULSE) {
+                deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
+            } else if (productID == LS_ECHO) {
+                deviceType->SetLabel(_("LiveScribe Echo(TM) Smartpen"));
+            } else {
+                deviceType->SetLabel(_("Unknown LiveScribe Device"));
+            }
+            batteryGauge->SetValue(batteryLevel);
             storageRemaining->SetLabel(_("1.65GB of 2.13GB remaining"));
         };
         virtual ~DeviceInformation();
+        int getBatteryRemaining(xmlNode *a_node);
     protected:
     private:
-        int getBatteryRemaining(xmlNode *a_node);
+
 };
 
 #endif // DEVICEINFORMATION_H

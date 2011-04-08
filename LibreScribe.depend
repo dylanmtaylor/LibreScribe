@@ -2134,13 +2134,30 @@
 	"LibreScribe__App.h"
 	"GUIFrame.h"
 
-1302229967 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1302290180 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
-	"usb_device.h"
+	"Smartpen.h"
 
-1302204327 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
+1302290824 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
+	"Smartpen.h"
+
+1302295444 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
+	"DeviceInformation.h"
+
+1302295729 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
+	"../GUIFrame.h"
+	"Smartpen.h"
+	<libxml/tree.h>
+	<libxml/parser.h>
+	<boost/lexical_cast.hpp>
+
+1302289600 /home/dylan/cpp/libreScribe++/include/usb_device.h
+
+1302227704 source:/home/dylan/cpp/libreScribe++/src/usb_device.cpp
+
+1302290898 /home/dylan/cpp/libreScribe++/include/Smartpen.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2149,23 +2166,5 @@
 	<libusb.h>
 	<assert.h>
 	<arpa/inet.h>
-
-1302229278 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
-	"DeviceInformation.h"
-
-1302230639 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
-	"../GUIFrame.h"
-	"usb_device.h"
-	"Smartpen.h"
-	<libxml/tree.h>
-	<libxml/parser.h>
-
-1302228053 /home/dylan/cpp/libreScribe++/include/usb_device.h
 	<usb.h>
-
-1302227704 source:/home/dylan/cpp/libreScribe++/src/usb_device.cpp
-
-1302229817 /home/dylan/cpp/libreScribe++/include/Smartpen.h
-	<openobex/obex.h>
-	"usb_device.h"
 
