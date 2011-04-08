@@ -16,17 +16,18 @@
 #include <assert.h>
 #include <arpa/inet.h>
 #include <glib-2.0/glib.h>
+#include <libudev.h>
 #include "LibreScribe__App.h"
 #include "GUIFrame.h"
-
+#include <thread>
 class LibreScribe__Frame: public GUIFrame
 {
     public:
         LibreScribe__Frame(wxFrame *frame);
         ~LibreScribe__Frame();
         void updateStatusbar();
-    private:
         void refreshDeviceState();
+    private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
