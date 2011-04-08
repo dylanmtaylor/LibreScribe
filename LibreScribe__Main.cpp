@@ -17,7 +17,7 @@
 
 #include "LibreScribe__Main.h"
 #include "DeviceInformation.h"
-#include "usb_device.h"
+#include "Smartpen.h"
 
 struct usb_device *dev;
 
@@ -50,9 +50,10 @@ void LibreScribe__Frame::OnQuit(wxCommandEvent &event)
 }
 
 void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
-    //display the information dialog
-    DeviceInformation d(this);
-    d.ShowModal();
+    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+    wxString deviceName("My Smartpen", wxConvUTF8);
+    DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+    d.ShowModal(); //display the information dialog
 }
 
 void LibreScribe__Frame::refreshDeviceState() {
