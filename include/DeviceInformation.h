@@ -2,6 +2,7 @@
 #define DEVICEINFORMATION_H
 #include "../GUIFrame.h"
 #include "Smartpen.h"
+#include <libudev.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 

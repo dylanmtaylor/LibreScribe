@@ -20,6 +20,35 @@
 #include "Smartpen.h"
 
 struct usb_device *dev;
+struct udev *udev;
+struct udev_device *udevice;
+struct udev_list_entry *devices, *dev_list_entry;
+struct udev_enumerate *enumerate;
+struct udev_monitor *mon;
+int fd;
+
+//This method constantly runs as a thread in the background, checking to see if devices are added/removed
+//This method is based off of this code: http://www.signal11.us/oss/udev/udev_example.c
+static void backgroundMonitor() {
+	    fd_set fds;
+		struct timeval tv;
+		int ret;
+    while(true) {
+		FD_ZERO(&fds);
+		FD_SET(fd, &fds);
+		tv.tv_sec = 0;
+		tv.tv_usec = 0;
+		ret = select(fd+1, &fds, NULL, NULL, &tv);
+		// Check if our file descriptor has received data.
+		if (ret > 0 && FD_ISSET(fd, &fds)) {
+            udevice = udev_monitor_receive_device(mon);
+		    printf("We should be checking for device changes here...\n");
+		    udev_device_unref(udevice);
+//          refreshDeviceState();
+		}
+        usleep(250*1000);
+	}
+}
 
 LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
     : GUIFrame(frame)
@@ -28,6 +57,12 @@ LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
 #if wxUSE_STATUSBAR
     statusBar->SetStatusText(_("The status bar is still a work-in-progress."), 0);
 #endif
+    udev = udev_new();
+    mon = udev_monitor_new_from_netlink(udev, "udev");
+    udev_monitor_enable_receiving(mon);
+    fd = udev_monitor_get_fd(mon);
+    std::thread t(backgroundMonitor);
+    t.detach();
     refreshDeviceState();
 }
 
@@ -60,8 +95,7 @@ void LibreScribe__Frame::refreshDeviceState() {
     statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
     printf("Searching for your Smartpen... ");
     dev = findSmartpen();
-    //If the smartpen wasn't found the function will have returned NULL
-    if (dev == NULL) {
+    if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
         this->mainToolbar->EnableTool(idToolbarInfo,false);
         printf("Sorry! No compatible smartpen device found!\n");
 //        statusBar->SetStatusText(_("Please connect your smartpen device."), 1);
