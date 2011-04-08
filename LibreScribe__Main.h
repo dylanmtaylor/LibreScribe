@@ -10,8 +10,6 @@
 #ifndef LibreScribe__MAIN_H
 #define LibreScribe__MAIN_H
 #include <openobex/obex.h>
-#include <libxml/tree.h>
-#include <libxml/parser.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
