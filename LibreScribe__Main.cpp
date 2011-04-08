@@ -44,7 +44,7 @@ static void backgroundMonitor() {
             udevice = udev_monitor_receive_device(mon);
 		    printf("We should be checking for device changes here...\n");
 		    udev_device_unref(udevice);
-//          refreshDeviceState();
+            refreshDeviceState();
 		}
         usleep(250*1000);
 	}
@@ -63,11 +63,7 @@ LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
     fd = udev_monitor_get_fd(mon);
     std::thread t(backgroundMonitor);
     t.detach();
-    refreshDeviceState();
-}
-
-void LibreScribe__Frame::updateStatusbar() {
-
+    doRefreshDeviceState();
 }
 
 LibreScribe__Frame::~LibreScribe__Frame()
@@ -85,39 +81,54 @@ void LibreScribe__Frame::OnQuit(wxCommandEvent &event)
 }
 
 void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
-    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-    wxString deviceName("My Smartpen", wxConvUTF8);
-    DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
-    d.ShowModal(); //display the information dialog
+    if (dev != NULL) {
+        obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+        wxString deviceName("My Smartpen", wxConvUTF8);
+        DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+        d.ShowModal(); //display the information dialog
+    } else {
+        doRefreshDeviceState();
+    }
 }
 
-void LibreScribe__Frame::refreshDeviceState() {
+void LibreScribe__Frame::doRefreshDeviceState() {
     statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
+    uint16_t result = refreshDeviceState();
+    if (result == LS_PULSE) {
+        this->mainToolbar->EnableTool(idToolbarInfo,true);
+        statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
+    } else if (result == LS_ECHO) {
+        this->mainToolbar->EnableTool(idToolbarInfo,true);
+        statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
+    } else if (result == 0x0000) {
+        this->mainToolbar->EnableTool(idToolbarInfo,false);
+        statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
+    } else {
+        this->mainToolbar->EnableTool(idToolbarInfo,true);
+        statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
+    }
+}
+
+uint16_t refreshDeviceState() {
     printf("Searching for your Smartpen... ");
     dev = findSmartpen();
     if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
-        this->mainToolbar->EnableTool(idToolbarInfo,false);
         printf("Sorry! No compatible smartpen device found!\n");
-//        statusBar->SetStatusText(_("Please connect your smartpen device."), 1);
-        statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
+        return 0x0000;
     } else {
         if (dev->descriptor.idProduct == LS_PULSE) {
-            this->mainToolbar->EnableTool(idToolbarInfo,true);
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-            statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
         } else if (dev->descriptor.idProduct == LS_ECHO) {
-            this->mainToolbar->EnableTool(idToolbarInfo,true);
             printf("LiveScribe Echo(TM) Smartpen Detected!\n");
-            statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
-            statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
         }
+        return dev->descriptor.idProduct;
     }
 }
 
 void LibreScribe__Frame::OnRefresh(wxCommandEvent &event) {
-    refreshDeviceState();
+    doRefreshDeviceState();
 //    wxMessageBox(_("Refreshing device information..."), _("LibreScribe Smartpen Manager"));
 }
 
