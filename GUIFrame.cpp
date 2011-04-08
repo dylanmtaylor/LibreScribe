@@ -23,7 +23,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 {
 	this->SetSizeHints( wxSize( 750,550 ), wxDefaultSize );
 	
-	mbar = new wxMenuBar( 0 );
+	menuBar = new wxMenuBar( 0 );
 	fileMenu = new wxMenu();
 	wxMenuItem* menuFilePrint;
 	menuFilePrint = new wxMenuItem( fileMenu, idMenuPrint, wxString( wxT("Print") ) + wxT('\t') + wxT("CTRL+P"), wxEmptyString, wxITEM_NORMAL );
@@ -55,23 +55,23 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	menuFileQuit = new wxMenuItem( fileMenu, idMenuQuit, wxString( wxT("&Quit") ) + wxT('\t') + wxT("CTRL-Q"), wxT("Quit the application"), wxITEM_NORMAL );
 	fileMenu->Append( menuFileQuit );
 	
-	mbar->Append( fileMenu, wxT("&File") );
+	menuBar->Append( fileMenu, wxT("&File") );
 	
 	helpMenu = new wxMenu();
 	wxMenuItem* menuHelpAbout;
 	menuHelpAbout = new wxMenuItem( helpMenu, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
 	helpMenu->Append( menuHelpAbout );
 	
-	mbar->Append( helpMenu, wxT("&Help") );
+	menuBar->Append( helpMenu, wxT("&Help") );
 	
-	this->SetMenuBar( mbar );
+	this->SetMenuBar( menuBar );
 	
-	m_toolBar1 = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
-	m_toolBar1->AddTool( idToolbarRefresh, wxT("refresh"), wxBitmap( wxT("res/view-refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh Connection"), wxT("Click this to scan for a compatible smartpen device.") );
-	m_toolBar1->AddTool( idToolbarInfo, wxT("info"), wxBitmap( wxT("res/emblem-system.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Device Status"), wxEmptyString );
-	m_toolBar1->AddTool( idToolbarQuit, wxT("quit"), wxBitmap( wxT("res/process-stop.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Quit Smartpen Manager"), wxEmptyString );
-	m_toolBar1->AddSeparator();
-	m_toolBar1->Realize();
+	mainToolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
+	mainToolbar->AddTool( idToolbarRefresh, wxT("refresh"), wxBitmap( wxT("res/view-refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh Connection"), wxT("Scan for a compatible smartpen device.") );
+	mainToolbar->AddTool( idToolbarInfo, wxT("info"), wxBitmap( wxT("res/emblem-system.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Device Status"), wxT("Display connected smartpen device information.") );
+	mainToolbar->AddTool( idToolbarQuit, wxT("quit"), wxBitmap( wxT("res/process-stop.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Quit Smartpen Manager"), wxT("Quit this application.") );
+	mainToolbar->AddSeparator();
+	mainToolbar->Realize();
 	
 	statusBar = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
 	wxBoxSizer* contentSizer;
@@ -132,8 +132,8 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	audioTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	audioTab->Enable( false );
 	
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* audioTabContainer;
+	audioTabContainer = new wxBoxSizer( wxVERTICAL );
 	
 	m_grid2 = new wxGrid( audioTab, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -160,11 +160,11 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	// Cell Defaults
 	m_grid2->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	bSizer7->Add( m_grid2, 0, wxALL|wxEXPAND, 5 );
+	audioTabContainer->Add( m_grid2, 0, wxALL|wxEXPAND, 5 );
 	
-	audioTab->SetSizer( bSizer7 );
+	audioTab->SetSizer( audioTabContainer );
 	audioTab->Layout();
-	bSizer7->Fit( audioTab );
+	audioTabContainer->Fit( audioTab );
 	tabContainer->AddPage( audioTab, wxT("Audio"), false );
 	applicationsTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	applicationsTab->Enable( false );
@@ -248,9 +248,9 @@ DeviceInfo::DeviceInfo( wxWindow* parent, wxWindowID id, const wxString& title, 
 	storageLabel->Wrap( -1 );
 	informationSizer->Add( storageLabel, 0, wxALL, 5 );
 	
-	m_staticText8 = new wxStaticText( this, wxID_ANY, wxT("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText8->Wrap( -1 );
-	informationSizer->Add( m_staticText8, 0, wxALL, 5 );
+	storageRemaining = new wxStaticText( this, wxID_ANY, wxT("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0 );
+	storageRemaining->Wrap( -1 );
+	informationSizer->Add( storageRemaining, 0, wxALL, 5 );
 	
 	dialogSizer->Add( informationSizer, 1, wxALIGN_TOP, 5 );
 	
@@ -258,8 +258,15 @@ DeviceInfo::DeviceInfo( wxWindow* parent, wxWindowID id, const wxString& title, 
 	
 	this->SetSizer( mainSizer );
 	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( DeviceInfo::OnShowDialog ) );
 }
 
 DeviceInfo::~DeviceInfo()
 {
+	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( DeviceInfo::OnShowDialog ) );
 }

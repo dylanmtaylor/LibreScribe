@@ -16,29 +16,10 @@
 #endif //__BORLANDC__
 
 #include "LibreScribe__Main.h"
+#include "DeviceInformation.h"
+#include "usb_device.h"
 
 struct usb_device *dev;
-
-static struct usb_device *findSmartpen()
-{
-  struct usb_bus *bus;
-  struct usb_device *dev;
-  struct usb_bus *busses;
-
-  usb_init();
-  usb_find_busses();
-  usb_find_devices();
-  busses = usb_get_busses();
-
-  for (bus = busses; bus; bus = bus->next) {
-    for (dev = bus->devices; dev; dev = dev->next) {
-      if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
-        return dev;
-      }
-    }
-  }
-  return NULL;
-}
 
 LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
     : GUIFrame(frame)
@@ -69,7 +50,9 @@ void LibreScribe__Frame::OnQuit(wxCommandEvent &event)
 }
 
 void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
-
+    //display the information dialog
+    DeviceInformation d(this);
+    d.ShowModal();
 }
 
 void LibreScribe__Frame::refreshDeviceState() {
@@ -78,11 +61,14 @@ void LibreScribe__Frame::refreshDeviceState() {
     dev = findSmartpen();
     //If the smartpen wasn't found the function will have returned NULL
     if (dev == NULL) {
+        this->mainToolbar->EnableTool(idToolbarInfo,false);
         printf("Sorry! No compatible smartpen device found!\n");
 //        statusBar->SetStatusText(_("Please connect your smartpen device."), 1);
         statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
+//        wxToolBar::EnableTool(idToolbarInfo,true);
     } else {
         if (dev->descriptor.idProduct == LS_PULSE) {
+            this->mainToolbar->EnableTool(idToolbarInfo,true);
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
             statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
             //exit(2);
@@ -91,7 +77,6 @@ void LibreScribe__Frame::refreshDeviceState() {
             statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
         }
     }
-
 }
 
 void LibreScribe__Frame::OnRefresh(wxCommandEvent &event) {

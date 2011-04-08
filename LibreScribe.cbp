@@ -40,6 +40,7 @@
 			<Add directory="/usr/include/glib-2.0/" />
 			<Add directory="/usr/include/libusb-1.0" />
 			<Add directory="/usr/include/libxml2" />
+			<Add directory="/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="`wx-config --libs`" />
@@ -51,13 +52,15 @@
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
-		<Unit filename="WxWizFrame.fbp" />
-		<Unit filename="include/smartpen.h" />
 		<Unit filename="LibreScribe__App.cpp" />
 		<Unit filename="LibreScribe__App.h" />
 		<Unit filename="LibreScribe__Main.cpp" />
 		<Unit filename="LibreScribe__Main.h" />
-		<Unit filename="src/smartpen.cpp" />
+		<Unit filename="WxWizFrame.fbp" />
+		<Unit filename="include/DeviceInformation.h" />
+		<Unit filename="include/Smartpen.h" />
+		<Unit filename="src/DeviceInformation.cpp" />
+		<Unit filename="src/Smartpen.cpp" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
@@ -70,4 +73,3 @@
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
-
