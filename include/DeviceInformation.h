@@ -4,7 +4,7 @@
 #include "Smartpen.h"
 #include <libxml/tree.h>
 #include <libxml/parser.h>
-#include <boost/lexical_cast.hpp>
+
 class DeviceInformation : public DeviceInfo
 {
     public:
@@ -30,7 +30,6 @@ class DeviceInformation : public DeviceInfo
         int getBatteryRemaining(xmlNode *a_node);
     protected:
     private:
-
 };
 
 #endif // DEVICEINFORMATION_H
