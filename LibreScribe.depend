@@ -2123,7 +2123,7 @@
 1302218880 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1302304507 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1302304860 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2136,7 +2136,7 @@
 	"GUIFrame.h"
 	<thread>
 
-1302304785 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1302304855 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
@@ -2145,10 +2145,10 @@
 1302290824 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
 	"Smartpen.h"
 
-1302296238 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
+1302313864 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
 	"DeviceInformation.h"
 
-1302297963 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
+1302314284 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
 	"../GUIFrame.h"
 	"Smartpen.h"
 	<libudev.h>
