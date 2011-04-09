@@ -67,10 +67,9 @@ showSmartpenTimeInfo(xmlNode * a_node)
     }
 }
 
-//not used yet, planning on implementing this soon!
+//searches through a node until an element with the specified node is detected.
 xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
-    xmlNode *cur_node;
-    for(cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
+    for(xmlNode *cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
         if (cur_node->type == XML_ELEMENT_NODE  && !xmlStrcmp(cur_node->name, node)) {
             return cur_node;
         }
@@ -78,24 +77,28 @@ xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
 }
 
 int DeviceInformation::getBatteryRemaining(xmlNode *root) {
-    xmlNode *cur_node;
     //first we need to locate the "peninfo" node which contains the "battery" node
-    for(cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
-        if (cur_node->type == XML_ELEMENT_NODE  && !xmlStrcmp(cur_node->name, (const xmlChar *)"peninfo")) {
-            //if we found our "peninfo" node, search through the nodes, looking for the "battery" node
-            for(cur_node = cur_node->children; cur_node != NULL; cur_node = cur_node->next) {
-                if (cur_node->type == XML_ELEMENT_NODE  && !xmlStrcmp(cur_node->name, (const xmlChar *)"battery")) {
-                    printf("battery element found!\n");
-                    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
-                    return stripNonNumericChars(level);
-//                    printf("level: %s\n",level);
-//                    int lvl = stripNonNumericChars(level);
-//                    printf("lvl: %d\n",lvl);
-//                    return lvl;
-                }
-            }
-        }
-    }
-//    return 99;
-    //return 99;
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "battery" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"battery");
+    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
+    return stripNonNumericChars(level);
+}
+
+long long int DeviceInformation::getFreeBytes(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "memory" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
+    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
+    return stripNonNumericChars(level);
+}
+
+long long int DeviceInformation::getTotalBytes(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "memory" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
+    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
+    return stripNonNumericChars(level);
 }

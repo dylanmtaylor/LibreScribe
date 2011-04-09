@@ -16,6 +16,12 @@ class DeviceInformation : public DeviceInfo
             xmlNode *cur = xmlDocGetRootElement(doc);
             int batteryLevel = getBatteryRemaining(cur);
             printf("batteryLevel: %d\n", batteryLevel);
+            int freeBytes = getFreeBytes(cur);
+            int totalBytes = getTotalBytes(cur);
+            char* fs;
+            sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
+            printf("%s",fs); //displays fs on stdout
+
             deviceName->SetLabel(devName);
             if (productID == LS_PULSE) {
                 deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
@@ -25,10 +31,13 @@ class DeviceInformation : public DeviceInfo
                 deviceType->SetLabel(_("Unknown LiveScribe Device"));
             }
             batteryGauge->SetValue(batteryLevel);
-            storageRemaining->SetLabel(_("1.65GB of 2.13GB remaining"));
+            wxString freeSpace(fs, wxConvUTF8);
+            storageRemaining->SetLabel(freeSpace);
         };
         virtual ~DeviceInformation();
         int getBatteryRemaining(xmlNode *a_node);
+        long long int getFreeBytes(xmlNode *a_node);
+        long long int getTotalBytes(xmlNode *a_node);
     protected:
     private:
 };
