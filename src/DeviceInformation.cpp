@@ -90,8 +90,8 @@ long long int DeviceInformation::getFreeBytes(xmlNode *root) {
     xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
     cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
-    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
-    return stripNonNumericChars(level);
+    char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
+    return stripNonNumericChars(bytes);
 }
 
 long long int DeviceInformation::getTotalBytes(xmlNode *root) {
@@ -99,6 +99,6 @@ long long int DeviceInformation::getTotalBytes(xmlNode *root) {
     xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
     cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
-    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
-    return stripNonNumericChars(level);
+    char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
+    return stripNonNumericChars(bytes);
 }
