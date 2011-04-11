@@ -15,24 +15,23 @@
 #define LS_PULSE 0x1020 //LiveScribe Pulse(TM) SmartPen
 #define LS_ECHO 0x9999 //currently unknown
 
-static struct usb_device *findSmartpen()
-{
-  struct usb_bus *bus;
-  struct usb_device *dev;
-  struct usb_bus *busses;
+static struct usb_device *findSmartpen() {
+    struct usb_bus *bus;
+    struct usb_device *dev;
+    struct usb_bus *busses;
 
-  usb_init();
-  usb_find_busses();
-  usb_find_devices();
-  busses = usb_get_busses();
+    usb_init();
+    usb_find_busses();
+    usb_find_devices();
+    busses = usb_get_busses();
     for (bus = busses; bus; bus = bus->next) {
-    for (dev = bus->devices; dev; dev = dev->next) {
-      if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
-        return dev;
-      }
+        for (dev = bus->devices; dev; dev = dev->next) {
+            if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
+                return dev;
+            }
+        }
     }
-  }
-  return NULL;
+    return NULL;
 }
 
 struct obex_state {

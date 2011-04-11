@@ -23,10 +23,12 @@
 uint16_t refreshDeviceState();
 class LibreScribe__Frame: public GUIFrame
 {
+    friend class LibreScribe__App;
     public:
         LibreScribe__Frame(wxFrame *frame);
         ~LibreScribe__Frame();
         void doRefreshDeviceState();
+        uint16_t refreshDeviceState();
     private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
