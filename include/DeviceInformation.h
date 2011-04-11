@@ -10,7 +10,8 @@ class DeviceInformation : public DeviceInfo
 {
     public:
         DeviceInformation(wxWindow* parent, wxString devName, uint16_t productID, obex_t *handle) : DeviceInfo(parent) { //TODO: get actual device status instead of faking it with hard-coded values
-            char* s = smartpen_get_peninfo(handle);
+            device_handle = handle;
+            char* s = smartpen_get_peninfo(device_handle);
             printf("%s\n",s);
             xmlDocPtr doc = xmlParseMemory(s, strlen(s));
             xmlNode *cur = xmlDocGetRootElement(doc);
@@ -33,13 +34,16 @@ class DeviceInformation : public DeviceInfo
             batteryGauge->SetValue(batteryLevel);
             wxString freeSpace(fs, wxConvUTF8);
             storageRemaining->SetLabel(freeSpace);
+            smartpen_disconnect(device_handle);
         };
         virtual ~DeviceInformation();
         int getBatteryRemaining(xmlNode *a_node);
+        float getBatteryVoltage(xmlNode *a_node);
         long long int getFreeBytes(xmlNode *a_node);
         long long int getTotalBytes(xmlNode *a_node);
     protected:
     private:
+        obex_t *device_handle;
 };
 
 #endif // DEVICEINFORMATION_H
