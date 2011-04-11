@@ -155,8 +155,8 @@ again:
         rc = OBEX_InterfaceConnect(handle, &obex_intf[i]);
         if (rc < 0) {
         printf("Sorry! Connecting to your device failed. Miserably. Is it in use already?\n");
-		//printf("Connect failed %d\n", rc);
-		exit(1);
+        printf("Connect failed %d\n", rc);
+		//exit(1);
 		handle = NULL;
 		goto out;
 	}

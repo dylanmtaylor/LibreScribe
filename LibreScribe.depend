@@ -2136,19 +2136,19 @@
 	"GUIFrame.h"
 	<thread>
 
-1302304855 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1302548980 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
 	"Smartpen.h"
 
-1302290824 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
+1302318553 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
 	"Smartpen.h"
 
-1302314445 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
+1302318555 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
 	"DeviceInformation.h"
 
-1302314284 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
+1302549213 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
 	"../GUIFrame.h"
 	"Smartpen.h"
 	<libudev.h>

@@ -2,18 +2,16 @@
 
 //This function will strip out all non-numeric characters from a char*
 int stripNonNumericChars(char* s) {
-    int res; bool success = sscanf(s, "%d%%", &res) == 1;
+    int res;
+    bool success = sscanf(s, "%d%%", &res) == 1;
     return res;
 }
 
-DeviceInformation::~DeviceInformation()
-{
-    //dtor
+DeviceInformation::~DeviceInformation() {
+    smartpen_disconnect(device_handle);
 }
 
-static void
-showStorageInformation(xmlNode * a_node)
-{
+static void showStorageInformation(xmlNode * a_node) {
     xmlNode *cur_node = NULL;
     //scan for battery element
     for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
@@ -30,9 +28,7 @@ showStorageInformation(xmlNode * a_node)
     }
 }
 
-static void
-showBatteryStatistics(xmlNode * a_node)
-{
+static void showBatteryStatistics(xmlNode * a_node) {
     xmlNode *cur_node = NULL;
     //scan for battery element
     for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
@@ -49,24 +45,6 @@ showBatteryStatistics(xmlNode * a_node)
     }
 }
 
-static void
-showSmartpenTimeInfo(xmlNode * a_node)
-{
-    xmlNode *cur_node = NULL;
-    //scan for battery element
-    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
-        if (cur_node->type == XML_ELEMENT_NODE) {
-            if (strcmp((const char*)cur_node->name,"time") == 0) {
-                //printf("node type: Element, name: %s\n", cur_node->name);
-                long devtime = (long)strtol((const char*)xmlGetProp(cur_node, (const xmlChar*)"absolute"),NULL,0);
-                printf("Absolute Device Time: %ld\n", devtime);
-                return;
-            }
-        }
-        showSmartpenTimeInfo(cur_node->children);
-    }
-}
-
 //searches through a node until an element with the specified node is detected.
 xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
     for(xmlNode *cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
@@ -74,6 +52,15 @@ xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
             return cur_node;
         }
     }
+}
+
+float DeviceInformation::getBatteryVoltage(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "battery" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "battery" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"battery");
+    char* voltage = (char*)xmlGetProp(cur_node, (const xmlChar*)"voltage");
+    return stripNonNumericChars(voltage);
 }
 
 int DeviceInformation::getBatteryRemaining(xmlNode *root) {
