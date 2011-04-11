@@ -12,8 +12,8 @@
 #include <usb.h>
 
 #define LS_VENDOR_ID 0x1cfb //LiveScribe Vendor ID
-#define LS_PULSE 0x1020 //LiveScribe Pulse(TM) SmartPen
-#define LS_ECHO 0x9999 //currently unknown
+#define LS_PULSE 0x1020 //LiveScribe Pulse(TM) Smartpen
+#define LS_ECHO 0x1030 //LiveScribe Echo(TM) Smartpen
 
 static struct usb_device *findSmartpen() {
     struct usb_bus *bus;
