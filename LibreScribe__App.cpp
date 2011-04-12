@@ -45,8 +45,8 @@ void backgroundMonitor(LibreScribe__Frame* frame) {
 		    udev_device_unref(udevice);
             printf("Refreshing device state...\n");
             try {
-                //frame->doRefreshDeviceState(); //commented out because it causes crashes
-                frame->refreshDeviceState();
+                frame->doRefreshDeviceState(); //commented out because it causes crashes
+                //frame->refreshDeviceState();
             } catch(...) {
                 printf("Error refreshing device state\n");
             }

@@ -21,9 +21,7 @@
 
 struct usb_device *dev;
 
-LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
-    : GUIFrame(frame)
-{
+LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame) : GUIFrame(frame) {
     printf("LibreScribe Alpha version 0.01, written by Dylan Taylor\n");
 #if wxUSE_STATUSBAR
     statusBar->SetStatusText(_("The status bar is still a work-in-progress."), 0);
@@ -31,17 +29,14 @@ LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame)
     doRefreshDeviceState();
 }
 
-LibreScribe__Frame::~LibreScribe__Frame()
-{
+LibreScribe__Frame::~LibreScribe__Frame() {
 }
 
-void LibreScribe__Frame::OnClose(wxCloseEvent &event)
-{
+void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
     Destroy();
 }
 
-void LibreScribe__Frame::OnQuit(wxCommandEvent &event)
-{
+void LibreScribe__Frame::OnQuit(wxCommandEvent &event) {
     Destroy();
 }
 
@@ -113,7 +108,6 @@ void LibreScribe__Frame::OnRefresh(wxCommandEvent &event) {
 //    wxMessageBox(_("Refreshing device information..."), _("LibreScribe Smartpen Manager"));
 }
 
-void LibreScribe__Frame::OnAbout(wxCommandEvent &event)
-{
+void LibreScribe__Frame::OnAbout(wxCommandEvent &event) {
     wxMessageBox(_("Written by Dylan Taylor. A large portion of the code is taken from libsmartpen, written by Steven Walter. This is alpha quality software. Use in production environments is NOT recommended."), _("LibreScribe Smartpen Manager"));
 }
