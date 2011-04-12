@@ -2115,7 +2115,7 @@
 1298507237 /usr/include/wx-2.8/wx/gtk/notebook.h
 	"wx/list.h"
 
-1302551184 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
+1302567264 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
@@ -2123,7 +2123,7 @@
 1302218880 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1302551211 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1302567296 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2136,7 +2136,7 @@
 	"GUIFrame.h"
 	<thread>
 
-1302551196 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1302566729 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
@@ -2159,7 +2159,7 @@
 
 1302227704 source:/home/dylan/cpp/libreScribe++/src/usb_device.cpp
 
-1302549549 /home/dylan/cpp/libreScribe++/include/Smartpen.h
+1302554235 /home/dylan/cpp/libreScribe++/include/Smartpen.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
