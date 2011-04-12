@@ -3,8 +3,6 @@
 class BitReader(object):
     def __init__(self, stream):
         self.stream = stream
-        self.byte_array = self.stream.read()
-        self.index = 0
         self.byte = 0
         self.nbits = 0
 
@@ -12,15 +10,25 @@ class BitReader(object):
         self.nbits=0
         self.byte=0
 
+    def sync(self, debug=False):
+        self.nbits=0
+        self.byte=0xff
+        sank_bytes = 0
+        while self.byte & ~0x98:
+            self.byte = ord(self.stream.read(1))
+            sank_bytes += 1
+        if debug and sank_bytes > 1:
+            print "resync: ate %d bytes" % (sank_bytes - 1)
+        self.nbits = 8
+
     def get_bits(self, n=1):
         while n > self.nbits:
-            if self.index >= len(self.byte_array):
+            x = self.stream.read(1)
+            if x == "":
                 print self.nbits
                 print "%x" % self.byte
                 raise EOFError
 
-            x = self.byte_array[self.index]
-            self.index += 1
             x = ord(x)
             self.byte = (self.byte << 8) | x
             self.nbits += 8
@@ -29,238 +37,24 @@ class BitReader(object):
         self.nbits -= n
         return x
 
-def decode(codebook, br, debug=False):
-    def max(x, xs):
-        if len(xs) == 0:
-            return x
-        y = max(xs[0], xs[1:])
-        if x > y:
-            return x
-        else:
-            return y
-    keys = codebook.keys()
-    keys = map(len, keys)
-    maxlen = max(keys[0], keys[1:])
-
-    code = ""
-    while code not in codebook:
-	if len(code) > maxlen:
-	    raise RuntimeError("code too long")
-        bit = br.get_bits()
-        if bit:
-            code += "1"
-        else:
-            code += "0"
-        if debug:
-            print code
-    return codebook[code]
-
-def get_force(br):
-    codebook = {
-            '0': 0,
-            '110001': 28,
-            '110010': 30,
-    }
-    f = decode(codebook, br)
-    return f*2
-
-def get_time(br):
-    codebook = {
-            '0': 1,
-	    '10': 2,
-	    '1101': 3,
-	    '1110': 4,
-	    '111101': 6,
-	    '1111100': 7,
-	    '1111101': 8,
-            '1100': 0,
-	    '111111010': 10,
-	    '111111011': 11,
-	    '1111111000': 12,
-	    '11111110110': 15,
-    }
-    return decode(codebook, br)
-
-def get_deltax(br):
-    codebook = {
-            '00110': 0,
-            '00111': 1,
-            '10100': -1,
-            '01000': 2,
-            '10011': -2,
-            '0000' : 3,
-            '10010': -3,
-            '0001' : 4,
-            '10001': -4,
-            '0010' : 5,
-            '10000': -5,
-            '01001': 6,
-            '01111': -6,
-            '01010': 7,
-            '01110': -7,
-            '01011': 8,
-            '01101': -8,
-            '01100': 9,
-            '110010': -9,
-            '101010': 10,
-            '110001': -10,
-            '101011': 11,
-            '110000': -11,
-            '101100': 12,
-            '101111': -12,
-            '101101': 13,
-            '101110': -13,
-	    '1100110': 14,
-	    '1110000': -14,
-            '1100111': 15,
-            '1101111': -15,
-            '1101000': 16,
-            '1101110': -16,
-            '1101001': 17,
-            '1101101': -17,
-            '1101010': 18,
-            '1101100': -18,
-            '1101011': 19,
-            '11101110': -19,
-	    '11100010': 20,
-	    '11101101': -20,
-	    '11101100': -21,
-	    '11100100': 22,
-	    '11101011': -22,
-	    '11101010': -23,
-	    '11100110': 24,
-            '11100011': 25,
-            '11101000': -25,
-	    '11100111': 26,
-	    '111110010': -26,
-            '111101110': -30,
-	    '1111100110': 35,
-	    '111100111': 36,
-	    '1111101001': 40,
-    }
-    try:
-        return decode(codebook, br)
-    except:
-        raise RuntimeError("Unknown X code")
-
-def get_deltay(br):
-    codebook = {
-            '00000': 0,
-            '00001': 1,
-            '10001': -1,
-            '00010': 2,
-            '10000': -2,
-            '00011': 3,
-            '01111': -3,
-            '00100': 4,
-            '01110': -4,
-            '00101': 5,
-            '01101': -5,
-            '00110': 6,
-            '01100': -6,
-            '00111': 7,
-            '01011': -7,
-            '01000': 8,
-            '01010': -8,
-            '100100': 9,
-            '01001': -9,
-            '100101': 10,
-            '101101': -10,
-            '100110': 11,
-            '101100': -11,
-            '100111': 12,
-            '101011': -12,
-            '101000': 13,
-            '101010': -13,
-            '1011100': 14,
-            '101001': -14,
-            '1011101': 15,
-            '1101000': -15,
-            '1011110': 16,
-            '1100111': -16,
-            '1011111': 17,
-            '1100110': -17,
-            '1100000': 18,
-            '1100101': -18,
-            '1100001': 19,
-            '1100100': -19,
-	    '1100010': 20,
-	    '1100011': -20,
-	    '11010010': 21,
-	    '11100011': -21,
-	    '11010011': 22,
-	    '11100010': -22,
-	    '11010100': 23,
-	    '11100001': -23,
-            '11010101': 24,
-            '11100000': -24,
-            '11010110': 25,
-            '11011111': -25,
-            '11010111': 26,
-            '11011110': -26,
-            '11011000': 27,
-            '11011101': -27,
-            '11011001': 28,
-            '111100111': -28,
-            '11011010': 29,
-            '111100110': -29,
-            '11011011': 30,
-            '111100011': -32,
-            '111100010': -33,
-            '111001010': 34,
-            '111001011': 35,
-            '111100000': -35,
-            '111001110': 38,
-            '111010000': 40,
-            '1111110011': -56,
-            '1111110000': -59,
-            '1111100110': 72,
-    }
-    try:
-        return decode(codebook, br)
-    except:
-        raise RuntimeError("Unknown Y code")
-
-def get_deltaforce(br):
-    codebook = {
-            '0': 0,
-	    '1010': -1,
-	    '10111': -2,
-	    '110001': -3,
-	    '1100100': 4,
-	    '1100111': -4,
-	    '11011111': -5,
-	    '11011110': -6,
-	    '11011101': -7,
-	    '111100100': -8,
-	    '111100011': -9,
-	    '111100010': -10,
-	    '111100001': -11,
-	    '11011100': -12,
-	    '11011011': -13,
-	    '11011010': -14,
-	    '11011001': -15,
-	    '11011000': -16,
-	    '11010111': -17,
-	    '111100000': -18,
-	    '111011111': -19,
-	    '111011110': -20,
-	    '111011101': -21,
-	    '1111111100': -22,
-	    '1111111011': -23,
-	    '1111111010': -24,
-	    '1111111001': -25,
-	    '1111111000': -26,
-	    '1111110111': -27,
-	    '1111110110': -28,
-	    '1111110101': -29,
-            '11111111100': -30,
-            '111000111': 30,
-    }
-    try:
-        return 2*decode(codebook, br)
-    except:
-        raise RuntimeError("Unknown force code")
+    def decode(br, codetab, debug=False):
+        stream = 0
+        codeacc = 0
+        have_bits = 0
+    
+        for code in codetab:
+            get_bits = code[0] - have_bits
+            codeacc <<= get_bits;
+            codeacc += len(code[1])
+        
+            stream <<= get_bits;
+            stream |= br.get_bits(get_bits);
+    
+            have_bits += get_bits;
+    
+            if stream < codeacc:
+                return code[1][stream-codeacc]
+        raise RuntimeError("unknown code encountered")
 
 
 class STFParser(object):
@@ -271,20 +65,110 @@ class STFParser(object):
         if magic != 0x0100:
             raise RuntimeError("bad magic %x" % magic)
 
-        br.get_bits(8*14)
-        #version = stream.read(14)
-        #if version != "Anoto STF v1.0":
-        #    raise RuntimeError("bad version %s" % version)
+        version = stream.read(14)
+        if version != "Anoto STF v1.0":
+            raise RuntimeError("bad version %s" % version)
 
         speed = br.get_bits(16)
         self.speed = speed
+
+    def get_force(self):
+        tab_force = [
+             [1, [0]]
+            ,[6, [1,4,7,9,10,11,13,15,17,20,21,22,23,24,25,26,27,28,30]]
+            ,[7, [2,3,5,6,8,12,14,16,18,19,29,31,32,33,34,35,36,49,52]]
+            ,[8, [37,45,46,47,48,50,51,53,54]]
+            ,[9, [38,39,40,41,44,55,56]]
+            ,[10, [43,57,58]]
+            ,[11, [42,59,60,61,62,63]]
+            ]
+        return self.br.decode(tab_force)
+    
+    def get_header2(self):
+        tab_header2 = [
+             [1, [0]]
+            ,[2, [1,3]]
+            ]
+        return self.br.decode(tab_header2)
+    
+    def get_header(self):
+        tab_header = [
+             [1, [0]]
+            ,[2, [1,2]]
+            ]
+        return self.br.decode(tab_header)
+    
+    def get_time(self):
+        tab_time = [
+             [1, [1]]
+            ,[2, [2]]
+            ,[4, [0,3,4]]
+            ,[6, [5,6]]
+            ,[7, [7,8]]
+            ,[8, [9]]
+            ,[9, [10,11]]
+            ,[10, [12,13,14]]
+            ,[11, [15]]
+            ,[12, [16,17,18,19,21,22]]
+            ,[13, [20,23,24,25,26,27]]
+            ,[14, [28,29,30,31,32,35,36,37,40]]
+            ,[15, [38,39,41,44,45,48,50,53,59,60,67,73,82,91,98,99,102]]
+            ,[16, [33,34,42,43,46,47,49,51,52,54,55,56,57,58,61,62,63,64,65,66,68,69,70,71,72,74,75,76,77,78,79,80,81,83,84,85,86,87,88,89,90,92,93,94,95,96,97,100,101,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127]]
+            ]
+        return self.br.decode(tab_time)
+    
+    def get_deltax(self):
+        tab_dx = [
+             [4, [3,4,5]]
+            ,[5, [0,1,2,6,7,8,9,-8,-7,-6,-5,-4,-3,-2,-1]]
+            ,[6, [10,11,12,13,-13,-12,-11,-10,-9]]
+            ,[7, [14,15,16,17,18,19,-18,-17,-16,-15,-14]]
+            ,[8, [20,21,22,23,24,26,-25,-24,-23,-22,-21,-20,-19]]
+            ,[9, [25,27,28,29,30,31,32,33,34,36,38,-36,-34,-33,-32,-31,-30,-29,-28,-27,-26]]
+            ,[10, [35,37,39,40,41,42,43,44,45,46,47,49,55,-57,-50,-47,-46,-44,-43,-42,-41,-40,-39,-38,-37,-35]]
+            ]
+        return self.br.decode(tab_dx)
+    
+    def get_deltay(self):
+        tab_dy = [
+             [5, [0,1,2,3,4,5,6,7,8,-9,-8,-7,-6,-5,-4,-3,-2,-1]]
+            ,[6, [9,10,11,12,13,-14,-13,-12,-11,-10]]
+            ,[7, [14,15,16,17,18,19,20,-20,-19,-18,-17,-16,-15]]
+            ,[8, [21,22,23,24,25,26,27,28,29,30,31,-27,-26,-25,-24,-23,-22,-21]]
+            ,[9, [32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,49,-45,-44,-43,-40,-39,-38,-37,-36,-35,-34,-33,-32,-31,-30,-29,-28]]
+            ,[10, [47,48,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,71,72,73,78,85,-75,-69,-64,-62,-61,-60,-59,-58,-57,-56,-55,-54,-53,-52,-51,-50,-49,-48,-47,-46,-42,-41]]
+            ]
+        return self.br.decode(tab_dy)
+    
+    def get_header3(self):
+        tab_header3 = [
+             [1, [0,1]]
+            ]
+        return self.br.decode(tab_header3)
+    
+    def get_deltaforce(self):
+        tab_dforce = [
+             [1, [0]]
+            ,[3, [1]]
+            ,[4, [-1]]
+            ,[5, [2,-2]]
+            ,[6, [3,-3]]
+            ,[7, [4,52,53,-4]]
+            ,[8, [5,6,49,50,51,54,55,-17,-16,-15,-14,-13,-12,-7,-6,-5]]
+            ,[9, [7,8,9,10,11,12,13,30,31,36,37,38,39,40,41,46,48,56,57,-56,-55,-54,-53,-52,-51,-50,-49,-40,-38,-21,-20,-19,-18,-11,-10,-9,-8]]
+            ,[10, [14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,32,33,34,35,42,43,44,45,47,58,-57,-48,-47,-46,-45,-44,-43,-42,-41,-39,-37,-36,-35,-34,-33,-32,-31,-29,-28,-27,-26,-25,-24,-23,-22]]
+            ,[11, [-59,-58,-30]]
+            ,[12, [59,-64]]
+            ,[13, [60,61,62,63,-63,-62,-61,-60]]
+            ]
+        return self.br.decode(tab_dforce)
 
     def parse(self):
         start_time = 0
         br = self.br
 
         while True:
-            br.flush()
+            br.sync()
             header = br.get_bits(8)
 
             if header == 0x18:
@@ -305,25 +189,33 @@ class STFParser(object):
                 start_time += time
                 x0 = br.get_bits(16)
                 y0 = br.get_bits(16)
-                f0 = get_force(br)
+                f0 = self.get_force()
 
                 self.handle_point(x0, y0, f0, start_time)
 
                 xa=0
                 ya=0
                 while True:
-                    header = br.get_bits()
+                    header = self.get_header()
+                    if header==0 or header==1:
+                        time = self.get_time()
+                    else:
+                        header2 = self.get_header2(br)
+                        if header2 == 0:
+                            time = br.get_bits(8)
+                        elif header2 == 1:
+                            time = br.get_bits(16)
+                        elif header2 == 2:
+                            time = br.get_bits(32)
+                        else:
+                            print "bad stroke time header %d" % header2
 
-                    if header == 1:
-                        trash = br.get_bits() # this header is 2 bits
-
-                    time = get_time(br)
-                    if time == 0:
+                    if time==0:
                         self.handle_stroke_end(time)
                         break
 
                     do_delta = True
-                    if header == 1:
+                    if header > 0:
                         len = br.get_bits()
                         if len:
                             do_delta = False
@@ -336,10 +228,10 @@ class STFParser(object):
                             deltax = br.get_bits(8)
                             deltay = br.get_bits(8)
                     else:
-                        deltax = get_deltax(br)
-                        deltay = get_deltay(br)
+                        deltax = self.get_deltax()
+                        deltay = self.get_deltay()
 
-                    deltaf = get_deltaforce(br)
+                    deltaf = self.get_deltaforce()
 
                     if do_delta:
                         xa = deltax + (xa * time) / 256
@@ -377,3 +269,4 @@ if __name__ == "__main__":
     tp = TestParser(f)
     print "Speed is %d" % tp.speed
     tp.parse()
+
