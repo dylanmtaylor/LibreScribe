@@ -1,3 +1,4 @@
 bin/
 obj/
 wx_pch.h.gch/
+*.stf
