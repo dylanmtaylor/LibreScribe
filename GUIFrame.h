@@ -24,7 +24,7 @@
 #include <wx/sizer.h>
 #include <wx/statbmp.h>
 #include <wx/panel.h>
-#include <wx/grid.h>
+#include <wx/listctrl.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
 #include <wx/gauge.h>
@@ -39,7 +39,9 @@
 #define idToolbarRefresh 1004
 #define idToolbarInfo 1005
 #define idToolbarQuit 1006
-#define idDeviceInfo 1007
+#define idAudioList 1007
+#define idAppList 1008
+#define idDeviceInfo 1009
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -62,8 +64,9 @@ class GUIFrame : public wxFrame
 		
 		wxStaticBitmap* pageImage;
 		wxPanel* audioTab;
-		wxGrid* m_grid2;
-		wxPanel* applicationsTab;
+		wxListCtrl* audioList;
+		wxPanel* appTab;
+		wxListCtrl* appList;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
