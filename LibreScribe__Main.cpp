@@ -58,18 +58,28 @@ const wxString appColumns[] = {_("Application Name"),
                                  _("Version"),
                                  _("File Size")};
 
+void LibreScribe__Frame::addAudioClipToList(audioClipInfo info) {
+    audioList->InsertItem(0, info.name);
+    audioList->SetItem(0, 1, info.duration);
+    audioList->SetItem(0, 2, info.date);
+    audioList->SetItem(0, 3, info.size);
+}
+
 void LibreScribe__Frame::setupLists() {
     const int audio_column_width = 180;
     const int app_column_width = 240;
+    //first, set up the list control sizers
     wxBoxSizer* audioSizer = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer* appSizer = new wxBoxSizer( wxVERTICAL );
     audioSizer->Add(audioList, true, wxEXPAND | wxALL, 5);
     appSizer->Add(appList, true, wxEXPAND | wxALL, 5);
     audioTab->SetSizer(audioSizer);
     appTab->SetSizer(appSizer);
+    audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     for (int i = 0; i < (sizeof(audioColumns)/sizeof(wxString)); i++) {
         audioList->InsertColumn(i, audioColumns[i], wxLIST_FORMAT_LEFT, audio_column_width);
     }
+    addAudioClipToList(sampleClipInfo);
     for (int i = 0; i < (sizeof(appColumns)/sizeof(wxString)); i++) {
         appList->InsertColumn(i, appColumns[i], wxLIST_FORMAT_LEFT, app_column_width);
     }

@@ -39,7 +39,7 @@ void backgroundMonitor(LibreScribe__Frame* frame) {
 	    fd_set fds;
 		struct timeval tv;
 		int ret;
-    while(true) {
+    while (true) {
 		FD_ZERO(&fds);
 		FD_SET(fd, &fds);
 		tv.tv_sec = 0;
@@ -63,8 +63,7 @@ void backgroundMonitor(LibreScribe__Frame* frame) {
 	}
 }
 
-bool LibreScribe__App::OnInit()
-{
+bool LibreScribe__App::OnInit() {
     wxImage::AddHandler(new wxPNGHandler());
     udev = udev_new();
     mon = udev_monitor_new_from_netlink(udev, "udev");

@@ -1467,7 +1467,7 @@
 1302101441 /usr/include/wx-2.8/wx/gtk/filedlg.h
 	"wx/generic/filedlgg.h"
 
-1304630800 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
+1304633859 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -2117,15 +2117,15 @@
 1302101441 /usr/include/wx-2.8/wx/gtk/notebook.h
 	"wx/list.h"
 
-1302571900 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
+1304635325 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
 
-1302571878 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
+1304635423 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1304633443 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1304635827 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2138,7 +2138,7 @@
 	"GUIFrame.h"
 	<thread>
 
-1304632104 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1304635778 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"

@@ -28,6 +28,14 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "GUIFrame.h"
 #include <thread>
 uint16_t refreshDeviceState();
+
+struct audioClipInfo {
+    wxString name;
+    wxString duration;
+    wxString date;
+    wxString size;
+};
+
 class LibreScribe__Frame: public GUIFrame
 {
     friend class LibreScribe__App;
@@ -42,6 +50,7 @@ class LibreScribe__Frame: public GUIFrame
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnRefresh(wxCommandEvent& event);
         virtual void OnInfo(wxCommandEvent& event);
+        void addAudioClipToList(audioClipInfo info);
         void setupPageHierarchy();
         void setupLists();
 };
