@@ -65,6 +65,12 @@ void LibreScribe__Frame::addAudioClipToList(audioClipInfo info) {
     audioList->SetItem(0, 3, info.size);
 }
 
+void LibreScribe__Frame::addApplicationToList(applicationInfo info) {
+    appList->InsertItem(0, info.name);
+    appList->SetItem(0, 1, info.version);
+    appList->SetItem(0, 3, info.size);
+}
+
 void LibreScribe__Frame::setupLists() {
     const int audio_column_width = 180;
     const int app_column_width = 240;
