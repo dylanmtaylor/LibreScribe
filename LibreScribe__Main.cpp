@@ -29,14 +29,50 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 struct usb_device *dev;
 
 LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame) : GUIFrame(frame) {
-    printf("LibreScribe Alpha version 0.01, written by Dylan Taylor\n");
+    printf("LibreScribe Alpha version 0.02, written by Dylan Taylor\n");
 #if wxUSE_STATUSBAR
     statusBar->SetStatusText(_("The status bar is still a work-in-progress."), 0);
 #endif
+    //the following code makes it so the page tree is automatically fitted to the window.
+    wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
+    pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
+    pagesTab->SetSizer(pageTreeSizer);
+    setupPageHierarchy();
+    setupLists();
     doRefreshDeviceState();
 }
 
-LibreScribe__Frame::~LibreScribe__Frame() {
+LibreScribe__Frame::~LibreScribe__Frame() { //destructor
+}
+
+void LibreScribe__Frame::setupPageHierarchy() {
+    //this is a huge work in progress... tons of work to do!
+}
+
+const wxString audioColumns[] = {_("Session Name"),
+                                 _("Duration"),
+                                 _("Recorded"),
+                                 _("File Size")};
+
+const wxString appColumns[] = {_("Application Name"),
+                                 _("Version"),
+                                 _("File Size")};
+
+void LibreScribe__Frame::setupLists() {
+    const int audio_column_width = 180;
+    const int app_column_width = 240;
+    wxBoxSizer* audioSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* appSizer = new wxBoxSizer( wxVERTICAL );
+    audioSizer->Add(audioList, true, wxEXPAND | wxALL, 5);
+    appSizer->Add(appList, true, wxEXPAND | wxALL, 5);
+    audioTab->SetSizer(audioSizer);
+    appTab->SetSizer(appSizer);
+    for (int i = 0; i < (sizeof(audioColumns)/sizeof(wxString)); i++) {
+        audioList->InsertColumn(i, audioColumns[i], wxLIST_FORMAT_LEFT, audio_column_width);
+    }
+    for (int i = 0; i < (sizeof(appColumns)/sizeof(wxString)); i++) {
+        appList->InsertColumn(i, appColumns[i], wxLIST_FORMAT_LEFT, app_column_width);
+    }
 }
 
 void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
@@ -57,7 +93,6 @@ void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
         } else {
             wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
         }
-
     } else {
         doRefreshDeviceState();
     }

@@ -78,16 +78,14 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	contentSizer = new wxBoxSizer( wxVERTICAL );
 	
 	tabContainer = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	tabContainer->Enable( false );
-	
 	pagesTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* pageTabContainer;
 	pageTabContainer = new wxFlexGridSizer( 1, 2, 0, 0 );
 	pageTabContainer->SetFlexibleDirection( wxBOTH );
 	pageTabContainer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	pageTree = new wxTreeCtrl( pagesTab, wxID_ANY, wxDefaultPosition, wxSize( 225,420 ), wxTR_DEFAULT_STYLE|wxSIMPLE_BORDER );
-	pageTree->SetMinSize( wxSize( 225,420 ) );
+	pageTree = new wxTreeCtrl( pagesTab, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxSIMPLE_BORDER );
+	pageTree->SetMinSize( wxSize( 225,-1 ) );
 	pageTree->SetMaxSize( wxSize( 225,-1 ) );
 	
 	pageTabContainer->Add( pageTree, 0, wxALL, 5 );
@@ -135,41 +133,26 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* audioTabContainer;
 	audioTabContainer = new wxBoxSizer( wxVERTICAL );
 	
-	m_grid2 = new wxGrid( audioTab, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	
-	// Grid
-	m_grid2->CreateGrid( 5, 5 );
-	m_grid2->EnableEditing( false );
-	m_grid2->EnableGridLines( true );
-	m_grid2->EnableDragGridSize( false );
-	m_grid2->SetMargins( 0, 0 );
-	
-	// Columns
-	m_grid2->AutoSizeColumns();
-	m_grid2->EnableDragColMove( false );
-	m_grid2->EnableDragColSize( true );
-	m_grid2->SetColLabelSize( 30 );
-	m_grid2->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
-	
-	// Rows
-	m_grid2->EnableDragRowSize( true );
-	m_grid2->SetRowLabelSize( 0 );
-	m_grid2->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
-	
-	// Label Appearance
-	
-	// Cell Defaults
-	m_grid2->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	audioTabContainer->Add( m_grid2, 0, wxALL|wxEXPAND, 5 );
+	audioList = new wxListCtrl( audioTab, idAudioList, wxDefaultPosition, wxDefaultSize, wxLC_AUTOARRANGE|wxLC_HRULES|wxLC_REPORT|wxSTATIC_BORDER );
+	audioTabContainer->Add( audioList, 0, wxALIGN_LEFT|wxALIGN_TOP|wxALL|wxEXPAND, 5 );
 	
 	audioTab->SetSizer( audioTabContainer );
 	audioTab->Layout();
 	audioTabContainer->Fit( audioTab );
 	tabContainer->AddPage( audioTab, wxT("Audio"), false );
-	applicationsTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	applicationsTab->Enable( false );
+	appTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	appTab->Enable( false );
 	
-	tabContainer->AddPage( applicationsTab, wxT("Applications"), false );
+	wxBoxSizer* appTabContainer;
+	appTabContainer = new wxBoxSizer( wxVERTICAL );
+	
+	appList = new wxListCtrl( appTab, idAppList, wxDefaultPosition, wxDefaultSize, wxLC_AUTOARRANGE|wxLC_HRULES|wxLC_REPORT );
+	appTabContainer->Add( appList, 0, wxALL|wxEXPAND|wxLEFT|wxTOP, 5 );
+	
+	appTab->SetSizer( appTabContainer );
+	appTab->Layout();
+	appTabContainer->Fit( appTab );
+	tabContainer->AddPage( appTab, wxT("Applications"), false );
 	
 	contentSizer->Add( tabContainer, 1, wxEXPAND | wxALL, 5 );
 	

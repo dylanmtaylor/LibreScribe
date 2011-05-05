@@ -42,6 +42,8 @@ class LibreScribe__Frame: public GUIFrame
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnRefresh(wxCommandEvent& event);
         virtual void OnInfo(wxCommandEvent& event);
+        void setupPageHierarchy();
+        void setupLists();
 };
 
 #endif // LibreScribe__MAIN_H

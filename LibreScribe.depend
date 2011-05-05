@@ -1467,12 +1467,12 @@
 1302101441 /usr/include/wx-2.8/wx/gtk/filedlg.h
 	"wx/generic/filedlgg.h"
 
-1302230108 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
+1304630800 source:/home/dylan/cpp/libreScribe++/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
 
-1302221005 /home/dylan/cpp/libreScribe++/GUIFrame.h
+1304630800 /home/dylan/cpp/libreScribe++/GUIFrame.h
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
@@ -1489,7 +1489,7 @@
 	<wx/sizer.h>
 	<wx/statbmp.h>
 	<wx/panel.h>
-	<wx/grid.h>
+	<wx/listctrl.h>
 	<wx/notebook.h>
 	<wx/frame.h>
 	<wx/gauge.h>
@@ -1535,7 +1535,7 @@
 	<assert.h>
 	<arpa/inet.h>
 
-1290175082 /usr/include/glib-2.0//glib.h
+1303229931 /usr/include/glib-2.0//glib.h
 	<glib/galloca.h>
 	<glib/garray.h>
 	<glib/gasyncqueue.h>
@@ -1599,229 +1599,230 @@
 	<glib/gvariant.h>
 	<glib/gwin32.h>
 
-1290175082 /usr/include/glib-2.0//glib/galloca.h
+1303229931 /usr/include/glib-2.0//glib/galloca.h
 	<glib/gtypes.h>
 	<alloca.h>
 	<malloc.h>
 
-1290175082 /usr/include/glib-2.0//glib/gtypes.h
+1303229931 /usr/include/glib-2.0//glib/gtypes.h
 	<glibconfig.h>
 	<glib/gmacros.h>
+	<time.h>
 
 1290175082 /usr/lib/glib-2.0/include//glibconfig.h
 	<glib/gmacros.h>
 	<limits.h>
 	<float.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmacros.h
+1303229931 /usr/include/glib-2.0//glib/gmacros.h
 	<stddef.h>
 
-1290175082 /usr/include/glib-2.0//glib/garray.h
+1303229931 /usr/include/glib-2.0//glib/garray.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gasyncqueue.h
+1303229931 /usr/include/glib-2.0//glib/gasyncqueue.h
 	<glib/gthread.h>
 
-1290175082 /usr/include/glib-2.0//glib/gthread.h
+1303229931 /usr/include/glib-2.0//glib/gthread.h
 	<glib/gerror.h>
 	<glib/gutils.h>
 	<glib/gatomic.h>
 
-1290175082 /usr/include/glib-2.0//glib/gerror.h
+1303229931 /usr/include/glib-2.0//glib/gerror.h
 	<stdarg.h>
 	<glib/gquark.h>
 
-1290175082 /usr/include/glib-2.0//glib/gquark.h
+1303229931 /usr/include/glib-2.0//glib/gquark.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gutils.h
+1303229931 /usr/include/glib-2.0//glib/gutils.h
 	<glib/gtypes.h>
 	<stdarg.h>
 
-1290175082 /usr/include/glib-2.0//glib/gatomic.h
+1303229931 /usr/include/glib-2.0//glib/gatomic.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gbacktrace.h
+1303229931 /usr/include/glib-2.0//glib/gbacktrace.h
 	<glib/gtypes.h>
 	<signal.h>
 
-1290175082 /usr/include/glib-2.0//glib/gbase64.h
+1303229931 /usr/include/glib-2.0//glib/gbase64.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gbitlock.h
+1303229931 /usr/include/glib-2.0//glib/gbitlock.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gbookmarkfile.h
+1303229931 /usr/include/glib-2.0//glib/gbookmarkfile.h
 	<glib/gerror.h>
 	<time.h>
 
-1290175082 /usr/include/glib-2.0//glib/gcache.h
+1303229931 /usr/include/glib-2.0//glib/gcache.h
 	<glib/glist.h>
 
-1290175082 /usr/include/glib-2.0//glib/glist.h
+1303229931 /usr/include/glib-2.0//glib/glist.h
 	<glib/gmem.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmem.h
+1303229931 /usr/include/glib-2.0//glib/gmem.h
 	<glib/gslice.h>
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gslice.h
+1303229931 /usr/include/glib-2.0//glib/gslice.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gchecksum.h
+1303229931 /usr/include/glib-2.0//glib/gchecksum.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gcompletion.h
+1303229931 /usr/include/glib-2.0//glib/gcompletion.h
 	<glib/glist.h>
 
-1290175082 /usr/include/glib-2.0//glib/gconvert.h
+1303229931 /usr/include/glib-2.0//glib/gconvert.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gdataset.h
+1303229931 /usr/include/glib-2.0//glib/gdataset.h
 	<glib/gquark.h>
 
-1290175082 /usr/include/glib-2.0//glib/gdate.h
+1303229931 /usr/include/glib-2.0//glib/gdate.h
 	<time.h>
 	<glib/gtypes.h>
 	<glib/gquark.h>
 
-1290175082 /usr/include/glib-2.0//glib/gdatetime.h
+1303229931 /usr/include/glib-2.0//glib/gdatetime.h
 	<glib/gtimezone.h>
 
-1290175082 /usr/include/glib-2.0//glib/gtimezone.h
+1303229931 /usr/include/glib-2.0//glib/gtimezone.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gdir.h
+1303229931 /usr/include/glib-2.0//glib/gdir.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gfileutils.h
+1303229931 /usr/include/glib-2.0//glib/gfileutils.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/ghash.h
+1303229931 /usr/include/glib-2.0//glib/ghash.h
 	<glib/gtypes.h>
 	<glib/glist.h>
 
-1290175082 /usr/include/glib-2.0//glib/ghook.h
+1303229931 /usr/include/glib-2.0//glib/ghook.h
 	<glib/gmem.h>
 
-1290175082 /usr/include/glib-2.0//glib/ghostutils.h
+1303229931 /usr/include/glib-2.0//glib/ghostutils.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/giochannel.h
+1303229931 /usr/include/glib-2.0//glib/giochannel.h
 	<glib/gconvert.h>
 	<glib/gmain.h>
 	<glib/gstring.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmain.h
+1303229931 /usr/include/glib-2.0//glib/gmain.h
 	<glib/gpoll.h>
 	<glib/gslist.h>
 	<glib/gthread.h>
 
-1290175082 /usr/include/glib-2.0//glib/gpoll.h
+1303229931 /usr/include/glib-2.0//glib/gpoll.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gslist.h
+1303229931 /usr/include/glib-2.0//glib/gslist.h
 	<glib/gmem.h>
 
-1290175082 /usr/include/glib-2.0//glib/gstring.h
+1303229931 /usr/include/glib-2.0//glib/gstring.h
 	<glib/gtypes.h>
 	<glib/gunicode.h>
 	<glib/gutils.h>
 
-1290175082 /usr/include/glib-2.0//glib/gunicode.h
+1303229931 /usr/include/glib-2.0//glib/gunicode.h
 	<glib/gerror.h>
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gkeyfile.h
+1303229931 /usr/include/glib-2.0//glib/gkeyfile.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmappedfile.h
+1303229931 /usr/include/glib-2.0//glib/gmappedfile.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmarkup.h
+1303229931 /usr/include/glib-2.0//glib/gmarkup.h
 	<stdarg.h>
 	<glib/gerror.h>
 	<glib/gslist.h>
 
-1290175082 /usr/include/glib-2.0//glib/gmessages.h
+1303229931 /usr/include/glib-2.0//glib/gmessages.h
 	<stdarg.h>
 	<glib/gtypes.h>
 	<glib/gmacros.h>
 
-1290175082 /usr/include/glib-2.0//glib/gnode.h
+1303229931 /usr/include/glib-2.0//glib/gnode.h
 	<glib/gmem.h>
 
-1290175082 /usr/include/glib-2.0//glib/goption.h
+1303229931 /usr/include/glib-2.0//glib/goption.h
 	<glib/gerror.h>
 	<glib/gquark.h>
 
-1290175082 /usr/include/glib-2.0//glib/gpattern.h
+1303229931 /usr/include/glib-2.0//glib/gpattern.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gprimes.h
+1303229931 /usr/include/glib-2.0//glib/gprimes.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gqsort.h
+1303229931 /usr/include/glib-2.0//glib/gqsort.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gqueue.h
+1303229931 /usr/include/glib-2.0//glib/gqueue.h
 	<glib/glist.h>
 
-1290175082 /usr/include/glib-2.0//glib/grand.h
+1303229931 /usr/include/glib-2.0//glib/grand.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/grel.h
+1303229931 /usr/include/glib-2.0//glib/grel.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gregex.h
+1303229931 /usr/include/glib-2.0//glib/gregex.h
 	<glib/gerror.h>
 	<glib/gstring.h>
 
-1290175082 /usr/include/glib-2.0//glib/gscanner.h
+1303229931 /usr/include/glib-2.0//glib/gscanner.h
 	<glib/gdataset.h>
 	<glib/ghash.h>
 
-1290175082 /usr/include/glib-2.0//glib/gsequence.h
+1303229931 /usr/include/glib-2.0//glib/gsequence.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gshell.h
+1303229931 /usr/include/glib-2.0//glib/gshell.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gspawn.h
+1303229931 /usr/include/glib-2.0//glib/gspawn.h
 	<glib/gerror.h>
 
-1290175082 /usr/include/glib-2.0//glib/gstrfuncs.h
+1303229931 /usr/include/glib-2.0//glib/gstrfuncs.h
 	<stdarg.h>
 	<glib/gmacros.h>
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gtestutils.h
+1303229931 /usr/include/glib-2.0//glib/gtestutils.h
 	<glib/gmessages.h>
 	<glib/gstring.h>
 	<glib/gerror.h>
 	<glib/gslist.h>
 
-1290175082 /usr/include/glib-2.0//glib/gthreadpool.h
+1303229931 /usr/include/glib-2.0//glib/gthreadpool.h
 	<glib/gthread.h>
 
-1290175082 /usr/include/glib-2.0//glib/gtimer.h
+1303229931 /usr/include/glib-2.0//glib/gtimer.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gtree.h
+1303229931 /usr/include/glib-2.0//glib/gtree.h
 	<glib/gnode.h>
 
-1290175082 /usr/include/glib-2.0//glib/gurifuncs.h
+1303229931 /usr/include/glib-2.0//glib/gurifuncs.h
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gvarianttype.h
+1303229931 /usr/include/glib-2.0//glib/gvarianttype.h
 	<glib/gmessages.h>
 	<glib/gtypes.h>
 
-1290175082 /usr/include/glib-2.0//glib/gvariant.h
+1303229931 /usr/include/glib-2.0//glib/gvariant.h
 	<glib/gvarianttype.h>
 	<glib/gstring.h>
 
-1290175082 /usr/include/glib-2.0//glib/gwin32.h
+1303229931 /usr/include/glib-2.0//glib/gwin32.h
 	<glib/gtypes.h>
 
 1274962390 /usr/include/libusb-1.0/libusb.h
@@ -1831,43 +1832,43 @@
 	<time.h>
 	<limits.h>
 
-1289247320 /usr/include/libxml2/libxml/tree.h
+1293484999 /usr/include/libxml2/libxml/tree.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/xmlstring.h>
 	<libxml/xmlregexp.h>
 	<libxml/xmlmemory.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlversion.h
+1293484999 /usr/include/libxml2/libxml/xmlversion.h
 	<libxml/xmlexports.h>
 	<ansidecl.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlexports.h
+1293484999 /usr/include/libxml2/libxml/xmlexports.h
 
-1289247320 /usr/include/libxml2/libxml/xmlstring.h
+1293484999 /usr/include/libxml2/libxml/xmlstring.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlregexp.h
+1293484999 /usr/include/libxml2/libxml/xmlregexp.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/dict.h>
 
-1289247320 /usr/include/libxml2/libxml/dict.h
+1293484999 /usr/include/libxml2/libxml/dict.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlmemory.h
+1293484999 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
 
-1289247320 /usr/include/libxml2/libxml/threads.h
+1293484999 /usr/include/libxml2/libxml/threads.h
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
 
-1289247320 /usr/include/libxml2/libxml/globals.h
+1293484999 /usr/include/libxml2/libxml/globals.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xmlerror.h>
@@ -1876,7 +1877,7 @@
 	<libxml/xmlmemory.h>
 	<libxml/threads.h>
 
-1289247320 /usr/include/libxml2/libxml/parser.h
+1293484999 /usr/include/libxml2/libxml/parser.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -1890,12 +1891,12 @@
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
 
-1289247320 /usr/include/libxml2/libxml/hash.h
+1293484999 /usr/include/libxml2/libxml/hash.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/dict.h>
 
-1289247320 /usr/include/libxml2/libxml/valid.h
+1293484999 /usr/include/libxml2/libxml/valid.h
 	<libxml/xmlversion.h>
 	<libxml/xmlerror.h>
 	<libxml/tree.h>
@@ -1903,27 +1904,28 @@
 	<libxml/xmlautomata.h>
 	<libxml/xmlregexp.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlerror.h
+1293484999 /usr/include/libxml2/libxml/xmlerror.h
 	<libxml/parser.h>
 
-1289247320 /usr/include/libxml2/libxml/list.h
+1293484999 /usr/include/libxml2/libxml/list.h
 	<libxml/xmlversion.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlautomata.h
+1293484999 /usr/include/libxml2/libxml/xmlautomata.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/xmlregexp.h>
 
-1289247320 /usr/include/libxml2/libxml/entities.h
+1293484999 /usr/include/libxml2/libxml/entities.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1289247320 /usr/include/libxml2/libxml/encoding.h
+1293484999 /usr/include/libxml2/libxml/encoding.h
 	<libxml/xmlversion.h>
 	<iconv.h>
+	<unicode/ucnv.h>
 	<libxml/tree.h>
 
-1289247320 /usr/include/libxml2/libxml/xmlIO.h
+1293484999 /usr/include/libxml2/libxml/xmlIO.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
@@ -1931,18 +1933,18 @@
 	<libxml/parser.h>
 	<libxml/encoding.h>
 
-1289247320 /usr/include/libxml2/libxml/SAX.h
+1293484999 /usr/include/libxml2/libxml/SAX.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1289247320 /usr/include/libxml2/libxml/xlink.h
+1293484999 /usr/include/libxml2/libxml/xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1289247320 /usr/include/libxml2/libxml/SAX2.h
+1293484999 /usr/include/libxml2/libxml/SAX2.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
@@ -2115,15 +2117,15 @@
 1302101441 /usr/include/wx-2.8/wx/gtk/notebook.h
 	"wx/list.h"
 
-1302567264 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
+1302571900 source:/home/dylan/cpp/libreScribe++/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
 
-1302218880 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
+1302571878 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1302567296 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1304633443 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2136,19 +2138,19 @@
 	"GUIFrame.h"
 	<thread>
 
-1302566729 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1304632104 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
 	"Smartpen.h"
 
-1302549047 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
+1302571895 source:/home/dylan/cpp/libreScribe++/src/Smartpen.cpp
 	"Smartpen.h"
 
-1302549382 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
+1302571882 source:/home/dylan/cpp/libreScribe++/src/DeviceInformation.cpp
 	"DeviceInformation.h"
 
-1302549559 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
+1302571886 /home/dylan/cpp/libreScribe++/include/DeviceInformation.h
 	"../GUIFrame.h"
 	"Smartpen.h"
 	<libudev.h>
@@ -2159,7 +2161,7 @@
 
 1302227704 source:/home/dylan/cpp/libreScribe++/src/usb_device.cpp
 
-1302554235 /home/dylan/cpp/libreScribe++/include/Smartpen.h
+1302571874 /home/dylan/cpp/libreScribe++/include/Smartpen.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2169,4 +2171,9 @@
 	<assert.h>
 	<arpa/inet.h>
 	<usb.h>
+
+1303229931 /usr/lib/x86_64-linux-gnu/glib-2.0/include//glibconfig.h
+	<glib/gmacros.h>
+	<limits.h>
+	<float.h>
 
