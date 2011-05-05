@@ -36,6 +36,12 @@ struct audioClipInfo {
     wxString size;
 };
 
+struct applicationInfo {
+    wxString name;
+    wxString version;
+    wxString size;
+};
+
 class LibreScribe__Frame: public GUIFrame
 {
     friend class LibreScribe__App;
@@ -51,6 +57,7 @@ class LibreScribe__Frame: public GUIFrame
         virtual void OnRefresh(wxCommandEvent& event);
         virtual void OnInfo(wxCommandEvent& event);
         void addAudioClipToList(audioClipInfo info);
+        void addApplicationToList(applicationInfo info);
         void setupPageHierarchy();
         void setupLists();
 };
