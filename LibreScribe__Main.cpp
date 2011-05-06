@@ -38,6 +38,7 @@ LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame) : GUIFrame(frame) {
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
+    StartBackgroundMonitor();
     setupPageHierarchy();
     setupLists();
     doRefreshDeviceState();
@@ -51,7 +52,6 @@ void LibreScribe__Frame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
-
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
     wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
@@ -117,17 +117,43 @@ void LibreScribe__Frame::OnQuit(wxCommandEvent &event) {
 }
 
 void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
-    if (dev != NULL) {
-        obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-        if (handle != NULL) {
-            wxString deviceName("My Smartpen", wxConvUTF8);
-            DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
-            d.ShowModal(); //display the information dialog
-        } else {
-            wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
-        }
-    } else {
+    if (dev == NULL) {
         doRefreshDeviceState();
+        if (dev == NULL) return;
+    }
+    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+    if (handle != NULL) {
+        wxString deviceName("My Smartpen", wxConvUTF8);
+        DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+        d.ShowModal(); //display the information dialog
+    } else {
+        wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
+    }
+}
+
+//the following method is based on wxWidgets sample code at http://docs.wxwidgets.org/trunk/classwx_thread.html
+void LibreScribe__Frame::StartBackgroundMonitor() {
+    m_pThread = new BackgroundMonitor(this);
+
+    if ( m_pThread->Create() != wxTHREAD_NO_ERROR )
+    {
+        printf("Can't create the thread!\n");
+        delete m_pThread;
+        m_pThread = NULL;
+    }
+    else
+    {
+        if (m_pThread->Run() != wxTHREAD_NO_ERROR )
+        {
+            printf("Can't create the thread!\n");
+            delete m_pThread;
+            m_pThread = NULL;
+        }
+
+        // after the call to wxThread::Run(), the m_pThread pointer is "unsafe":
+        // at any moment the thread may cease to exist (because it completes its work).
+        // To avoid dangling pointers OnThreadExit() will set m_pThread
+        // to NULL when the thread dies.
     }
 }
 
