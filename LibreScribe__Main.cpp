@@ -58,7 +58,8 @@ void LibreScribe__Frame::setupPageHierarchy() {
     pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
     pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
     pageTree->ExpandAll();
-    pageTree->SetIndent(15);
+    pageTree->SetIndent(10);
+    pageTree->SetSpacing(0);
     pageTree->SetWindowStyle(wxTR_NO_BUTTONS | wxTR_NO_LINES);
     //this is a huge work in progress... tons of work to do!
 }
