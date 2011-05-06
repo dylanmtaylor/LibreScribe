@@ -68,7 +68,7 @@ void LibreScribe__Frame::addAudioClipToList(audioClipInfo info) {
 void LibreScribe__Frame::addApplicationToList(applicationInfo info) {
     appList->InsertItem(0, info.name);
     appList->SetItem(0, 1, info.version);
-    appList->SetItem(0, 3, info.size);
+    appList->SetItem(0, 2, info.size);
 }
 
 void LibreScribe__Frame::setupLists() {
@@ -86,9 +86,11 @@ void LibreScribe__Frame::setupLists() {
         audioList->InsertColumn(i, audioColumns[i], wxLIST_FORMAT_LEFT, audio_column_width);
     }
     addAudioClipToList(sampleClipInfo);
+    applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     for (int i = 0; i < (sizeof(appColumns)/sizeof(wxString)); i++) {
         appList->InsertColumn(i, appColumns[i], wxLIST_FORMAT_LEFT, app_column_width);
     }
+    addApplicationToList(sampleAppInfo);
 }
 
 void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
