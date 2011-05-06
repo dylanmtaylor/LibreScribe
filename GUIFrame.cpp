@@ -84,7 +84,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	pageTabContainer->SetFlexibleDirection( wxBOTH );
 	pageTabContainer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	pageTree = new wxTreeCtrl( pagesTab, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxSIMPLE_BORDER );
+	pageTree = new wxTreeCtrl( pagesTab, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxTR_NO_BUTTONS|wxSIMPLE_BORDER );
 	pageTree->SetMinSize( wxSize( 225,-1 ) );
 	pageTree->SetMaxSize( wxSize( 225,-1 ) );
 	

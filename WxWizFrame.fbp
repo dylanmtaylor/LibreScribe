@@ -515,7 +515,7 @@
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size">-1,-1</property>
-                                            <property name="style">wxTR_DEFAULT_STYLE</property>
+                                            <property name="style">wxTR_DEFAULT_STYLE|wxTR_NO_BUTTONS</property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>
                                             <property name="validator_data_type"></property>

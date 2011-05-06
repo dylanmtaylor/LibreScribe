@@ -27,6 +27,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "Smartpen.h"
 
 struct usb_device *dev;
+wxImageList* treeImages;
 
 LibreScribe__Frame::LibreScribe__Frame(wxFrame *frame) : GUIFrame(frame) {
     printf("LibreScribe Alpha version 0.02, written by Dylan Taylor\n");
@@ -46,6 +47,11 @@ LibreScribe__Frame::~LibreScribe__Frame() { //destructor
 }
 
 void LibreScribe__Frame::setupPageHierarchy() {
+    treeImages = new wxImageList(24,24,false,0);
+    treeImages->Add(wxBitmap(_("res/pen-icon.png")));
+    pageTree->DeleteAllItems(); //in case we call this method more than once
+    pageTree->SetImageList(treeImages);
+    pageTree->AddRoot(_("LiveScribe Smartpen"), 0);
     //this is a huge work in progress... tons of work to do!
 }
 
