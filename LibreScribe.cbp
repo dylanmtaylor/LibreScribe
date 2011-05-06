@@ -50,6 +50,12 @@
 			<Add library="xml2" />
 			<Add library="udev" />
 		</Linker>
+		<ExtraCommands>
+			<Add before="rm -rfv $(TARGET_OUTPUT_DIR)" />
+			<Add after="cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res" />
+			<Add after="cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)" />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="LibreScribe__App.cpp" />
