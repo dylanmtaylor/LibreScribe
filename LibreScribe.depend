@@ -2232,7 +2232,7 @@
 1304722323 /home/dylan/cpp/LibreScribe/LibreScribe__App.h
 	<wx/app.h>
 
-1304722668 /home/dylan/cpp/LibreScribe/LibreScribe__Main.h
+1304723926 /home/dylan/cpp/LibreScribe/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2247,7 +2247,7 @@
 	<wx/imaglist.h>
 	<wx/thread.h>
 
-1304722810 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
+1304724235 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
@@ -2284,6 +2284,6 @@
 	<time.h>
 	<limits.h>
 
-1304723040 source:/home/dylan/cpp/LibreScribe/src/BackgroundMonitor.cpp
+1304723982 source:/home/dylan/cpp/LibreScribe/src/BackgroundMonitor.cpp
 	"../LibreScribe__Main.h"
 

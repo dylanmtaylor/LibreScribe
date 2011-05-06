@@ -50,7 +50,9 @@ class LibreScribe__Frame;
 class BackgroundMonitor : public wxThread
     {
     public:
-        BackgroundMonitor(LibreScribe__Frame* handler) : wxThread(wxTHREAD_DETACHED){ m_pHandler = handler; };
+        BackgroundMonitor(LibreScribe__Frame* handler) : wxThread(wxTHREAD_DETACHED) {
+            m_pHandler = handler;
+        };
         ~BackgroundMonitor();
     protected:
         virtual ExitCode Entry();
@@ -67,6 +69,8 @@ class LibreScribe__Frame: public GUIFrame
         uint16_t refreshDeviceState();
         BackgroundMonitor *m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+        void addAudioClipToList(audioClipInfo info);
+        void addApplicationToList(applicationInfo info);
     private:
         void StartBackgroundMonitor();
         virtual void OnClose(wxCloseEvent& event);
@@ -74,8 +78,6 @@ class LibreScribe__Frame: public GUIFrame
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnRefresh(wxCommandEvent& event);
         virtual void OnInfo(wxCommandEvent& event);
-        void addAudioClipToList(audioClipInfo info);
-        void addApplicationToList(applicationInfo info);
         void setupPageHierarchy();
         void setupLists();
 };
