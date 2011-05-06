@@ -16,6 +16,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef LibreScribe__MAIN_H
 #define LibreScribe__MAIN_H
+
 #include <openobex/obex.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,6 +29,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "GUIFrame.h"
 #include <thread>
 #include <wx/imaglist.h>
+#include <wx/thread.h>
 uint16_t refreshDeviceState();
 
 struct audioClipInfo {
@@ -43,6 +45,18 @@ struct applicationInfo {
     wxString size;
 };
 
+class LibreScribe__Frame;
+
+class BackgroundMonitor : public wxThread
+    {
+    public:
+        BackgroundMonitor(LibreScribe__Frame* handler) : wxThread(wxTHREAD_DETACHED){ m_pHandler = handler; };
+        ~BackgroundMonitor();
+    protected:
+        virtual ExitCode Entry();
+        LibreScribe__Frame* m_pHandler;
+    };
+
 class LibreScribe__Frame: public GUIFrame
 {
     friend class LibreScribe__App;
@@ -51,7 +65,10 @@ class LibreScribe__Frame: public GUIFrame
         ~LibreScribe__Frame();
         void doRefreshDeviceState();
         uint16_t refreshDeviceState();
+        BackgroundMonitor *m_pThread;
+        wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
     private:
+        void StartBackgroundMonitor();
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
