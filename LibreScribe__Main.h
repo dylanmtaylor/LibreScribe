@@ -26,7 +26,6 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include <libudev.h>
 #include "LibreScribe__App.h"
 #include "GUIFrame.h"
-#include <thread>
 #include <wx/imaglist.h>
 #include <wx/thread.h>
 uint16_t refreshDeviceState();
