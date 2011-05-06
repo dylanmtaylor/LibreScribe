@@ -2188,3 +2188,35 @@
 	"wx/list.h"
 	"wx/icon.h"
 
+1304711102 source:/home/dylan/cpp/LibreScribe/wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1304711102 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+	"wx/wxprec.h"
+	<wx/wx.h>
+	"GUIFrame.h"
+
+1304711102 /home/dylan/cpp/LibreScribe/GUIFrame.h
+	<wx/string.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	<wx/icon.h>
+	<wx/menu.h>
+	<wx/gdicmn.h>
+	<wx/font.h>
+	<wx/colour.h>
+	<wx/settings.h>
+	<wx/toolbar.h>
+	<wx/statusbr.h>
+	<wx/treectrl.h>
+	<wx/stattext.h>
+	<wx/sizer.h>
+	<wx/statbmp.h>
+	<wx/panel.h>
+	<wx/listctrl.h>
+	<wx/notebook.h>
+	<wx/frame.h>
+	<wx/gauge.h>
+	<wx/dialog.h>
+
