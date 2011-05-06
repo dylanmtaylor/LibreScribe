@@ -39,19 +39,21 @@
 			<Add option="-DWX_PRECOMP" />
 			<Add directory="/usr/lib/glib-2.0/include/" />
 			<Add directory="/usr/include/glib-2.0/" />
-			<Add directory="/usr/include/libusb-1.0" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="include" />
 			<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include/" />
+			<Add directory="/usr/include/libusb-1.0/" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="`wx-config --libs`" />
-			<Add library="libusb" />
-			<Add library="glib-2.0" />
+			<Add library="usb-1.0" />
 			<Add library="openobex" />
-			<Add library="libusb-1.0" />
-			<Add library="libxml2" />
-			<Add library="libudev" />
+			<Add library="xml2" />
+			<Add library="udev" />
+			<Add library="glib-2.0" />
+			<Add directory="/usr/include/libusb-1.0/" />
+			<Add directory="/usr/include/glib-2.0/" />
+			<Add directory="/usr/lib/" />
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
