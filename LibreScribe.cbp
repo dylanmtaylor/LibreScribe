@@ -45,12 +45,10 @@
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
-			<Add option="`wx-config --libs`" />
-			<Add library="usb-1.0" />
+			<Add option="`wx-config --libs` -lusb-1.0 -lglib-2.0" />
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
-			<Add library="glib-2.0" />
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
