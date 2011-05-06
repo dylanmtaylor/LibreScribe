@@ -54,11 +54,14 @@ all: debug release
 clean: clean_debug clean_release
 
 before_debug: 
+	rm -rfv $(TARGET_OUTPUT_DIR)
 	test -d bin/Debug || mkdir -p bin/Debug
 	test -d $(OBJDIR_DEBUG) || mkdir -p $(OBJDIR_DEBUG)
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
 
 after_debug: 
+	cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res
+	cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)
 
 debug: before_debug $(OUT_DEBUG) after_debug
 
@@ -87,11 +90,14 @@ clean_debug:
 	rm -rf $(OBJDIR_DEBUG)/src
 
 before_release: 
+	rm -rfv $(TARGET_OUTPUT_DIR)
 	test -d bin/Release || mkdir -p bin/Release
 	test -d $(OBJDIR_RELEASE) || mkdir -p $(OBJDIR_RELEASE)
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
 
 after_release: 
+	cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res
+	cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)
 
 release: before_release $(OUT_RELEASE) after_release
 
