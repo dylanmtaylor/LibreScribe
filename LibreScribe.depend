@@ -2220,3 +2220,59 @@
 	<wx/gauge.h>
 	<wx/dialog.h>
 
+1304711102 source:/home/dylan/cpp/LibreScribe/LibreScribe__App.cpp
+	"wx_pch.h"
+	"LibreScribe__App.h"
+	"LibreScribe__Main.h"
+
+1304711102 /home/dylan/cpp/LibreScribe/wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1304711102 /home/dylan/cpp/LibreScribe/LibreScribe__App.h
+	<wx/app.h>
+
+1304711102 /home/dylan/cpp/LibreScribe/LibreScribe__Main.h
+	<openobex/obex.h>
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<assert.h>
+	<arpa/inet.h>
+	<glib-2.0/glib.h>
+	<libudev.h>
+	"LibreScribe__App.h"
+	"GUIFrame.h"
+	<thread>
+	<wx/imaglist.h>
+
+1304711102 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
+	"wx_pch.h"
+	"LibreScribe__Main.h"
+	"DeviceInformation.h"
+	"Smartpen.h"
+
+1304711102 /home/dylan/cpp/LibreScribe/include/DeviceInformation.h
+	"../GUIFrame.h"
+	"Smartpen.h"
+	<libudev.h>
+	<libxml/tree.h>
+	<libxml/parser.h>
+
+1304711102 /home/dylan/cpp/LibreScribe/include/Smartpen.h
+	<openobex/obex.h>
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<glib.h>
+	<libusb.h>
+	<assert.h>
+	<arpa/inet.h>
+	<usb.h>
+
+1304711102 source:/home/dylan/cpp/LibreScribe/src/DeviceInformation.cpp
+	"DeviceInformation.h"
+
+1304711102 source:/home/dylan/cpp/LibreScribe/src/Smartpen.cpp
+	"Smartpen.h"
+
