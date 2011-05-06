@@ -16,7 +16,6 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef LibreScribe__MAIN_H
 #define LibreScribe__MAIN_H
-
 #include <openobex/obex.h>
 #include <string.h>
 #include <stdlib.h>

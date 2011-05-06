@@ -113,7 +113,7 @@ void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
     wxCriticalSectionLocker enter(m_pThreadCS);
 
     if (m_pThread) { // does the thread still exist?
-        printf("MYFRAME: deleting thread\n");
+        printf("Deleting thread...\n");
         if (m_pThread->Delete() != wxTHREAD_NO_ERROR )
             printf("Can't delete the thread!\n");
         }
