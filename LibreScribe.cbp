@@ -43,7 +43,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 			<Add option="`wx-config --cflags`" />
 			<Add option="-Winvalid-pch" />
@@ -71,6 +70,7 @@
 		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="include/DeviceInformation.h" />
 		<Unit filename="include/Smartpen.h" />
+		<Unit filename="src/BackgroundMonitor.cpp" />
 		<Unit filename="src/DeviceInformation.cpp" />
 		<Unit filename="src/Smartpen.cpp" />
 		<Unit filename="wx_pch.h">
