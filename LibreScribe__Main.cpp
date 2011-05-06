@@ -109,6 +109,27 @@ void LibreScribe__Frame::setupLists() {
 }
 
 void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
+{
+    wxCriticalSectionLocker enter(m_pThreadCS);
+
+    if (m_pThread) { // does the thread still exist?
+        printf("MYFRAME: deleting thread\n");
+        if (m_pThread->Delete() != wxTHREAD_NO_ERROR )
+            printf("Can't delete the thread!\n");
+        }
+    }       // exit from the critical section to give the thread
+        // the possibility to enter its destructor
+        // (which is guarded with m_pThreadCS critical section!)
+
+    while (true) {
+        { // was the ~BackgroundMonitor() function executed?
+            wxCriticalSectionLocker enter(m_pThreadCS);
+            if (!m_pThread) break;
+        }
+        // wait for thread completion
+        wxThread::This()->Sleep(1);
+    }
+
     Destroy();
 }
 
