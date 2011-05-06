@@ -27,6 +27,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "LibreScribe__App.h"
 #include "GUIFrame.h"
 #include <thread>
+#include <wx/imaglist.h>
 uint16_t refreshDeviceState();
 
 struct audioClipInfo {

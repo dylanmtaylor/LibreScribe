@@ -2125,7 +2125,7 @@
 1304635423 /home/dylan/cpp/libreScribe++/LibreScribe__App.h
 	<wx/app.h>
 
-1304639796 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
+1304640946 /home/dylan/cpp/libreScribe++/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2137,8 +2137,9 @@
 	"LibreScribe__App.h"
 	"GUIFrame.h"
 	<thread>
+	<wx/imaglist.h>
 
-1304635778 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
+1304641381 source:/home/dylan/cpp/libreScribe++/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
@@ -2176,4 +2177,14 @@
 	<glib/gmacros.h>
 	<limits.h>
 	<float.h>
+
+1302101440 /usr/include/wx-2.8/wx/imaglist.h
+	"wx/generic/imaglist.h"
+	"wx/msw/imaglist.h"
+	"wx/mac/imaglist.h"
+
+1302101441 /usr/include/wx-2.8/wx/generic/imaglist.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/icon.h"
 
