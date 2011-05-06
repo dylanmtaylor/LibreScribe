@@ -47,11 +47,19 @@ LibreScribe__Frame::~LibreScribe__Frame() { //destructor
 }
 
 void LibreScribe__Frame::setupPageHierarchy() {
-    treeImages = new wxImageList(24,24,false,0);
+    treeImages = new wxImageList(22,22,false,0);
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
+    treeImages->Add(wxBitmap(_("res/page-icon.png")));
+    treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
+
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-    pageTree->AddRoot(_("LiveScribe Smartpen"), 0);
+    wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
+    pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
+    pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
+    pageTree->ExpandAll();
+    pageTree->SetIndent(15);
+    pageTree->SetWindowStyle(wxTR_NO_BUTTONS | wxTR_NO_LINES);
     //this is a huge work in progress... tons of work to do!
 }
 
