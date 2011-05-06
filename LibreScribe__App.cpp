@@ -28,10 +28,7 @@ IMPLEMENT_APP(LibreScribe__App);
 
 bool LibreScribe__App::OnInit() {
     wxImage::AddHandler(new wxPNGHandler());
-//    udev = udev_new();
-//    mon = udev_monitor_new_from_netlink(udev, "udev");
-//    udev_monitor_enable_receiving(mon);
-//    fd = udev_monitor_get_fd(mon);
+
     LibreScribe__Frame* frame = new LibreScribe__Frame(0L);
     frame->Show();
 //    std::thread t(backgroundMonitor, frame);
