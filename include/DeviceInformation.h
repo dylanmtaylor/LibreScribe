@@ -37,6 +37,7 @@ public:
         char* fs;
         sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
         printf("%s",fs); //displays fs on stdout
+        printf("Setting device name label\n");
         deviceName->SetLabel(devName);
         if (productID == LS_PULSE) {
             deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
@@ -44,11 +45,16 @@ public:
             deviceType->SetLabel(_("LiveScribe Echo(TM) Smartpen"));
         } else {
             deviceType->SetLabel(_("Unknown LiveScribe Device"));
+            printf("Unable to determine device type\n");
         }
+        printf("device name label set, setting battery gauge value\n");
         batteryGauge->SetValue(batteryLevel);
+        printf("battery gauge value set, setting storage remaining label\n");
         wxString freeSpace(fs, wxConvUTF8);
         storageRemaining->SetLabel(freeSpace);
+        printf("storage remaining label set, disconnecting device\n");
         smartpen_disconnect(device_handle);
+        printf("success! we made it through the device information constructor unscathed!\n");
     };
     virtual ~DeviceInformation();
     int getBatteryRemaining(xmlNode *a_node);

@@ -2188,16 +2188,16 @@
 	"wx/list.h"
 	"wx/icon.h"
 
-1304711102 source:/home/dylan/cpp/LibreScribe/wx_pch.h
+1304980864 source:/home/dylan/cpp/LibreScribe/wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1304711102 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
 
-1304711102 /home/dylan/cpp/LibreScribe/GUIFrame.h
+1304980864 /home/dylan/cpp/LibreScribe/GUIFrame.h
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
@@ -2220,19 +2220,19 @@
 	<wx/gauge.h>
 	<wx/dialog.h>
 
-1304725723 source:/home/dylan/cpp/LibreScribe/LibreScribe__App.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
 
-1304711102 /home/dylan/cpp/LibreScribe/wx_pch.h
+1304980864 /home/dylan/cpp/LibreScribe/wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1304722323 /home/dylan/cpp/LibreScribe/LibreScribe__App.h
+1304980864 /home/dylan/cpp/LibreScribe/LibreScribe__App.h
 	<wx/app.h>
 
-1304724800 /home/dylan/cpp/LibreScribe/LibreScribe__Main.h
+1304980864 /home/dylan/cpp/LibreScribe/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2243,24 +2243,23 @@
 	<libudev.h>
 	"LibreScribe__App.h"
 	"GUIFrame.h"
-	<thread>
 	<wx/imaglist.h>
 	<wx/thread.h>
 
-1304724699 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
 	"Smartpen.h"
 
-1304711102 /home/dylan/cpp/LibreScribe/include/DeviceInformation.h
+1304981183 /home/dylan/cpp/LibreScribe/include/DeviceInformation.h
 	"../GUIFrame.h"
 	"Smartpen.h"
 	<libudev.h>
 	<libxml/tree.h>
 	<libxml/parser.h>
 
-1304711102 /home/dylan/cpp/LibreScribe/include/Smartpen.h
+1304980864 /home/dylan/cpp/LibreScribe/include/Smartpen.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2271,10 +2270,10 @@
 	<arpa/inet.h>
 	<usb.h>
 
-1304711102 source:/home/dylan/cpp/LibreScribe/src/DeviceInformation.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/src/DeviceInformation.cpp
 	"DeviceInformation.h"
 
-1304711102 source:/home/dylan/cpp/LibreScribe/src/Smartpen.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/src/Smartpen.cpp
 	"Smartpen.h"
 
 1274962390 /usr/include/libusb-1.0//libusb.h
@@ -2284,6 +2283,6 @@
 	<time.h>
 	<limits.h>
 
-1304725475 source:/home/dylan/cpp/LibreScribe/src/BackgroundMonitor.cpp
+1304980864 source:/home/dylan/cpp/LibreScribe/src/BackgroundMonitor.cpp
 	"../LibreScribe__Main.h"
 
