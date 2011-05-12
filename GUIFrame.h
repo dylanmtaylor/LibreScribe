@@ -10,6 +10,8 @@
 	#include <wx/panel.h>
 	#include <wx/statusbr.h>
 	#include <wx/frame.h>
+	#include <wx/stattext.h>
+	#include <wx/statbmp.h>
 	//*)
 #endif
 //(*Headers(GUIFrame)
@@ -27,6 +29,7 @@ class GUIFrame: public wxFrame
 		//(*Declarations(GUIFrame)
 		wxMenuItem* MenuItem2;
 		wxMenuItem* MenuItem1;
+		wxStaticText* notebookPageName;
 		wxMenuBar* menuBar;
 		wxStatusBar* statusBar;
 		wxMenu* Menu1;
@@ -35,7 +38,9 @@ class GUIFrame: public wxFrame
 		wxListCtrl* appList;
 		wxPanel* audioTab;
 		wxPanel* pagesTab;
+		wxStaticText* notebookPageSize;
 		wxToolBarToolBase* ToolBarItem2;
+		wxStaticBitmap* pageImage;
 		wxNotebook* tabContainer;
 		wxMenuItem* MenuItem5;
 		wxListCtrl* audioList;
@@ -52,6 +57,9 @@ class GUIFrame: public wxFrame
 
 		//(*Identifiers(GUIFrame)
 		static const long ID_TREECTRL1;
+		static const long ID_STATICTEXT1;
+		static const long ID_STATICTEXT2;
+		static const long ID_STATICBITMAP1;
 		static const long ID_PANEL1;
 		static const long ID_LISTCTRL1;
 		static const long ID_PANEL2;
