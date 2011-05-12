@@ -32,10 +32,11 @@ public:
         xmlNode *cur = xmlDocGetRootElement(doc);
         int batteryLevel = getBatteryRemaining(cur);
         printf("batteryLevel: %d\n", batteryLevel);
+        batteryGauge->SetValue(batteryLevel);
         int freeBytes = getFreeBytes(cur);
         int totalBytes = getTotalBytes(cur);
-        char* fs;
-        sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
+        char fs[256];
+        sprintf(fs, "%d of %d bytes remaining.\n\0",freeBytes,totalBytes); //stores formatted string in fs
         printf("%s",fs); //displays fs on stdout
         printf("Setting device name label\n");
         deviceName->SetLabel(devName);
@@ -48,7 +49,6 @@ public:
             printf("Unable to determine device type\n");
         }
         printf("device name label set, setting battery gauge value\n");
-        batteryGauge->SetValue(batteryLevel);
         printf("battery gauge value set, setting storage remaining label\n");
         wxString freeSpace(fs, wxConvUTF8);
         storageRemaining->SetLabel(freeSpace);
