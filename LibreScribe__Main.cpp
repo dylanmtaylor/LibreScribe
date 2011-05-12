@@ -138,15 +138,14 @@ void LibreScribe__Frame::OnQuit(wxCommandEvent &event) {
 }
 
 void LibreScribe__Frame::OnInfo(wxCommandEvent &event) {
-    if (dev == NULL) {
-        doRefreshDeviceState();
-        if (dev == NULL) return;
-    }
+    doRefreshDeviceState();
     obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
     if (handle != NULL) {
         wxString deviceName("My Smartpen", wxConvUTF8);
         DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+        printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
+        printf("dialog was displayed without a problem\n");
     } else {
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
     }
