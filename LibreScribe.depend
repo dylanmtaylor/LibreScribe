@@ -2192,7 +2192,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305242906 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+1305244405 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	<wx/string.h>
@@ -2201,7 +2201,7 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305242352 /home/dylan/cpp/LibreScribe/GUIFrame.h
+1305244154 /home/dylan/cpp/LibreScribe/GUIFrame.h
 	<wx/toolbar.h>
 	<wx/sizer.h>
 	<wx/listctrl.h>
@@ -2307,4 +2307,19 @@
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/statbmp.h>
+
+1302101441 /usr/include/wx-2.8/wx/sashwin.h
+	"wx/generic/sashwin.h"
+
+1302101441 /usr/include/wx-2.8/wx/generic/sashwin.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/string.h"
+
+1302101441 /usr/include/wx-2.8/wx/laywin.h
+	"wx/generic/laywin.h"
+
+1302101441 /usr/include/wx-2.8/wx/generic/laywin.h
+	"wx/sashwin.h"
+	"wx/event.h"
 
