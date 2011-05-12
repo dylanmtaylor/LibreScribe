@@ -86,14 +86,14 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	pageTabContainer->SetSizeHints(pagesTab);
 	audioTab = new wxPanel(tabContainer, ID_PANEL2, wxPoint(35,20), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	audioTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES, wxDefaultValidator, _T("ID_LISTCTRL1"));
+	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_LISTCTRL1"));
 	audioTabContainer->Add(audioList, 1, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	audioTab->SetSizer(audioTabContainer);
 	audioTabContainer->Fit(audioTab);
 	audioTabContainer->SetSizeHints(audioTab);
 	appTab = new wxPanel(tabContainer, ID_PANEL3, wxPoint(138,16), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
 	appTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_LISTCTRL2"));
 	appTabContainer->Add(appList, 1, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	appTab->SetSizer(appTabContainer);
 	appTabContainer->Fit(appTab);
