@@ -61,7 +61,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	tabContainer->SetMinSize(wxSize(750,550));
 	pagesTab = new wxPanel(tabContainer, ID_PANEL1, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	pageTabContainer = new wxFlexGridSizer(1, 2, 0, 0);
-	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRL1"));
+	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxDefaultSize, wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_DEFAULT_STYLE|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_TREECTRL1"));
 	pageTree->SetMinSize(wxSize(255,-1));
 	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
 	pageBrowser = new wxFlexGridSizer(0, 1, 0, 0);
@@ -100,7 +100,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	tabContainer->AddPage(pagesTab, _("Pages"), false);
 	tabContainer->AddPage(audioTab, _("Audio"), false);
 	tabContainer->AddPage(appTab, _("Applications"), false);
-	contentSizer->Add(tabContainer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	contentSizer->Add(tabContainer, 1, wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	SetSizer(contentSizer);
 	menuBar = new wxMenuBar();
 	fileMenu = new wxMenu();

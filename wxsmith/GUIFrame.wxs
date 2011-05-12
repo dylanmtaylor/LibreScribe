@@ -10,7 +10,7 @@
 		<object class="wxBoxSizer" variable="contentSizer" member="no">
 			<object class="sizeritem">
 				<object class="wxNotebook" name="ID_NOTEBOOK1" variable="tabContainer" member="yes">
-					<size>750,550</size>
+					<size>-1,550</size>
 					<minsize>750,550</minsize>
 					<object class="notebookpage">
 						<object class="wxPanel" name="ID_PANEL1" variable="pagesTab" member="yes">
@@ -21,6 +21,7 @@
 								<object class="sizeritem">
 									<object class="wxTreeCtrl" name="ID_TREECTRL1" variable="pageTree" member="yes">
 										<minsize>255,-1</minsize>
+										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_DEFAULT_STYLE|wxSIMPLE_BORDER</style>
 									</object>
 									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 									<border>5</border>
@@ -123,7 +124,7 @@
 						<label>Applications</label>
 					</object>
 				</object>
-				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+				<flag>wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 				<border>5</border>
 				<option>1</option>
 			</object>

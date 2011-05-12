@@ -2192,11 +2192,12 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305242386 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+1305242635 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	<wx/string.h>
 	<wx/intl.h>
+	<wx/font.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 
