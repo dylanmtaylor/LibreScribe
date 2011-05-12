@@ -1,114 +1,82 @@
-///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2009)
-// http://www.wxformbuilder.org/
-//
-// PLEASE DO "NOT" EDIT THIS FILE!
-///////////////////////////////////////////////////////////////////////////
+#ifndef GUIFRAME_H
+#define GUIFRAME_H
 
-#ifndef __GUIFrame__
-#define __GUIFrame__
-
-#include <wx/string.h>
-#include <wx/bitmap.h>
-#include <wx/image.h>
-#include <wx/icon.h>
-#include <wx/menu.h>
-#include <wx/gdicmn.h>
-#include <wx/font.h>
-#include <wx/colour.h>
-#include <wx/settings.h>
-#include <wx/toolbar.h>
-#include <wx/statusbr.h>
-#include <wx/treectrl.h>
-#include <wx/stattext.h>
-#include <wx/sizer.h>
-#include <wx/statbmp.h>
-#include <wx/panel.h>
-#include <wx/listctrl.h>
+#ifndef WX_PRECOMP
+	//(*HeadersPCH(GUIFrame)
+	#include <wx/toolbar.h>
+	#include <wx/sizer.h>
+	#include <wx/listctrl.h>
+	#include <wx/menu.h>
+	#include <wx/panel.h>
+	#include <wx/statusbr.h>
+	#include <wx/frame.h>
+	//*)
+#endif
+//(*Headers(GUIFrame)
 #include <wx/notebook.h>
-#include <wx/frame.h>
-#include <wx/gauge.h>
-#include <wx/dialog.h>
+#include <wx/treectrl.h>
+//*)
 
-///////////////////////////////////////////////////////////////////////////
-
-#define idMenuPrint 1000
-#define idMenuDelete 1001
-#define idMenuQuit 1002
-#define idMenuAbout 1003
-#define idToolbarRefresh 1004
-#define idToolbarInfo 1005
-#define idToolbarQuit 1006
-#define idAudioList 1007
-#define idAppList 1008
-#define idDeviceInfo 1009
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class GUIFrame
-///////////////////////////////////////////////////////////////////////////////
-class GUIFrame : public wxFrame 
+class GUIFrame: public wxFrame
 {
-	private:
-	
-	protected:
+	public:
+
+		GUIFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+		virtual ~GUIFrame();
+
+		//(*Declarations(GUIFrame)
+		wxMenuItem* MenuItem2;
+		wxMenuItem* MenuItem1;
 		wxMenuBar* menuBar;
-		wxMenu* fileMenu;
-		wxMenu* helpMenu;
-		wxToolBar* mainToolbar;
 		wxStatusBar* statusBar;
-		wxNotebook* tabContainer;
-		wxPanel* pagesTab;
-		wxTreeCtrl* pageTree;
-		wxStaticText* notebookPageSize;
-		wxStaticText* notebookName;
-		
-		wxStaticBitmap* pageImage;
-		wxPanel* audioTab;
-		wxListCtrl* audioList;
+		wxMenu* Menu1;
 		wxPanel* appTab;
+		wxTreeCtrl* pageTree;
 		wxListCtrl* appList;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
-		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnRefresh( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnInfo( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("LibreScribe Smartpen Manager [Alpha]"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 750,561 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-		~GUIFrame();
-	
-};
+		wxPanel* audioTab;
+		wxPanel* pagesTab;
+		wxToolBarToolBase* ToolBarItem2;
+		wxNotebook* tabContainer;
+		wxMenuItem* MenuItem5;
+		wxListCtrl* audioList;
+		wxToolBarToolBase* ToolBarItem1;
+		wxMenu* fileMenu;
+		wxMenuItem* MenuItem6;
+		wxMenuItem* MenuItem4;
+		wxToolBarToolBase* quitButton;
+		wxToolBar* mainToolbar;
+		wxMenuItem* MenuItem8;
+		//*)
 
-///////////////////////////////////////////////////////////////////////////////
-/// Class DeviceInfo
-///////////////////////////////////////////////////////////////////////////////
-class DeviceInfo : public wxDialog 
-{
-	private:
-	
 	protected:
-		wxStaticBitmap* infoIcon;
-		wxStaticText* deviceType;
-		wxStaticText* nameLabel;
-		wxStaticText* deviceName;
-		wxStaticText* batteryLabel;
-		wxGauge* batteryGauge;
-		wxStaticText* storageLabel;
-		wxStaticText* storageRemaining;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnShowDialog( wxInitDialogEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		DeviceInfo( wxWindow* parent, wxWindowID id = idDeviceInfo, const wxString& title = wxT("Smartpen Device Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 585,165 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
-		~DeviceInfo();
-	
+
+		//(*Identifiers(GUIFrame)
+		static const long ID_TREECTRL1;
+		static const long ID_PANEL1;
+		static const long ID_LISTCTRL1;
+		static const long ID_PANEL2;
+		static const long ID_LISTCTRL2;
+		static const long ID_PANEL3;
+		static const long ID_NOTEBOOK1;
+		static const long idMenuFilePrint;
+		static const long idMenuFileDeletePages;
+		static const long idMenuFileArchiveNotebook;
+		static const long idMenuFileDeleteNotebok;
+		static const long ID_MENUITEM7;
+		static const long idAboutMenuItem;
+		static const long idToolbarRefresh;
+		static const long idToolbarInfo;
+		static const long idToolbarQuit;
+		static const long ID_TOOLBAR1;
+		static const long ID_STATUSBAR1;
+		//*)
+
+	private:
+
+		//(*Handlers(GUIFrame)
+		//*)
+
+		DECLARE_EVENT_TABLE()
 };
 
-#endif //__GUIFrame__
+#endif

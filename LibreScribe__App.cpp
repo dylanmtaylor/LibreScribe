@@ -24,14 +24,26 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "LibreScribe__App.h"
 #include "LibreScribe__Main.h"
+//(*AppHeaders
+#include "GUIFrame.h"
+#include <wx/image.h>
+//*)
+
 IMPLEMENT_APP(LibreScribe__App);
 
 bool LibreScribe__App::OnInit() {
-    wxImage::AddHandler(new wxPNGHandler());
-
+	//(*AppInitialize
+	bool wxsOK = true;
+	wxInitAllImageHandlers();
+	if ( wxsOK )
+	{
+		GUIFrame* Frame = new GUIFrame(0);
+		Frame->Show();
+		SetTopWindow(Frame);
+	}
+	//*)
+	return wxsOK;
     LibreScribe__Frame* frame = new LibreScribe__Frame(0L);
     frame->Show();
-//    std::thread t(backgroundMonitor, frame);
-//    t.detach();
     return true;
 }

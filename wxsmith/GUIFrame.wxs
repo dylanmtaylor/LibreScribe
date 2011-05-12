@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="GUIFrame">
+		<title>LibreScribe Smartpen Manager [Alpha]</title>
+		<centered>1</centered>
+		<size>750,550</size>
+		<minsize>750,550</minsize>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER</style>
+		<object class="wxBoxSizer" variable="contentSizer" member="no">
+			<object class="sizeritem">
+				<object class="wxNotebook" name="ID_NOTEBOOK1" variable="tabContainer" member="yes">
+					<size>750,550</size>
+					<minsize>750,550</minsize>
+					<object class="notebookpage">
+						<object class="wxPanel" name="ID_PANEL1" variable="pagesTab" member="yes">
+							<pos>13,75</pos>
+							<object class="wxFlexGridSizer" variable="pageTabContainer" member="no">
+								<cols>3</cols>
+								<object class="sizeritem">
+									<object class="wxTreeCtrl" name="ID_TREECTRL1" variable="pageTree" member="yes">
+										<minsize>255,-1</minsize>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+								<object class="sizeritem">
+									<object class="wxFlexGridSizer" variable="pageBrowser" member="no">
+										<cols>3</cols>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
+						<label>Pages</label>
+					</object>
+					<object class="notebookpage">
+						<object class="wxPanel" name="ID_PANEL2" variable="audioTab" member="yes">
+							<pos>35,20</pos>
+							<object class="wxBoxSizer" variable="audioTabContainer" member="no">
+								<object class="sizeritem">
+									<object class="wxListCtrl" name="ID_LISTCTRL1" variable="audioList" member="yes" />
+									<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
+						<label>Audio</label>
+					</object>
+					<object class="notebookpage">
+						<object class="wxPanel" name="ID_PANEL3" variable="appTab" member="yes">
+							<pos>138,16</pos>
+							<object class="wxBoxSizer" variable="appTabContainer" member="no">
+								<object class="sizeritem">
+									<object class="wxListCtrl" name="ID_LISTCTRL2" variable="appList" member="yes" />
+									<flag>wxALL|wxALIGN_TOP|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
+						<label>Applications</label>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+		</object>
+		<object class="wxMenuBar" variable="menuBar" member="yes">
+			<object class="wxMenu" variable="fileMenu" member="yes">
+				<label>&amp;File</label>
+				<object class="wxMenuItem" name="idMenuFilePrint" variable="MenuItem2" member="yes">
+					<label>&amp;Print</label>
+					<accel>Ctrl+P</accel>
+					<enabled>0</enabled>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="idMenuFileDeletePages" variable="MenuItem4" member="yes">
+					<label>Delete &amp;Page(s)</label>
+					<accel>Ctrl+D</accel>
+					<enabled>0</enabled>
+				</object>
+				<object class="wxMenuItem" name="idMenuFileArchiveNotebook" variable="MenuItem5" member="yes">
+					<label>&amp;Archive Notebook</label>
+					<accel>Shift+Ctrl+A</accel>
+					<enabled>0</enabled>
+				</object>
+				<object class="wxMenuItem" name="idMenuFileDeleteNotebok" variable="MenuItem6" member="yes">
+					<label>&amp;Delete Notebook</label>
+					<accel>Shift+Ctrl+D</accel>
+					<enabled>0</enabled>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_MENUITEM7" variable="MenuItem8" member="yes">
+					<label>&amp;Quit</label>
+					<accel>Ctrl+Q</accel>
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu1" member="yes">
+				<label>&amp;Help</label>
+				<object class="wxMenuItem" name="idAboutMenuItem" variable="MenuItem1" member="yes">
+					<label>&amp;About</label>
+					<accel>F1</accel>
+				</object>
+			</object>
+		</object>
+		<object class="wxToolBar" name="ID_TOOLBAR1" variable="mainToolbar" member="yes">
+			<object class="tool" name="idToolbarRefresh" variable="ToolBarItem1" member="yes">
+				<label>Refresh</label>
+				<bitmap>/home/dylan/cpp/LibreScribe/res/view-refresh.png</bitmap>
+			</object>
+			<object class="tool" name="idToolbarInfo" variable="ToolBarItem2" member="yes">
+				<label>Information</label>
+				<bitmap>/home/dylan/cpp/LibreScribe/res/emblem-system.png</bitmap>
+			</object>
+			<object class="tool" name="idToolbarQuit" variable="quitButton" member="yes">
+				<label>Quit</label>
+				<bitmap>/home/dylan/cpp/LibreScribe/res/process-stop.png</bitmap>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="statusBar" member="yes">
+			<fields>2</fields>
+			<widths>-10,-10</widths>
+			<styles>wxSB_NORMAL,wxSB_NORMAL</styles>
+		</object>
+	</object>
+</wxsmith>

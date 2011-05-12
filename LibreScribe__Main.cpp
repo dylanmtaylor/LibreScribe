@@ -61,6 +61,7 @@ void LibreScribe__Frame::setupPageHierarchy() {
     pageTree->SetIndent(10);
     pageTree->SetSpacing(0);
     pageTree->SetWindowStyle(wxTR_NO_BUTTONS | wxTR_NO_LINES);
+    pageTree->SetWindowStyle(wxRESIZE_BORDER);
     //this is a huge work in progress... tons of work to do!
 }
 
