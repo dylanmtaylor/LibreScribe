@@ -20,10 +20,12 @@
 								<rows>1</rows>
 								<object class="sizeritem">
 									<object class="wxTreeCtrl" name="ID_TREECTRL1" variable="pageTree" member="yes">
+										<size>255,-1</size>
 										<minsize>255,-1</minsize>
-										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_DEFAULT_STYLE|wxSUNKEN_BORDER</style>
+										<maxsize>255,-1</maxsize>
+										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
 									</object>
-									<flag>wxALL|wxEXPAND|wxSHAPED|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+									<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 									<border>5</border>
 									<option>1</option>
 								</object>
@@ -67,7 +69,7 @@
 													<option>1</option>
 												</object>
 											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_BOTTOM</flag>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 											<border>5</border>
 											<option>1</option>
 										</object>
@@ -77,12 +79,12 @@
 													<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="pageImage" member="yes">
 														<bitmap>/home/dylan/cpp/LibreScribe/res/page1.png</bitmap>
 													</object>
-													<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_BOTTOM</flag>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 													<border>5</border>
 													<option>1</option>
 												</object>
 											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM</flag>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 											<border>5</border>
 											<option>1</option>
 										</object>
@@ -100,8 +102,10 @@
 							<pos>35,20</pos>
 							<object class="wxBoxSizer" variable="audioTabContainer" member="no">
 								<object class="sizeritem">
-									<object class="wxListCtrl" name="ID_LISTCTRL1" variable="audioList" member="yes" />
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+									<object class="wxListCtrl" name="ID_LISTCTRL1" variable="audioList" member="yes">
+										<style>wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES</style>
+									</object>
+									<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 									<border>5</border>
 									<option>1</option>
 								</object>
@@ -114,8 +118,10 @@
 							<pos>138,16</pos>
 							<object class="wxBoxSizer" variable="appTabContainer" member="no">
 								<object class="sizeritem">
-									<object class="wxListCtrl" name="ID_LISTCTRL2" variable="appList" member="yes" />
-									<flag>wxALL|wxALIGN_TOP|wxALIGN_BOTTOM</flag>
+									<object class="wxListCtrl" name="ID_LISTCTRL2" variable="appList" member="yes">
+										<style>wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES</style>
+									</object>
+									<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 									<border>5</border>
 									<option>1</option>
 								</object>
