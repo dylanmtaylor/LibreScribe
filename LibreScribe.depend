@@ -2192,7 +2192,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305242635 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+1305242906 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	<wx/string.h>
@@ -2242,7 +2242,7 @@
 	<wx/imaglist.h>
 	<wx/thread.h>
 
-1305238404 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
+1305242970 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
@@ -2292,7 +2292,7 @@
 1305237880 /home/dylan/cpp/LibreScribe/NewFrame.h
 	<wx/frame.h>
 
-1305239545 source:/home/dylan/cpp/LibreScribe/DeviceInfo.cpp
+1305243051 source:/home/dylan/cpp/LibreScribe/DeviceInfo.cpp
 	"wx_pch.h"
 	"DeviceInfo.h"
 	<wx/string.h>

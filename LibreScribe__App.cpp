@@ -37,13 +37,10 @@ bool LibreScribe__App::OnInit() {
 	wxInitAllImageHandlers();
 	if ( wxsOK )
 	{
-		GUIFrame* Frame = new GUIFrame(0);
+		LibreScribe__Frame* Frame = new LibreScribe__Frame(0L);
 		Frame->Show();
 		SetTopWindow(Frame);
 	}
 	//*)
 	return wxsOK;
-    LibreScribe__Frame* frame = new LibreScribe__Frame(0L);
-    frame->Show();
-    return true;
 }
