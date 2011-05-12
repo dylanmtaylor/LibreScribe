@@ -61,8 +61,9 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	tabContainer->SetMinSize(wxSize(750,550));
 	pagesTab = new wxPanel(tabContainer, ID_PANEL1, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	pageTabContainer = new wxFlexGridSizer(1, 2, 0, 0);
-	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxDefaultSize, wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_DEFAULT_STYLE|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_TREECTRL1"));
+	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxSize(255,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_DEFAULT_STYLE|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_TREECTRL1"));
 	pageTree->SetMinSize(wxSize(255,-1));
+	pageTree->SetMaxSize(wxSize(255,-1));
 	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxSHAPED|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	pageBrowser = new wxFlexGridSizer(0, 1, 0, 0);
 	notebookToolbar = new wxGridSizer(1, 2, 0, 0);
@@ -85,14 +86,14 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	pageTabContainer->SetSizeHints(pagesTab);
 	audioTab = new wxPanel(tabContainer, ID_PANEL2, wxPoint(35,20), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	audioTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_LISTCTRL1"));
+	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER, wxDefaultValidator, _T("ID_LISTCTRL1"));
 	audioTabContainer->Add(audioList, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	audioTab->SetSizer(audioTabContainer);
 	audioTabContainer->Fit(audioTab);
 	audioTabContainer->SetSizeHints(audioTab);
 	appTab = new wxPanel(tabContainer, ID_PANEL3, wxPoint(138,16), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
 	appTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER, wxDefaultValidator, _T("ID_LISTCTRL2"));
 	appTabContainer->Add(appList, 1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
 	appTab->SetSizer(appTabContainer);
 	appTabContainer->Fit(appTab);
