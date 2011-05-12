@@ -8,6 +8,7 @@
 	//*)
 #endif
 //(*InternalHeaders(GUIFrame)
+#include <wx/font.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 //*)
@@ -46,35 +47,38 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	//(*Initialize(GUIFrame)
 	wxBoxSizer* audioTabContainer;
 	wxFlexGridSizer* pageTabContainer;
-	wxFlexGridSizer* notebookToolbar;
 	wxBoxSizer* pageViewerContainer;
 	wxBoxSizer* contentSizer;
 	wxFlexGridSizer* pageBrowser;
+	wxGridSizer* notebookToolbar;
 	wxBoxSizer* appTabContainer;
 	
 	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
 	SetClientSize(wxSize(750,550));
 	SetMinSize(wxSize(750,550));
 	contentSizer = new wxBoxSizer(wxHORIZONTAL);
-	tabContainer = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(750,550), 0, _T("ID_NOTEBOOK1"));
+	tabContainer = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(-1,550), 0, _T("ID_NOTEBOOK1"));
 	tabContainer->SetMinSize(wxSize(750,550));
 	pagesTab = new wxPanel(tabContainer, ID_PANEL1, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	pageTabContainer = new wxFlexGridSizer(0, 3, 0, 0);
+	pageTabContainer = new wxFlexGridSizer(1, 2, 0, 0);
 	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRL1"));
 	pageTree->SetMinSize(wxSize(255,-1));
 	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
 	pageBrowser = new wxFlexGridSizer(0, 1, 0, 0);
-	notebookToolbar = new wxFlexGridSizer(1, 2, 0, 0);
+	notebookToolbar = new wxGridSizer(1, 2, 0, 0);
 	notebookPageSize = new wxStaticText(pagesTab, ID_STATICTEXT1, _("A5"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-	notebookToolbar->Add(notebookPageSize, 1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
+	wxFont notebookPageSizeFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Sans"),wxFONTENCODING_DEFAULT);
+	notebookPageSize->SetFont(notebookPageSizeFont);
+	notebookToolbar->Add(notebookPageSize, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	notebookPageName = new wxStaticText(pagesTab, ID_STATICTEXT2, _("Tutorial"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
+	wxFont notebookPageNameFont(11,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
+	notebookPageName->SetFont(notebookPageNameFont);
+	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
-	pageBrowser->Add(0,0,1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
 	pageImage = new wxStaticBitmap(pagesTab, ID_STATICBITMAP1, wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/page1.png"))), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICBITMAP1"));
 	pageViewerContainer->Add(pageImage, 1, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
-	pageBrowser->Add(pageViewerContainer, 1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
+	pageBrowser->Add(pageViewerContainer, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM, 5);
 	pageTabContainer->Add(pageBrowser, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 5);
 	pagesTab->SetSizer(pageTabContainer);
 	pageTabContainer->Fit(pagesTab);
