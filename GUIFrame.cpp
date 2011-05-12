@@ -1,255 +1,131 @@
-///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2009)
-// http://www.wxformbuilder.org/
-//
-// PLEASE DO "NOT" EDIT THIS FILE!
-///////////////////////////////////////////////////////////////////////////
-
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
-
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif //WX_PRECOMP
-
+#include "wx_pch.h"
 #include "GUIFrame.h"
 
-///////////////////////////////////////////////////////////////////////////
+#ifndef WX_PRECOMP
+	//(*InternalHeadersPCH(GUIFrame)
+	#include <wx/string.h>
+	#include <wx/intl.h>
+	//*)
+#endif
+//(*InternalHeaders(GUIFrame)
+#include <wx/bitmap.h>
+#include <wx/image.h>
+//*)
 
-GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+//(*IdInit(GUIFrame)
+const long GUIFrame::ID_TREECTRL1 = wxNewId();
+const long GUIFrame::ID_PANEL1 = wxNewId();
+const long GUIFrame::ID_LISTCTRL1 = wxNewId();
+const long GUIFrame::ID_PANEL2 = wxNewId();
+const long GUIFrame::ID_LISTCTRL2 = wxNewId();
+const long GUIFrame::ID_PANEL3 = wxNewId();
+const long GUIFrame::ID_NOTEBOOK1 = wxNewId();
+const long GUIFrame::idMenuFilePrint = wxNewId();
+const long GUIFrame::idMenuFileDeletePages = wxNewId();
+const long GUIFrame::idMenuFileArchiveNotebook = wxNewId();
+const long GUIFrame::idMenuFileDeleteNotebok = wxNewId();
+const long GUIFrame::ID_MENUITEM7 = wxNewId();
+const long GUIFrame::idAboutMenuItem = wxNewId();
+const long GUIFrame::idToolbarRefresh = wxNewId();
+const long GUIFrame::idToolbarInfo = wxNewId();
+const long GUIFrame::idToolbarQuit = wxNewId();
+const long GUIFrame::ID_TOOLBAR1 = wxNewId();
+const long GUIFrame::ID_STATUSBAR1 = wxNewId();
+//*)
+
+BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
+	//(*EventTable(GUIFrame)
+	//*)
+END_EVENT_TABLE()
+
+GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
-	this->SetSizeHints( wxSize( 750,550 ), wxDefaultSize );
-	
-	menuBar = new wxMenuBar( 0 );
-	fileMenu = new wxMenu();
-	wxMenuItem* menuFilePrint;
-	menuFilePrint = new wxMenuItem( fileMenu, idMenuPrint, wxString( wxT("Print") ) + wxT('\t') + wxT("CTRL+P"), wxEmptyString, wxITEM_NORMAL );
-	fileMenu->Append( menuFilePrint );
-	menuFilePrint->Enable( false );
-	
-	wxMenuItem* m_separator1;
-	m_separator1 = fileMenu->AppendSeparator();
-	
-	wxMenuItem* menuFileDeletePages;
-	menuFileDeletePages = new wxMenuItem( fileMenu, idMenuDelete, wxString( wxT("Delete Page(s)") ) + wxT('\t') + wxT("CTRL-D"), wxEmptyString, wxITEM_NORMAL );
-	fileMenu->Append( menuFileDeletePages );
-	menuFileDeletePages->Enable( false );
-	
-	wxMenuItem* menuFileArchiveNotebook;
-	menuFileArchiveNotebook = new wxMenuItem( fileMenu, idMenuDelete, wxString( wxT("Archive Notebook") ) + wxT('\t') + wxT("CTRL-SHIFT-A"), wxEmptyString, wxITEM_NORMAL );
-	fileMenu->Append( menuFileArchiveNotebook );
-	menuFileArchiveNotebook->Enable( false );
-	
-	wxMenuItem* menuFileDeleteNotebook;
-	menuFileDeleteNotebook = new wxMenuItem( fileMenu, idMenuDelete, wxString( wxT("Delete Notebook") ) + wxT('\t') + wxT("CTRL-SHIFT-D"), wxEmptyString, wxITEM_NORMAL );
-	fileMenu->Append( menuFileDeleteNotebook );
-	menuFileDeleteNotebook->Enable( false );
-	
-	wxMenuItem* m_separator3;
-	m_separator3 = fileMenu->AppendSeparator();
-	
-	wxMenuItem* menuFileQuit;
-	menuFileQuit = new wxMenuItem( fileMenu, idMenuQuit, wxString( wxT("&Quit") ) + wxT('\t') + wxT("CTRL-Q"), wxT("Quit the application"), wxITEM_NORMAL );
-	fileMenu->Append( menuFileQuit );
-	
-	menuBar->Append( fileMenu, wxT("&File") );
-	
-	helpMenu = new wxMenu();
-	wxMenuItem* menuHelpAbout;
-	menuHelpAbout = new wxMenuItem( helpMenu, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
-	helpMenu->Append( menuHelpAbout );
-	
-	menuBar->Append( helpMenu, wxT("&Help") );
-	
-	this->SetMenuBar( menuBar );
-	
-	mainToolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
-	mainToolbar->AddTool( idToolbarRefresh, wxT("refresh"), wxBitmap( wxT("res/view-refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh Connection"), wxT("Scan for a compatible smartpen device.") );
-	mainToolbar->AddTool( idToolbarInfo, wxT("info"), wxBitmap( wxT("res/emblem-system.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Device Status"), wxT("Display connected smartpen device information.") );
-	mainToolbar->AddTool( idToolbarQuit, wxT("quit"), wxBitmap( wxT("res/process-stop.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Quit Smartpen Manager"), wxT("Quit this application.") );
-	mainToolbar->AddSeparator();
-	mainToolbar->Realize();
-	
-	statusBar = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
-	wxBoxSizer* contentSizer;
-	contentSizer = new wxBoxSizer( wxVERTICAL );
-	
-	tabContainer = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	pagesTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxFlexGridSizer* pageTabContainer;
-	pageTabContainer = new wxFlexGridSizer( 1, 2, 0, 0 );
-	pageTabContainer->SetFlexibleDirection( wxBOTH );
-	pageTabContainer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	pageTree = new wxTreeCtrl( pagesTab, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxTR_NO_BUTTONS|wxSIMPLE_BORDER );
-	pageTree->SetMinSize( wxSize( 225,-1 ) );
-	pageTree->SetMaxSize( wxSize( 225,-1 ) );
-	
-	pageTabContainer->Add( pageTree, 0, wxALL, 5 );
-	
-	wxFlexGridSizer* pageBrowser;
-	pageBrowser = new wxFlexGridSizer( 2, 2, 0, 0 );
-	pageBrowser->SetFlexibleDirection( wxBOTH );
-	pageBrowser->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxGridSizer* notebookToolbar;
-	notebookToolbar = new wxGridSizer( 1, 2, 0, 0 );
-	
-	notebookPageSize = new wxStaticText( pagesTab, wxID_ANY, wxT("A5"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
-	notebookPageSize->Wrap( -1 );
-	notebookPageSize->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
-	
-	notebookToolbar->Add( notebookPageSize, 0, wxALL, 5 );
-	
-	notebookName = new wxStaticText( pagesTab, wxID_ANY, wxT("Tutorial"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-	notebookName->Wrap( -1 );
-	notebookToolbar->Add( notebookName, 0, wxALL, 5 );
-	
-	pageBrowser->Add( notebookToolbar, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
-	
-	
-	pageBrowser->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	wxBoxSizer* pageViewerContainer;
-	pageViewerContainer = new wxBoxSizer( wxVERTICAL );
-	
-	pageImage = new wxStaticBitmap( pagesTab, wxID_ANY, wxBitmap( wxT("res/page1.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	pageViewerContainer->Add( pageImage, 0, wxALL, 5 );
-	
-	pageBrowser->Add( pageViewerContainer, 1, wxEXPAND, 5 );
-	
-	pageTabContainer->Add( pageBrowser, 1, wxEXPAND, 5 );
-	
-	pagesTab->SetSizer( pageTabContainer );
-	pagesTab->Layout();
-	pageTabContainer->Fit( pagesTab );
-	tabContainer->AddPage( pagesTab, wxT("Pages"), true );
-	audioTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	audioTab->Enable( false );
-	
+	//(*Initialize(GUIFrame)
 	wxBoxSizer* audioTabContainer;
-	audioTabContainer = new wxBoxSizer( wxVERTICAL );
-	
-	audioList = new wxListCtrl( audioTab, idAudioList, wxDefaultPosition, wxDefaultSize, wxLC_AUTOARRANGE|wxLC_HRULES|wxLC_REPORT|wxSTATIC_BORDER );
-	audioTabContainer->Add( audioList, 0, wxALIGN_LEFT|wxALIGN_TOP|wxALL|wxEXPAND, 5 );
-	
-	audioTab->SetSizer( audioTabContainer );
-	audioTab->Layout();
-	audioTabContainer->Fit( audioTab );
-	tabContainer->AddPage( audioTab, wxT("Audio"), false );
-	appTab = new wxPanel( tabContainer, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	appTab->Enable( false );
-	
+	wxFlexGridSizer* pageTabContainer;
+	wxBoxSizer* contentSizer;
+	wxFlexGridSizer* pageBrowser;
 	wxBoxSizer* appTabContainer;
-	appTabContainer = new wxBoxSizer( wxVERTICAL );
-	
-	appList = new wxListCtrl( appTab, idAppList, wxDefaultPosition, wxDefaultSize, wxLC_AUTOARRANGE|wxLC_HRULES|wxLC_REPORT );
-	appTabContainer->Add( appList, 0, wxALL|wxEXPAND|wxLEFT|wxTOP, 5 );
-	
-	appTab->SetSizer( appTabContainer );
-	appTab->Layout();
-	appTabContainer->Fit( appTab );
-	tabContainer->AddPage( appTab, wxT("Applications"), false );
-	
-	contentSizer->Add( tabContainer, 1, wxEXPAND | wxALL, 5 );
-	
-	this->SetSizer( contentSizer );
-	this->Layout();
-	
-	this->Centre( wxBOTH );
-	
-	// Connect Events
-	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
-	this->Connect( menuFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
-	this->Connect( menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
-	this->Connect( idToolbarRefresh, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRefresh ) );
-	this->Connect( idToolbarInfo, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnInfo ) );
-	this->Connect( idToolbarQuit, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+
+	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
+	SetClientSize(wxSize(750,550));
+	SetMinSize(wxSize(750,550));
+	contentSizer = new wxBoxSizer(wxHORIZONTAL);
+	tabContainer = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(750,550), 0, _T("ID_NOTEBOOK1"));
+	tabContainer->SetMinSize(wxSize(750,550));
+	pagesTab = new wxPanel(tabContainer, ID_PANEL1, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	pageTabContainer = new wxFlexGridSizer(0, 3, 0, 0);
+	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE, wxDefaultValidator, _T("ID_TREECTRL1"));
+	pageTree->SetMinSize(wxSize(255,-1));
+	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	pageBrowser = new wxFlexGridSizer(0, 3, 0, 0);
+	pageTabContainer->Add(pageBrowser, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	pagesTab->SetSizer(pageTabContainer);
+	pageTabContainer->Fit(pagesTab);
+	pageTabContainer->SetSizeHints(pagesTab);
+	audioTab = new wxPanel(tabContainer, ID_PANEL2, wxPoint(35,20), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
+	audioTabContainer = new wxBoxSizer(wxHORIZONTAL);
+	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_LISTCTRL1"));
+	audioTabContainer->Add(audioList, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	audioTab->SetSizer(audioTabContainer);
+	audioTabContainer->Fit(audioTab);
+	audioTabContainer->SetSizeHints(audioTab);
+	appTab = new wxPanel(tabContainer, ID_PANEL3, wxPoint(138,16), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+	appTabContainer = new wxBoxSizer(wxHORIZONTAL);
+	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	appTabContainer->Add(appList, 1, wxALL|wxALIGN_TOP|wxALIGN_BOTTOM, 5);
+	appTab->SetSizer(appTabContainer);
+	appTabContainer->Fit(appTab);
+	appTabContainer->SetSizeHints(appTab);
+	tabContainer->AddPage(pagesTab, _("Pages"), false);
+	tabContainer->AddPage(audioTab, _("Audio"), false);
+	tabContainer->AddPage(appTab, _("Applications"), false);
+	contentSizer->Add(tabContainer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	SetSizer(contentSizer);
+	menuBar = new wxMenuBar();
+	fileMenu = new wxMenu();
+	MenuItem2 = new wxMenuItem(fileMenu, idMenuFilePrint, _("&Print\tCtrl+P"), wxEmptyString, wxITEM_NORMAL);
+	fileMenu->Append(MenuItem2);
+	MenuItem2->Enable(false);
+	fileMenu->AppendSeparator();
+	MenuItem4 = new wxMenuItem(fileMenu, idMenuFileDeletePages, _("Delete &Page(s)\tCtrl+D"), wxEmptyString, wxITEM_NORMAL);
+	fileMenu->Append(MenuItem4);
+	MenuItem4->Enable(false);
+	MenuItem5 = new wxMenuItem(fileMenu, idMenuFileArchiveNotebook, _("&Archive Notebook\tShift+Ctrl+A"), wxEmptyString, wxITEM_NORMAL);
+	fileMenu->Append(MenuItem5);
+	MenuItem5->Enable(false);
+	MenuItem6 = new wxMenuItem(fileMenu, idMenuFileDeleteNotebok, _("&Delete Notebook\tShift+Ctrl+D"), wxEmptyString, wxITEM_NORMAL);
+	fileMenu->Append(MenuItem6);
+	MenuItem6->Enable(false);
+	fileMenu->AppendSeparator();
+	MenuItem8 = new wxMenuItem(fileMenu, ID_MENUITEM7, _("&Quit\tCtrl+Q"), wxEmptyString, wxITEM_NORMAL);
+	fileMenu->Append(MenuItem8);
+	menuBar->Append(fileMenu, _("&File"));
+	Menu1 = new wxMenu();
+	MenuItem1 = new wxMenuItem(Menu1, idAboutMenuItem, _("&About\tF1"), wxEmptyString, wxITEM_NORMAL);
+	Menu1->Append(MenuItem1);
+	menuBar->Append(Menu1, _("&Help"));
+	SetMenuBar(menuBar);
+	mainToolbar = new wxToolBar(this, ID_TOOLBAR1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL|wxNO_BORDER, _T("ID_TOOLBAR1"));
+	ToolBarItem1 = mainToolbar->AddTool(idToolbarRefresh, _("Refresh"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/view-refresh.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+	ToolBarItem2 = mainToolbar->AddTool(idToolbarInfo, _("Information"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/emblem-system.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+	quitButton = mainToolbar->AddTool(idToolbarQuit, _("Quit"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/process-stop.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+	mainToolbar->Realize();
+	SetToolBar(mainToolbar);
+	statusBar = new wxStatusBar(this, ID_STATUSBAR1, 0, _T("ID_STATUSBAR1"));
+	int __wxStatusBarWidths_1[2] = { -10, -10 };
+	int __wxStatusBarStyles_1[2] = { wxSB_NORMAL, wxSB_NORMAL };
+	statusBar->SetFieldsCount(2,__wxStatusBarWidths_1);
+	statusBar->SetStatusStyles(2,__wxStatusBarStyles_1);
+	SetStatusBar(statusBar);
+	contentSizer->SetSizeHints(this);
+	Center();
+	//*)
 }
 
 GUIFrame::~GUIFrame()
 {
-	// Disconnect Events
-	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
-	this->Disconnect( idToolbarRefresh, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRefresh ) );
-	this->Disconnect( idToolbarInfo, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnInfo ) );
-	this->Disconnect( idToolbarQuit, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	//(*Destroy(GUIFrame)
+	//*)
 }
 
-DeviceInfo::DeviceInfo( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
-{
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	
-	wxFlexGridSizer* mainSizer;
-	mainSizer = new wxFlexGridSizer( 2, 2, 0, 0 );
-	mainSizer->SetFlexibleDirection( wxBOTH );
-	mainSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	infoIcon = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("res/dialog-information-128.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	mainSizer->Add( infoIcon, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
-	
-	wxBoxSizer* dialogSizer;
-	dialogSizer = new wxBoxSizer( wxVERTICAL );
-	
-	deviceType = new wxStaticText( this, wxID_ANY, wxT("LightScribe Pulse(TM) Smartpen"), wxDefaultPosition, wxDefaultSize, 0 );
-	deviceType->Wrap( -1 );
-	deviceType->SetFont( wxFont( 13, 70, 90, 92, false, wxEmptyString ) );
-	
-	dialogSizer->Add( deviceType, 0, wxALIGN_LEFT|wxALL, 5 );
-	
-	wxFlexGridSizer* informationSizer;
-	informationSizer = new wxFlexGridSizer( 2, 2, 5, 15 );
-	informationSizer->SetFlexibleDirection( wxBOTH );
-	informationSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_NONE );
-	
-	nameLabel = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-	nameLabel->Wrap( -1 );
-	informationSizer->Add( nameLabel, 0, wxALL, 5 );
-	
-	deviceName = new wxStaticText( this, wxID_ANY, wxT("Dylan Taylor's Smartpen"), wxDefaultPosition, wxDefaultSize, 0 );
-	deviceName->Wrap( -1 );
-	informationSizer->Add( deviceName, 0, wxALL, 5 );
-	
-	batteryLabel = new wxStaticText( this, wxID_ANY, wxT("Battery:"), wxDefaultPosition, wxDefaultSize, 0 );
-	batteryLabel->Wrap( -1 );
-	informationSizer->Add( batteryLabel, 0, wxALL, 5 );
-	
-	batteryGauge = new wxGauge( this, wxID_ANY, 100, wxPoint( -1,-1 ), wxSize( 250,25 ), wxGA_HORIZONTAL );
-	batteryGauge->SetValue( 50 ); 
-	batteryGauge->SetFont( wxFont( 11, 74, 90, 90, false, wxT("Sans") ) );
-	batteryGauge->SetMinSize( wxSize( 250,25 ) );
-	batteryGauge->SetMaxSize( wxSize( 250,25 ) );
-	
-	informationSizer->Add( batteryGauge, 0, wxALL, 5 );
-	
-	storageLabel = new wxStaticText( this, wxID_ANY, wxT("Storage:"), wxDefaultPosition, wxDefaultSize, 0 );
-	storageLabel->Wrap( -1 );
-	informationSizer->Add( storageLabel, 0, wxALL, 5 );
-	
-	storageRemaining = new wxStaticText( this, wxID_ANY, wxT("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0 );
-	storageRemaining->Wrap( -1 );
-	informationSizer->Add( storageRemaining, 0, wxALL, 5 );
-	
-	dialogSizer->Add( informationSizer, 1, wxALIGN_TOP, 5 );
-	
-	mainSizer->Add( dialogSizer, 1, wxALIGN_CENTER|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 10 );
-	
-	this->SetSizer( mainSizer );
-	this->Layout();
-	
-	this->Centre( wxBOTH );
-	
-	// Connect Events
-	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( DeviceInfo::OnShowDialog ) );
-}
-
-DeviceInfo::~DeviceInfo()
-{
-	// Disconnect Events
-	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( DeviceInfo::OnShowDialog ) );
-}

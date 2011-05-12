@@ -17,6 +17,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DEVICEINFORMATION_H
 #define DEVICEINFORMATION_H
 #include "../GUIFrame.h"
+#include "../DeviceInfo.h"
 #include "Smartpen.h"
 #include <libudev.h>
 #include <libxml/tree.h>

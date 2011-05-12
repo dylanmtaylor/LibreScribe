@@ -2192,38 +2192,31 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305235001 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
-	"wx/wxprec.h"
-	<wx/wx.h>
+1305241667 source:/home/dylan/cpp/LibreScribe/GUIFrame.cpp
+	"wx_pch.h"
 	"GUIFrame.h"
-
-1305235001 /home/dylan/cpp/LibreScribe/GUIFrame.h
 	<wx/string.h>
+	<wx/intl.h>
 	<wx/bitmap.h>
 	<wx/image.h>
-	<wx/icon.h>
-	<wx/menu.h>
-	<wx/gdicmn.h>
-	<wx/font.h>
-	<wx/colour.h>
-	<wx/settings.h>
-	<wx/toolbar.h>
-	<wx/statusbr.h>
-	<wx/treectrl.h>
-	<wx/stattext.h>
-	<wx/sizer.h>
-	<wx/statbmp.h>
-	<wx/panel.h>
-	<wx/listctrl.h>
-	<wx/notebook.h>
-	<wx/frame.h>
-	<wx/gauge.h>
-	<wx/dialog.h>
 
-1304980864 source:/home/dylan/cpp/LibreScribe/LibreScribe__App.cpp
+1305241547 /home/dylan/cpp/LibreScribe/GUIFrame.h
+	<wx/toolbar.h>
+	<wx/sizer.h>
+	<wx/listctrl.h>
+	<wx/menu.h>
+	<wx/panel.h>
+	<wx/statusbr.h>
+	<wx/frame.h>
+	<wx/notebook.h>
+	<wx/treectrl.h>
+
+1305241756 source:/home/dylan/cpp/LibreScribe/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
 	"LibreScribe__Main.h"
+	"GUIFrame.h"
+	<wx/image.h>
 
 1304980864 /home/dylan/cpp/LibreScribe/wx_pch.h
 	<wx/wxprec.h>
@@ -2246,14 +2239,15 @@
 	<wx/imaglist.h>
 	<wx/thread.h>
 
-1305234654 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
+1305238404 source:/home/dylan/cpp/LibreScribe/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"
 	"Smartpen.h"
 
-1305235308 /home/dylan/cpp/LibreScribe/include/DeviceInformation.h
+1305238428 /home/dylan/cpp/LibreScribe/include/DeviceInformation.h
 	"../GUIFrame.h"
+	"../DeviceInfo.h"
 	"Smartpen.h"
 	<libudev.h>
 	<libxml/tree.h>
@@ -2285,4 +2279,29 @@
 
 1304980864 source:/home/dylan/cpp/LibreScribe/src/BackgroundMonitor.cpp
 	"../LibreScribe__Main.h"
+
+1305237881 source:/home/dylan/cpp/LibreScribe/NewFrame.cpp
+	"wx_pch.h"
+	"NewFrame.h"
+	<wx/string.h>
+	<wx/intl.h>
+
+1305237880 /home/dylan/cpp/LibreScribe/NewFrame.h
+	<wx/frame.h>
+
+1305239545 source:/home/dylan/cpp/LibreScribe/DeviceInfo.cpp
+	"wx_pch.h"
+	"DeviceInfo.h"
+	<wx/string.h>
+	<wx/intl.h>
+	<wx/font.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+
+1305239545 /home/dylan/cpp/LibreScribe/DeviceInfo.h
+	<wx/gauge.h>
+	<wx/dialog.h>
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/statbmp.h>
 
