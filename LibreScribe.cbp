@@ -85,7 +85,7 @@
 			<debugger />
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
-				<gui name="wxWidgets" src="LibreScribe__App.cpp" main="-- None --" init_handlers="necessary" language="CPP" />
+				<gui name="wxWidgets" src="LibreScribe__App.cpp" main="GUIFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/GUIFrame.wxs" src="GUIFrame.cpp" hdr="GUIFrame.h" name="GUIFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/DeviceInfo.wxs" src="DeviceInfo.cpp" hdr="DeviceInfo.h" name="DeviceInfo" language="CPP" />

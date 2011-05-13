@@ -25,6 +25,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "LibreScribe__App.h"
 #include "LibreScribe__Main.h"
 //(*AppHeaders
+#include "GUIFrame.h"
 #include <wx/image.h>
 //*)
 
@@ -34,6 +35,12 @@ bool LibreScribe__App::OnInit() {
 	//(*AppInitialize
 	bool wxsOK = true;
 	wxInitAllImageHandlers();
+	if ( wxsOK )
+	{
+		LibreScribe__Frame* Frame = new LibreScribe__Frame(0L);
+		Frame->Show();
+		SetTopWindow(Frame);
+	}
 	//*)
 	return wxsOK;
 }
