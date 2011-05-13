@@ -2327,7 +2327,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305319859 source:/home/dylan/LibreScribe/DeviceInfo.cpp
+1305320286 source:/home/dylan/LibreScribe/DeviceInfo.cpp
 	"wx_pch.h"
 	"DeviceInfo.h"
 	<wx/string.h>
@@ -2340,7 +2340,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305319887 /home/dylan/LibreScribe/DeviceInfo.h
+1305320286 /home/dylan/LibreScribe/DeviceInfo.h
 	<libudev.h>
 	<libxml/tree.h>
 	<libxml/parser.h>
@@ -2361,7 +2361,7 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305319647 /home/dylan/LibreScribe/GUIFrame.h
+1305320503 /home/dylan/LibreScribe/GUIFrame.h
 	"DeviceInfo.h"
 	"Smartpen.h"
 	<wx/toolbar.h>

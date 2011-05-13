@@ -79,30 +79,30 @@ class GUIFrame: public wxFrame
         BackgroundMonitor *m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
 		//(*Declarations(GUIFrame)
-		wxMenuItem* MenuItem2;
 		wxToolBarToolBase* devInfoButton;
-		wxMenuItem* MenuItem1;
 		wxStaticText* notebookPageName;
 		wxMenuBar* menuBar;
 		wxStatusBar* statusBar;
-		wxMenu* Menu1;
 		wxPanel* appTab;
+		wxMenuItem* deletePagesMenuItem;
 		wxTreeCtrl* pageTree;
 		wxListCtrl* appList;
 		wxPanel* audioTab;
 		wxPanel* pagesTab;
 		wxStaticText* notebookPageSize;
 		wxStaticBitmap* pageImage;
+		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
-		wxMenuItem* MenuItem5;
+		wxMenuItem* deleteNotebookMenuItem;
 		wxListCtrl* audioList;
 		wxMenu* fileMenu;
-		wxMenuItem* MenuItem6;
-		wxMenuItem* MenuItem4;
 		wxToolBarToolBase* quitButton;
 		wxToolBar* mainToolbar;
 		wxToolBarToolBase* refreshButton;
-		wxMenuItem* MenuItem8;
+		wxMenuItem* aboutMenuItem;
+		wxMenuItem* printMenuItem;
+		wxMenu* helpMenu;
+		wxMenuItem* archiveNotebookMenuItem;
 		//*)
 
 	protected:
