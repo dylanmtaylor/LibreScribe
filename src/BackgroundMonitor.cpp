@@ -1,4 +1,4 @@
-#include "../LibreScribe__Main.h"
+#include "../GUIFrame.h"
 
 struct udev *udev;
 struct udev_device *udevice;
