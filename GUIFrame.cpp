@@ -55,6 +55,7 @@ const long GUIFrame::idStatusBar = wxNewId();
 //*)
 
 struct usb_device *dev;
+wxImageList* treeImages;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
 	//(*EventTable(GUIFrame)
@@ -187,8 +188,6 @@ GUIFrame::~GUIFrame()
 	//(*Destroy(GUIFrame)
 	//*)
 }
-
-wxImageList* treeImages;
 
 void GUIFrame::setupPageHierarchy() {
     treeImages = new wxImageList(22,22,false,0);

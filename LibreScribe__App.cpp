@@ -23,7 +23,6 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #endif //__BORLANDC__
 
 #include "LibreScribe__App.h"
-#include "LibreScribe__Main.h"
 //(*AppHeaders
 #include "GUIFrame.h"
 #include <wx/image.h>
