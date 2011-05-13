@@ -30,14 +30,14 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 //*)
 
 //(*IdInit(DeviceInfo)
-const long DeviceInfo::ID_STATICBITMAP1 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT1 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT3 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT4 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT5 = wxNewId();
-const long DeviceInfo::ID_GAUGE1 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT6 = wxNewId();
-const long DeviceInfo::ID_STATICTEXT2 = wxNewId();
+const long DeviceInfo::idInformationIcon = wxNewId();
+const long DeviceInfo::idDeviceTypeText = wxNewId();
+const long DeviceInfo::idDeviceNameLabel = wxNewId();
+const long DeviceInfo::idDeviceName = wxNewId();
+const long DeviceInfo::idBatteryLabel = wxNewId();
+const long DeviceInfo::idBatteryRemainingGauge = wxNewId();
+const long DeviceInfo::idStorageLabel = wxNewId();
+const long DeviceInfo::idStorageRemaining = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(DeviceInfo,wxDialog)
@@ -57,28 +57,28 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
 	SetMinSize(wxSize(585,165));
 	SetMaxSize(wxSize(585,165));
 	mainSizer = new wxFlexGridSizer(0, 3, 0, 0);
-	infoIcon = new wxStaticBitmap(this, ID_STATICBITMAP1, wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/dialog-information-128.png")).Rescale(wxSize(128,128).GetWidth(),wxSize(128,128).GetHeight())), wxDefaultPosition, wxSize(128,128), 0, _T("ID_STATICBITMAP1"));
+	infoIcon = new wxStaticBitmap(this, idInformationIcon, wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/dialog-information-128.png")).Rescale(wxSize(128,128).GetWidth(),wxSize(128,128).GetHeight())), wxDefaultPosition, wxSize(128,128), 0, _T("idInformationIcon"));
 	mainSizer->Add(infoIcon, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	dialogSizer = new wxFlexGridSizer(0, 1, 0, 0);
-	deviceType = new wxStaticText(this, ID_STATICTEXT1, _("LightScribe Pulse(TM) Smartpen"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT, _T("ID_STATICTEXT1"));
+	deviceType = new wxStaticText(this, idDeviceTypeText, _("LightScribe Pulse(TM) Smartpen"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT, _T("idDeviceTypeText"));
 	wxFont deviceTypeFont(13,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Sans"),wxFONTENCODING_DEFAULT);
 	deviceType->SetFont(deviceTypeFont);
 	dialogSizer->Add(deviceType, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	informationSizer = new wxFlexGridSizer(2, 2, 0, 0);
-	nameLabel = new wxStaticText(this, ID_STATICTEXT3, _("Name:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	nameLabel = new wxStaticText(this, idDeviceNameLabel, _("Name:"), wxDefaultPosition, wxDefaultSize, 0, _T("idDeviceNameLabel"));
 	informationSizer->Add(nameLabel, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	deviceName = new wxStaticText(this, ID_STATICTEXT4, _("Dylan Taylor\'s Smartpen"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+	deviceName = new wxStaticText(this, idDeviceName, _("Dylan Taylor\'s Smartpen"), wxDefaultPosition, wxDefaultSize, 0, _T("idDeviceName"));
 	informationSizer->Add(deviceName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	batteryLabel = new wxStaticText(this, ID_STATICTEXT5, _("Battery:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
+	batteryLabel = new wxStaticText(this, idBatteryLabel, _("Battery:"), wxDefaultPosition, wxDefaultSize, 0, _T("idBatteryLabel"));
 	informationSizer->Add(batteryLabel, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	batteryGauge = new wxGauge(this, ID_GAUGE1, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_GAUGE1"));
+	batteryGauge = new wxGauge(this, idBatteryRemainingGauge, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("idBatteryRemainingGauge"));
 	batteryGauge->SetValue(50);
 	batteryGauge->SetMinSize(wxSize(250,25));
 	batteryGauge->SetMaxSize(wxSize(250,25));
 	informationSizer->Add(batteryGauge, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	storageLabel = new wxStaticText(this, ID_STATICTEXT6, _("Storage:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT6"));
+	storageLabel = new wxStaticText(this, idStorageLabel, _("Storage:"), wxDefaultPosition, wxDefaultSize, 0, _T("idStorageLabel"));
 	informationSizer->Add(storageLabel, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	storageRemaining = new wxStaticText(this, ID_STATICTEXT2, _("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
+	storageRemaining = new wxStaticText(this, idStorageRemaining, _("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0, _T("idStorageRemaining"));
 	informationSizer->Add(storageRemaining, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	dialogSizer->Add(informationSizer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	mainSizer->Add(dialogSizer, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 10);
