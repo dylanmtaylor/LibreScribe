@@ -1,6 +1,7 @@
 #ifndef GUIFRAME_H
 #define GUIFRAME_H
-
+#include "DeviceInformation.h"
+#include "Smartpen.h"
 #ifndef WX_PRECOMP
 	//(*HeadersPCH(GUIFrame)
 	#include <wx/toolbar.h>
@@ -25,7 +26,7 @@ class GUIFrame: public wxFrame
 
 		GUIFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~GUIFrame();
-
+        void doRefreshDeviceState();
 		//(*Declarations(GUIFrame)
 		wxMenuItem* MenuItem2;
 		wxMenuItem* MenuItem1;
@@ -55,36 +56,40 @@ class GUIFrame: public wxFrame
 
 	protected:
 
-		//(*Identifiers(GUIFrame)
-		static const long ID_TREECTRL1;
-		static const long ID_STATICTEXT1;
-		static const long ID_STATICTEXT2;
-		static const long ID_STATICBITMAP1;
-		static const long ID_PANEL1;
-		static const long ID_LISTCTRL1;
-		static const long ID_PANEL2;
-		static const long ID_LISTCTRL2;
-		static const long ID_PANEL3;
-		static const long ID_NOTEBOOK1;
-		static const long idMenuFilePrint;
-		static const long idMenuFileDeletePages;
-		static const long idMenuFileArchiveNotebook;
-		static const long idMenuFileDeleteNotebok;
-		static const long ID_MENUITEM7;
-		static const long idAboutMenuItem;
-		static const long idToolbarRefresh;
-		static const long idToolbarInfo;
-		static const long idToolbarQuit;
-		static const long ID_TOOLBAR1;
-		static const long ID_STATUSBAR1;
-		//*)
+        //(*Identifiers(GUIFrame)
+        static const long ID_TREECTRL1;
+        static const long ID_STATICTEXT1;
+        static const long ID_STATICTEXT2;
+        static const long ID_STATICBITMAP1;
+        static const long ID_PANEL1;
+        static const long ID_LISTCTRL1;
+        static const long ID_PANEL2;
+        static const long ID_LISTCTRL2;
+        static const long ID_PANEL3;
+        static const long ID_NOTEBOOK1;
+        static const long idMenuFilePrint;
+        static const long idMenuFileDeletePages;
+        static const long idMenuFileArchiveNotebook;
+        static const long idMenuFileDeleteNotebok;
+        static const long ID_MENUITEM7;
+        static const long idAboutMenuItem;
+        static const long idToolbarRefresh;
+        static const long idToolbarInfo;
+        static const long idToolbarQuit;
+        static const long ID_TOOLBAR1;
+        static const long ID_STATUSBAR1;
+        //*)
 
 	private:
 
 		//(*Handlers(GUIFrame)
+		void OnRefresh(wxCommandEvent& event);
+		void OnInfo(wxCommandEvent& event);
+		void OnQuit(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
+        uint16_t refreshDeviceState();
 };
 
 #endif

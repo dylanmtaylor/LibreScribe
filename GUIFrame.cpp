@@ -37,6 +37,8 @@ const long GUIFrame::ID_TOOLBAR1 = wxNewId();
 const long GUIFrame::ID_STATUSBAR1 = wxNewId();
 //*)
 
+struct usb_device *dev;
+
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
 	//(*EventTable(GUIFrame)
 	//*)
@@ -52,7 +54,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	wxFlexGridSizer* pageBrowser;
 	wxGridSizer* notebookToolbar;
 	wxBoxSizer* appTabContainer;
-	
+
 	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
 	SetClientSize(wxSize(750,550));
 	SetMinSize(wxSize(750,550));
@@ -141,6 +143,11 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	SetStatusBar(statusBar);
 	contentSizer->SetSizeHints(this);
 	Center();
+
+	Connect(ID_MENUITEM7,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
+	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
+	Connect(idToolbarInfo,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnInfo);
+	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	//*)
 }
 
@@ -148,4 +155,76 @@ GUIFrame::~GUIFrame()
 {
 	//(*Destroy(GUIFrame)
 	//*)
+}
+
+uint16_t GUIFrame::refreshDeviceState() {
+    printf("Searching for your Smartpen... ");
+    dev = findSmartpen();
+    if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
+        printf("Sorry! No compatible smartpen device found!\n");
+        return 0x0000;
+    } else {
+        if (dev->descriptor.idProduct == LS_PULSE) {
+            printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
+        } else if (dev->descriptor.idProduct == LS_ECHO) {
+            printf("LiveScribe Echo(TM) Smartpen Detected!\n");
+        } else {
+            printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
+        }
+        return dev->descriptor.idProduct;
+    }
+}
+
+void GUIFrame::doRefreshDeviceState() {
+    printf("Searching for your Smartpen... ");
+    statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
+    //uint16_t result = refreshDeviceState();
+    try {
+        dev = findSmartpen();
+        if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
+            this->mainToolbar->EnableTool(idToolbarInfo,false);
+            printf("Sorry! No compatible smartpen device found!\n");
+            statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
+        } else {
+            this->mainToolbar->EnableTool(idToolbarInfo,true);
+            if (dev->descriptor.idProduct == LS_PULSE) {
+                statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
+                printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
+            } else if (dev->descriptor.idProduct == LS_ECHO) {
+                statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
+                printf("LiveScribe Echo(TM) Smartpen Detected!\n");
+            } else {
+                statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
+                printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
+            }
+        }
+    } catch(...) {
+        printf("Failed to search for your Smartpen\n");
+    }
+    return;
+}
+
+void GUIFrame::OnRefresh(wxCommandEvent& event)
+{
+    doRefreshDeviceState();
+}
+
+void GUIFrame::OnInfo(wxCommandEvent& event)
+{
+    doRefreshDeviceState();
+    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+    if (handle != NULL) {
+        wxString deviceName("My Smartpen", wxConvUTF8);
+        DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+        printf("attempting to show device information dialog\n");
+        d.ShowModal(); //display the information dialog
+        printf("dialog was displayed without a problem\n");
+    } else {
+        wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
+    }
+}
+
+void GUIFrame::OnQuit(wxCommandEvent& event)
+{
+    Destroy();
 }

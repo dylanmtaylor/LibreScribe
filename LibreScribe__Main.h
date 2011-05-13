@@ -63,8 +63,6 @@ class LibreScribe__Frame: public GUIFrame
     public:
         LibreScribe__Frame(wxFrame *frame);
         ~LibreScribe__Frame();
-        void doRefreshDeviceState();
-        uint16_t refreshDeviceState();
         BackgroundMonitor *m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
         void addAudioClipToList(audioClipInfo info);
@@ -74,8 +72,6 @@ class LibreScribe__Frame: public GUIFrame
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
-        virtual void OnRefresh(wxCommandEvent& event);
-        virtual void OnInfo(wxCommandEvent& event);
         void setupPageHierarchy();
         void setupLists();
 };
