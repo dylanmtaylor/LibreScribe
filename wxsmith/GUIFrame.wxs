@@ -10,11 +10,11 @@
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxBoxSizer" variable="contentSizer" member="no">
 			<object class="sizeritem">
-				<object class="wxNotebook" name="ID_NOTEBOOK1" variable="tabContainer" member="yes">
+				<object class="wxNotebook" name="idTabContainer" variable="tabContainer" member="yes">
 					<size>-1,550</size>
 					<minsize>750,550</minsize>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL1" variable="pagesTab" member="yes">
+						<object class="wxPanel" name="idPagesTab" variable="pagesTab" member="yes">
 							<pos>13,75</pos>
 							<object class="wxFlexGridSizer" variable="pageTabContainer" member="no">
 								<cols>2</cols>
@@ -99,7 +99,7 @@
 						<label>Pages</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL2" variable="audioTab" member="yes">
+						<object class="wxPanel" name="idAudioTab" variable="audioTab" member="yes">
 							<pos>35,20</pos>
 							<object class="wxBoxSizer" variable="audioTabContainer" member="no">
 								<object class="sizeritem">
@@ -115,7 +115,7 @@
 						<label>Audio</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL3" variable="appTab" member="yes">
+						<object class="wxPanel" name="idAppTab" variable="appTab" member="yes">
 							<pos>138,16</pos>
 							<object class="wxBoxSizer" variable="appTabContainer" member="no">
 								<object class="sizeritem">
@@ -176,7 +176,7 @@
 				</object>
 			</object>
 		</object>
-		<object class="wxToolBar" name="ID_TOOLBAR1" variable="mainToolbar" member="yes">
+		<object class="wxToolBar" name="idMainToolbar" variable="mainToolbar" member="yes">
 			<object class="tool" name="idToolbarRefresh" variable="refreshButton" member="yes">
 				<label>Refresh</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/view-refresh.png</bitmap>
