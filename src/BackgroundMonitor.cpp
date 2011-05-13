@@ -32,9 +32,7 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
     mon = udev_monitor_new_from_netlink(udev, "udev");
     udev_monitor_enable_receiving(mon);
     fd = udev_monitor_get_fd(mon);
-    //usleep(5000000);
-    //wxMessageBox(_("Hello from the background monitor thread!"));
-    //m_pHandler->doRefreshDeviceState();
+
     while (!TestDestroy()) {
         //wxMessageBox(_("Hello from the background monitor thread!"));
         //This constantly runs as a thread in the background, checking to see if devices are added/removed
@@ -54,7 +52,6 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
                 wxMutexGuiEnter();
                 m_pHandler->doRefreshDeviceState();
                 wxMutexGuiLeave();
-                //m_pHandler->refreshDeviceState();
             } catch(...) {
                 printf("Error refreshing device state");
             }
