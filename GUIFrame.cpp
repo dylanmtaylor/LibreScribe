@@ -52,7 +52,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	wxFlexGridSizer* pageBrowser;
 	wxGridSizer* notebookToolbar;
 	wxBoxSizer* appTabContainer;
-	
+
 	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
 	SetClientSize(wxSize(750,550));
 	SetMinSize(wxSize(750,550));
@@ -149,4 +149,3 @@ GUIFrame::~GUIFrame()
 	//(*Destroy(GUIFrame)
 	//*)
 }
-
