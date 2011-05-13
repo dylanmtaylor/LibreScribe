@@ -68,10 +68,8 @@
 		<Unit filename="LibreScribe.cpp" />
 		<Unit filename="LibreScribe.h" />
 		<Unit filename="WxWizFrame.fbp" />
-		<Unit filename="include/DeviceInformation.h" />
 		<Unit filename="include/Smartpen.h" />
 		<Unit filename="src/BackgroundMonitor.cpp" />
-		<Unit filename="src/DeviceInformation.cpp" />
 		<Unit filename="src/Smartpen.cpp" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
