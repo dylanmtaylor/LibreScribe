@@ -112,12 +112,12 @@ class GUIFrame: public wxFrame
         static const long ID_STATICTEXT1;
         static const long ID_STATICTEXT2;
         static const long ID_STATICBITMAP1;
-        static const long ID_PANEL1;
+        static const long idPagesTab;
         static const long ID_LISTCTRL1;
-        static const long ID_PANEL2;
+        static const long idAudioTab;
         static const long ID_LISTCTRL2;
-        static const long ID_PANEL3;
-        static const long ID_NOTEBOOK1;
+        static const long idAppTab;
+        static const long idTabContainer;
         static const long idMenuFilePrint;
         static const long idMenuFileDeletePages;
         static const long idMenuFileArchiveNotebook;
@@ -127,7 +127,7 @@ class GUIFrame: public wxFrame
         static const long idToolbarRefresh;
         static const long idToolbarInfo;
         static const long idToolbarQuit;
-        static const long ID_TOOLBAR1;
+        static const long idMainToolbar;
         static const long idStatusBar;
         //*)
 
