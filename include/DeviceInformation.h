@@ -37,7 +37,7 @@ public:
         int freeBytes = getFreeBytes(cur);
         int totalBytes = getTotalBytes(cur);
         char fs[256];
-        sprintf(fs, "%d of %d bytes remaining.\n\0",freeBytes,totalBytes); //stores formatted string in fs
+        sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
         printf("%s",fs); //displays fs on stdout
         printf("Setting device name label\n");
         deviceName->SetLabel(devName);
