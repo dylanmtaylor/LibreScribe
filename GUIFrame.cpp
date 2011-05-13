@@ -130,8 +130,8 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	menuBar->Append(Menu1, _("&Help"));
 	SetMenuBar(menuBar);
 	mainToolbar = new wxToolBar(this, ID_TOOLBAR1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL|wxNO_BORDER, _T("ID_TOOLBAR1"));
-	ToolBarItem1 = mainToolbar->AddTool(idToolbarRefresh, _("Refresh"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/view-refresh.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
-	ToolBarItem2 = mainToolbar->AddTool(idToolbarInfo, _("Information"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/emblem-system.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+	refreshButton = mainToolbar->AddTool(idToolbarRefresh, _("Refresh"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/view-refresh.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+	devInfoButton = mainToolbar->AddTool(idToolbarInfo, _("Information"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/emblem-system.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
 	quitButton = mainToolbar->AddTool(idToolbarQuit, _("Quit"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/process-stop.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
 	mainToolbar->Realize();
 	SetToolBar(mainToolbar);
