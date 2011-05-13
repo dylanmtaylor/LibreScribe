@@ -29,6 +29,7 @@ class GUIFrame: public wxFrame
         void doRefreshDeviceState();
 		//(*Declarations(GUIFrame)
 		wxMenuItem* MenuItem2;
+		wxToolBarToolBase* devInfoButton;
 		wxMenuItem* MenuItem1;
 		wxStaticText* notebookPageName;
 		wxMenuBar* menuBar;
@@ -40,17 +41,16 @@ class GUIFrame: public wxFrame
 		wxPanel* audioTab;
 		wxPanel* pagesTab;
 		wxStaticText* notebookPageSize;
-		wxToolBarToolBase* ToolBarItem2;
 		wxStaticBitmap* pageImage;
 		wxNotebook* tabContainer;
 		wxMenuItem* MenuItem5;
 		wxListCtrl* audioList;
-		wxToolBarToolBase* ToolBarItem1;
 		wxMenu* fileMenu;
 		wxMenuItem* MenuItem6;
 		wxMenuItem* MenuItem4;
 		wxToolBarToolBase* quitButton;
 		wxToolBar* mainToolbar;
+		wxToolBarToolBase* refreshButton;
 		wxMenuItem* MenuItem8;
 		//*)
 

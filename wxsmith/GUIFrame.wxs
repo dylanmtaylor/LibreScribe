@@ -176,12 +176,12 @@
 			</object>
 		</object>
 		<object class="wxToolBar" name="ID_TOOLBAR1" variable="mainToolbar" member="yes">
-			<object class="tool" name="idToolbarRefresh" variable="ToolBarItem1" member="yes">
+			<object class="tool" name="idToolbarRefresh" variable="refreshButton" member="yes">
 				<label>Refresh</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/view-refresh.png</bitmap>
 				<handler function="OnRefresh" entry="EVT_TOOL" />
 			</object>
-			<object class="tool" name="idToolbarInfo" variable="ToolBarItem2" member="yes">
+			<object class="tool" name="idToolbarInfo" variable="devInfoButton" member="yes">
 				<label>Information</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/emblem-system.png</bitmap>
 				<handler function="OnInfo" entry="EVT_TOOL" />
