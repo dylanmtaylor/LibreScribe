@@ -65,8 +65,8 @@
 		<Unit filename="DeviceInfo.h" />
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
-		<Unit filename="LibreScribe__App.cpp" />
-		<Unit filename="LibreScribe__App.h" />
+		<Unit filename="LibreScribe.cpp" />
+		<Unit filename="LibreScribe.h" />
 		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="include/DeviceInformation.h" />
 		<Unit filename="include/Smartpen.h" />

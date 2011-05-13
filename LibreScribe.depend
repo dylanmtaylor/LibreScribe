@@ -2323,11 +2323,11 @@
 	"wx/sashwin.h"
 	"wx/event.h"
 
-1305314588 source:/home/dylan/LibreScribe/wx_pch.h
+1305318232 source:/home/dylan/LibreScribe/wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305314588 source:/home/dylan/LibreScribe/DeviceInfo.cpp
+1305318171 source:/home/dylan/LibreScribe/DeviceInfo.cpp
 	"wx_pch.h"
 	"DeviceInfo.h"
 	<wx/string.h>
@@ -2336,11 +2336,11 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305314588 /home/dylan/LibreScribe/wx_pch.h
+1305318232 /home/dylan/LibreScribe/wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1305315044 /home/dylan/LibreScribe/DeviceInfo.h
+1305318209 /home/dylan/LibreScribe/DeviceInfo.h
 	<wx/gauge.h>
 	<wx/dialog.h>
 	<wx/sizer.h>
@@ -2357,7 +2357,7 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305317836 /home/dylan/LibreScribe/GUIFrame.h
+1305318219 /home/dylan/LibreScribe/GUIFrame.h
 	"DeviceInformation.h"
 	"Smartpen.h"
 	<wx/toolbar.h>
@@ -2420,8 +2420,8 @@
 	<arpa/inet.h>
 	<usb.h>
 
-1305314588 source:/home/dylan/LibreScribe/src/BackgroundMonitor.cpp
-	"../LibreScribe__Main.h"
+1305318158 source:/home/dylan/LibreScribe/src/BackgroundMonitor.cpp
+	"../GUIFrame.h"
 
 1305314588 source:/home/dylan/LibreScribe/src/DeviceInformation.cpp
 	"DeviceInformation.h"
