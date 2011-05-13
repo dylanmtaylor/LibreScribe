@@ -191,6 +191,7 @@
 			<fields>2</fields>
 			<widths>-10,-10</widths>
 			<styles>wxSB_NORMAL,wxSB_NORMAL</styles>
+			<style>wxST_SIZEGRIP</style>
 		</object>
 	</object>
 </wxsmith>

@@ -133,7 +133,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	quitButton = mainToolbar->AddTool(idToolbarQuit, _("Quit"), wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/process-stop.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
 	mainToolbar->Realize();
 	SetToolBar(mainToolbar);
-	statusBar = new wxStatusBar(this, ID_STATUSBAR1, 0, _T("ID_STATUSBAR1"));
+	statusBar = new wxStatusBar(this, ID_STATUSBAR1, wxST_SIZEGRIP, _T("ID_STATUSBAR1"));
 	int __wxStatusBarWidths_1[2] = { -10, -10 };
 	int __wxStatusBarStyles_1[2] = { wxSB_NORMAL, wxSB_NORMAL };
 	statusBar->SetFieldsCount(2,__wxStatusBarWidths_1);
