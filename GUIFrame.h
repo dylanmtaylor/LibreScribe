@@ -2,12 +2,6 @@
 #define GUIFRAME_H
 #include "DeviceInformation.h"
 #include "Smartpen.h"
-#include <glib-2.0/glib.h>
-#include <libudev.h>
-#include "LibreScribe__App.h"
-#include "GUIFrame.h"
-#include <wx/imaglist.h>
-#include <wx/thread.h>
 uint16_t refreshDeviceState();
 #ifndef WX_PRECOMP
 	//(*HeadersPCH(GUIFrame)
@@ -22,6 +16,8 @@ uint16_t refreshDeviceState();
 	#include <wx/statbmp.h>
 	//*)
 #endif
+#include <wx/imaglist.h>
+#include <wx/thread.h>
 //(*Headers(GUIFrame)
 #include <wx/notebook.h>
 #include <wx/treectrl.h>

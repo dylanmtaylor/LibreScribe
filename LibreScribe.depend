@@ -2347,7 +2347,7 @@
 	<wx/stattext.h>
 	<wx/statbmp.h>
 
-1305317522 source:/home/dylan/LibreScribe/GUIFrame.cpp
+1305317758 source:/home/dylan/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	"wx_pch.h"
@@ -2357,15 +2357,9 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305317599 /home/dylan/LibreScribe/GUIFrame.h
+1305317836 /home/dylan/LibreScribe/GUIFrame.h
 	"DeviceInformation.h"
 	"Smartpen.h"
-	<glib-2.0/glib.h>
-	<libudev.h>
-	"LibreScribe__App.h"
-	"GUIFrame.h"
-	<wx/imaglist.h>
-	<wx/thread.h>
 	<wx/toolbar.h>
 	<wx/sizer.h>
 	<wx/listctrl.h>
@@ -2375,13 +2369,14 @@
 	<wx/frame.h>
 	<wx/stattext.h>
 	<wx/statbmp.h>
+	<wx/imaglist.h>
+	<wx/thread.h>
 	<wx/notebook.h>
 	<wx/treectrl.h>
 
-1305315224 source:/home/dylan/LibreScribe/LibreScribe__App.cpp
+1305317694 source:/home/dylan/LibreScribe/LibreScribe__App.cpp
 	"wx_pch.h"
 	"LibreScribe__App.h"
-	"LibreScribe__Main.h"
 	"GUIFrame.h"
 	<wx/image.h>
 
