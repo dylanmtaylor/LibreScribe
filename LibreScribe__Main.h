@@ -70,8 +70,6 @@ class LibreScribe__Frame: public GUIFrame
     private:
         void StartBackgroundMonitor();
         virtual void OnClose(wxCloseEvent& event);
-        virtual void OnQuit(wxCommandEvent& event);
-        virtual void OnAbout(wxCommandEvent& event);
         void setupPageHierarchy();
         void setupLists();
 };
