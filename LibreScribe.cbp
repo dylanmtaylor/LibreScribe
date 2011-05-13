@@ -61,6 +61,8 @@
 			<Add library="xml2" />
 			<Add library="udev" />
 		</Linker>
+		<Unit filename="DeviceInfo.cpp" />
+		<Unit filename="DeviceInfo.h" />
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="LibreScribe__App.cpp" />
