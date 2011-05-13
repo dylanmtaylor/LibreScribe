@@ -45,7 +45,7 @@ BEGIN_EVENT_TABLE(DeviceInfo,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
-DeviceInfo::DeviceInfo(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
+DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, obex_t *handle, wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(DeviceInfo)
 	wxFlexGridSizer* mainSizer;
@@ -85,11 +85,128 @@ DeviceInfo::DeviceInfo(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
 	//*)
+    device_handle = handle;
+    char* s = smartpen_get_peninfo(device_handle);
+    printf("%s\n",s);
+    xmlDocPtr doc = xmlParseMemory(s, strlen(s));
+    xmlNode *cur = xmlDocGetRootElement(doc);
+    int batteryLevel = getBatteryRemaining(cur);
+    printf("batteryLevel: %d\n", batteryLevel);
+    batteryGauge->SetValue(batteryLevel);
+    int freeBytes = getFreeBytes(cur);
+    int totalBytes = getTotalBytes(cur);
+    char fs[256];
+    sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
+    printf("%s",fs); //displays fs on stdout
+    printf("Setting device name label\n");
+    deviceName->SetLabel(devName);
+    if (productID == LS_PULSE) {
+        deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
+    } else if (productID == LS_ECHO) {
+        deviceType->SetLabel(_("LiveScribe Echo(TM) Smartpen"));
+    } else {
+        deviceType->SetLabel(_("Unknown LiveScribe Device"));
+        printf("Unable to determine device type\n");
+    }
+    printf("device name label set, setting battery gauge value\n");
+    printf("battery gauge value set, setting storage remaining label\n");
+    wxString freeSpace(fs, wxConvUTF8);
+    storageRemaining->SetLabel(freeSpace);
+    printf("storage remaining label set, disconnecting device\n");
+    smartpen_disconnect(device_handle);
+    printf("success! we made it through the device information constructor unscathed!\n");
 }
 
 DeviceInfo::~DeviceInfo()
 {
+    smartpen_disconnect(device_handle);
 	//(*Destroy(DeviceInfo)
 	//*)
+}
+
+//This function will strip out all non-numeric characters from a char*
+int stripNonNumericChars(char* s) {
+    int res;
+    bool success = sscanf(s, "%d%%", &res) == 1;
+    return res;
+}
+
+static void showStorageInformation(xmlNode * a_node) {
+    xmlNode *cur_node = NULL;
+    //scan for battery element
+    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
+        if (cur_node->type == XML_ELEMENT_NODE) {
+            if (strcmp((const char*)cur_node->name,"memory") == 0) {
+                //printf("node type: Element, name: %s\n", cur_node->name);
+                char* free = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
+                char* total = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
+                printf("Storage: %.02f of %.02f MB remaining\n", ((float)atoi(free)/(float)1048576), ((float)atoi(total)/(float)1048576));
+                return;
+            }
+        }
+        showStorageInformation(cur_node->children);
+    }
+}
+
+static void showBatteryStatistics(xmlNode * a_node) {
+    xmlNode *cur_node = NULL;
+    //scan for battery element
+    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
+        if (cur_node->type == XML_ELEMENT_NODE) {
+            if (strcmp((const char*)cur_node->name,"battery") == 0) {
+                //printf("node type: Element, name: %s\n", cur_node->name);
+                char* voltage = (char*)xmlGetProp(cur_node, (const xmlChar*)"voltage");
+                char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
+                printf("Battery Level: %s, Voltage: %s\n", level, voltage);
+                return;
+            }
+        }
+        showBatteryStatistics(cur_node->children);
+    }
+}
+
+//searches through a node until an element with the specified node is detected.
+xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
+    for(xmlNode *cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
+        if (cur_node->type == XML_ELEMENT_NODE  && !xmlStrcmp(cur_node->name, node)) {
+            return cur_node;
+        }
+    }
+}
+
+float DeviceInfo::getBatteryVoltage(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "battery" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "battery" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"battery");
+    char* voltage = (char*)xmlGetProp(cur_node, (const xmlChar*)"voltage");
+    return stripNonNumericChars(voltage);
+}
+
+int DeviceInfo::getBatteryRemaining(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "battery" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "battery" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"battery");
+    char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
+    return stripNonNumericChars(level);
+}
+
+long long int DeviceInfo::getFreeBytes(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "memory" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
+    char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
+    return stripNonNumericChars(bytes);
+}
+
+long long int DeviceInfo::getTotalBytes(xmlNode *root) {
+    //first we need to locate the "peninfo" node which contains the "memory" node
+    xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
+    //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
+    cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
+    char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
+    return stripNonNumericChars(bytes);
 }
 

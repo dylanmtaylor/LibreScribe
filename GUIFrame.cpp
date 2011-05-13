@@ -333,7 +333,7 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
     obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
     if (handle != NULL) {
         wxString deviceName("My Smartpen", wxConvUTF8);
-        DeviceInformation d(this, deviceName,dev->descriptor.idProduct,handle);
+        DeviceInfo d(this, deviceName,dev->descriptor.idProduct,handle);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");

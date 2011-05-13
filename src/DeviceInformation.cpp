@@ -23,10 +23,6 @@ int stripNonNumericChars(char* s) {
     return res;
 }
 
-DeviceInformation::~DeviceInformation() {
-    smartpen_disconnect(device_handle);
-}
-
 static void showStorageInformation(xmlNode * a_node) {
     xmlNode *cur_node = NULL;
     //scan for battery element
