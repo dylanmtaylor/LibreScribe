@@ -160,7 +160,7 @@
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
-				<object class="wxMenuItem" name="ID_MENUITEM7" variable="MenuItem8" member="yes">
+				<object class="wxMenuItem" name="idMenuFileQuit" variable="MenuItem8" member="yes">
 					<label>&amp;Quit</label>
 					<accel>Ctrl+Q</accel>
 					<handler function="OnQuit" entry="EVT_MENU" />
@@ -168,9 +168,10 @@
 			</object>
 			<object class="wxMenu" variable="Menu1" member="yes">
 				<label>&amp;Help</label>
-				<object class="wxMenuItem" name="idAboutMenuItem" variable="MenuItem1" member="yes">
+				<object class="wxMenuItem" name="idMenuHelpAbout" variable="MenuItem1" member="yes">
 					<label>&amp;About</label>
 					<accel>F1</accel>
+					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>
 		</object>

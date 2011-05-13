@@ -71,8 +71,8 @@ class GUIFrame: public wxFrame
         static const long idMenuFileDeletePages;
         static const long idMenuFileArchiveNotebook;
         static const long idMenuFileDeleteNotebok;
-        static const long ID_MENUITEM7;
-        static const long idAboutMenuItem;
+        static const long idMenuFileQuit;
+        static const long idMenuHelpAbout;
         static const long idToolbarRefresh;
         static const long idToolbarInfo;
         static const long idToolbarQuit;

@@ -28,8 +28,8 @@ const long GUIFrame::idMenuFilePrint = wxNewId();
 const long GUIFrame::idMenuFileDeletePages = wxNewId();
 const long GUIFrame::idMenuFileArchiveNotebook = wxNewId();
 const long GUIFrame::idMenuFileDeleteNotebok = wxNewId();
-const long GUIFrame::ID_MENUITEM7 = wxNewId();
-const long GUIFrame::idAboutMenuItem = wxNewId();
+const long GUIFrame::idMenuFileQuit = wxNewId();
+const long GUIFrame::idMenuHelpAbout = wxNewId();
 const long GUIFrame::idToolbarRefresh = wxNewId();
 const long GUIFrame::idToolbarInfo = wxNewId();
 const long GUIFrame::idToolbarQuit = wxNewId();
@@ -121,11 +121,11 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	fileMenu->Append(MenuItem6);
 	MenuItem6->Enable(false);
 	fileMenu->AppendSeparator();
-	MenuItem8 = new wxMenuItem(fileMenu, ID_MENUITEM7, _("&Quit\tCtrl+Q"), wxEmptyString, wxITEM_NORMAL);
+	MenuItem8 = new wxMenuItem(fileMenu, idMenuFileQuit, _("&Quit\tCtrl+Q"), wxEmptyString, wxITEM_NORMAL);
 	fileMenu->Append(MenuItem8);
 	menuBar->Append(fileMenu, _("&File"));
 	Menu1 = new wxMenu();
-	MenuItem1 = new wxMenuItem(Menu1, idAboutMenuItem, _("&About\tF1"), wxEmptyString, wxITEM_NORMAL);
+	MenuItem1 = new wxMenuItem(Menu1, idMenuHelpAbout, _("&About\tF1"), wxEmptyString, wxITEM_NORMAL);
 	Menu1->Append(MenuItem1);
 	menuBar->Append(Menu1, _("&Help"));
 	SetMenuBar(menuBar);
@@ -144,8 +144,8 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	contentSizer->SetSizeHints(this);
 	Center();
 
-	Connect(ID_MENUITEM7,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
-	Connect(idAboutMenuItem,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
+	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
+	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
 	Connect(idToolbarInfo,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnInfo);
 	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
