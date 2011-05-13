@@ -53,12 +53,11 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
                 continue;
             }
             if (strcmp(action,lastAction) != 0) {
-                printf("udev device action detected: %s\n",action);
-                if (strcmp(lastAction,"(none)")) printf("previous action detected: %s\n",lastAction);
+                printf("udev device action detected: %s; refreshing device state...\n",action);
+//                if (strcmp(lastAction,"(none)")) printf("previous action detected: %s\n",lastAction);
                 strcpy(lastAction,action);
                 if (udevice) {
                     udev_device_unref(udevice);
-                    printf("Refreshing device state...\n");
                     try {
                         wxMutexGuiEnter();
                         m_pHandler->doRefreshDeviceState();

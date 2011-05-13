@@ -172,6 +172,7 @@
 				<object class="wxMenuItem" name="idMenuHelpAbout" variable="aboutMenuItem" member="yes">
 					<label>&amp;About</label>
 					<accel>F1</accel>
+					<help>Show info about this application</help>
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>

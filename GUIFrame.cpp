@@ -143,7 +143,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	fileMenu->Append(quitMenuItem);
 	menuBar->Append(fileMenu, _("&File"));
 	helpMenu = new wxMenu();
-	aboutMenuItem = new wxMenuItem(helpMenu, idMenuHelpAbout, _("&About\tF1"), wxEmptyString, wxITEM_NORMAL);
+	aboutMenuItem = new wxMenuItem(helpMenu, idMenuHelpAbout, _("&About\tF1"), _("Show info about this application"), wxITEM_NORMAL);
 	helpMenu->Append(aboutMenuItem);
 	menuBar->Append(helpMenu, _("&Help"));
 	SetMenuBar(menuBar);
@@ -329,7 +329,7 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
 
 void GUIFrame::OnInfo(wxCommandEvent& event)
 {
-    doRefreshDeviceState();
+    if (dev == NULL) doRefreshDeviceState();
     obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
     if (handle != NULL) {
         wxString deviceName("My Smartpen", wxConvUTF8);

@@ -85,6 +85,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
 	//*)
+
     device_handle = handle;
     char* s = smartpen_get_peninfo(device_handle);
     printf("%s\n",s);
