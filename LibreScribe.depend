@@ -2351,7 +2351,7 @@
 	<wx/stattext.h>
 	<wx/statbmp.h>
 
-1305320626 source:/home/dylan/LibreScribe/GUIFrame.cpp
+1305324831 source:/home/dylan/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	"wx_pch.h"
@@ -2420,8 +2420,9 @@
 	<arpa/inet.h>
 	<usb.h>
 
-1305321139 source:/home/dylan/LibreScribe/src/BackgroundMonitor.cpp
+1305324478 source:/home/dylan/LibreScribe/src/BackgroundMonitor.cpp
 	"../GUIFrame.h"
+	<string>
 
 1305318964 source:/home/dylan/LibreScribe/src/DeviceInformation.cpp
 	"DeviceInformation.h"
