@@ -180,16 +180,22 @@
 			<object class="tool" name="idToolbarRefresh" variable="refreshButton" member="yes">
 				<label>Refresh</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/view-refresh.png</bitmap>
+				<tooltip>Refresh Connection Status</tooltip>
+				<longhelp>Scan for a compatible smartpen device.</longhelp>
 				<handler function="OnRefresh" entry="EVT_TOOL" />
 			</object>
 			<object class="tool" name="idToolbarInfo" variable="devInfoButton" member="yes">
 				<label>Information</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/emblem-system.png</bitmap>
+				<tooltip>Device Information</tooltip>
+				<longhelp>Display connected smartpen device information.</longhelp>
 				<handler function="OnInfo" entry="EVT_TOOL" />
 			</object>
 			<object class="tool" name="idToolbarQuit" variable="quitButton" member="yes">
 				<label>Quit</label>
 				<bitmap>/home/dylan/cpp/LibreScribe/res/process-stop.png</bitmap>
+				<tooltip>Quit LibreScribe</tooltip>
+				<longhelp>Quit this application.</longhelp>
 				<handler function="OnQuit" entry="EVT_TOOL" />
 			</object>
 		</object>
