@@ -17,7 +17,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GUIFRAME_H
 #define GUIFRAME_H
 
-#include "DeviceInformation.h"
+#include "DeviceInfo.h"
 #include "Smartpen.h"
 uint16_t refreshDeviceState();
 #ifndef WX_PRECOMP

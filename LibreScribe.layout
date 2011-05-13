@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="DeviceInfo.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="339" topLine="7" />
+	<File name="DeviceInfo.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="2501" topLine="42" />
 	</File>
-	<File name="GUIFrame.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="8073" topLine="127" />
+	<File name="DeviceInfo.h" open="0" top="0" tabpos="0">
+		<Cursor position="651" topLine="0" />
+	</File>
+	<File name="GUIFrame.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="601" topLine="0" />
 	</File>
 	<File name="GUIFrame.h" open="0" top="0" tabpos="8">
-		<Cursor position="2093" topLine="51" />
+		<Cursor position="689" topLine="0" />
 	</File>
-	<File name="LibreScribe__App.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="1006" topLine="16" />
+	<File name="LibreScribe.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="857" topLine="20" />
 	</File>
-	<File name="LibreScribe__Main.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="4787" topLine="101" />
+	<File name="LibreScribe.h" open="0" top="0" tabpos="0">
+		<Cursor position="699" topLine="0" />
 	</File>
 	<File name="include/DeviceInformation.h" open="0" top="0" tabpos="1">
-		<Cursor position="2404" topLine="47" />
+		<Cursor position="8" topLine="0" />
+	</File>
+	<File name="include/Smartpen.h" open="0" top="0" tabpos="0">
+		<Cursor position="36" topLine="0" />
+	</File>
+	<File name="src/BackgroundMonitor.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1238" topLine="15" />
 	</File>
 	<File name="src/DeviceInformation.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="2854" topLine="86" />
 	</File>
 	<File name="src/Smartpen.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="7696" topLine="316" />
+	</File>
+	<File name="wx_pch.h" open="0" top="0" tabpos="0">
+		<Cursor position="649" topLine="3" />
 	</File>
 </CodeBlocks_layout_file>

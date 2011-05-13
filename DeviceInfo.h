@@ -17,6 +17,10 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DEVICEINFO_H
 #define DEVICEINFO_H
 
+#include <libudev.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include "Smartpen.h"
 #ifndef WX_PRECOMP
 	//(*HeadersPCH(DeviceInfo)
 	#include <wx/gauge.h>
@@ -33,9 +37,8 @@ class DeviceInfo: public wxDialog
 {
 	public:
 
-		DeviceInfo(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+        DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, obex_t *handle,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~DeviceInfo();
-
 		//(*Declarations(DeviceInfo)
 		wxGauge* batteryGauge;
 		wxStaticText* storageRemaining;
@@ -49,6 +52,8 @@ class DeviceInfo: public wxDialog
 
 	protected:
 
+        obex_t *device_handle;
+
 		//(*Identifiers(DeviceInfo)
 		static const long ID_STATICBITMAP1;
 		static const long ID_STATICTEXT1;
@@ -61,6 +66,12 @@ class DeviceInfo: public wxDialog
 		//*)
 
 	private:
+
+        int getBatteryRemaining(xmlNode *a_node);
+        float getBatteryVoltage(xmlNode *a_node);
+        long long int getFreeBytes(xmlNode *a_node);
+        long long int getTotalBytes(xmlNode *a_node);
+
 
 		//(*Handlers(DeviceInfo)
 		//*)
