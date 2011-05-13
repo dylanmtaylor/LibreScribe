@@ -2351,7 +2351,7 @@
 	<wx/stattext.h>
 	<wx/statbmp.h>
 
-1305319138 source:/home/dylan/LibreScribe/GUIFrame.cpp
+1305320626 source:/home/dylan/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	"wx_pch.h"
@@ -2361,7 +2361,7 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305320503 /home/dylan/LibreScribe/GUIFrame.h
+1305320626 /home/dylan/LibreScribe/GUIFrame.h
 	"DeviceInfo.h"
 	"Smartpen.h"
 	<wx/toolbar.h>
