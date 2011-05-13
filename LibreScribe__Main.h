@@ -30,32 +30,8 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include <wx/thread.h>
 uint16_t refreshDeviceState();
 
-struct audioClipInfo {
-    wxString name;
-    wxString duration;
-    wxString date;
-    wxString size;
-};
-
-struct applicationInfo {
-    wxString name;
-    wxString version;
-    wxString size;
-};
 
 class LibreScribe__Frame;
-
-class BackgroundMonitor : public wxThread
-    {
-    public:
-        BackgroundMonitor(LibreScribe__Frame* handler) : wxThread(wxTHREAD_DETACHED) {
-            m_pHandler = handler;
-        };
-        ~BackgroundMonitor();
-    protected:
-        virtual ExitCode Entry();
-        LibreScribe__Frame* m_pHandler;
-    };
 
 class LibreScribe__Frame: public GUIFrame
 {
@@ -63,15 +39,7 @@ class LibreScribe__Frame: public GUIFrame
     public:
         LibreScribe__Frame(wxFrame *frame);
         ~LibreScribe__Frame();
-        BackgroundMonitor *m_pThread;
-        wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
-        void addAudioClipToList(audioClipInfo info);
-        void addApplicationToList(applicationInfo info);
     private:
-        void StartBackgroundMonitor();
-        virtual void OnClose(wxCloseEvent& event);
-        void setupPageHierarchy();
-        void setupLists();
 };
 
 #endif // LibreScribe__MAIN_H

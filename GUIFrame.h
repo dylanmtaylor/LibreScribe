@@ -2,6 +2,13 @@
 #define GUIFRAME_H
 #include "DeviceInformation.h"
 #include "Smartpen.h"
+#include <glib-2.0/glib.h>
+#include <libudev.h>
+#include "LibreScribe__App.h"
+#include "GUIFrame.h"
+#include <wx/imaglist.h>
+#include <wx/thread.h>
+uint16_t refreshDeviceState();
 #ifndef WX_PRECOMP
 	//(*HeadersPCH(GUIFrame)
 	#include <wx/toolbar.h>
@@ -20,6 +27,33 @@
 #include <wx/treectrl.h>
 //*)
 
+class GUIFrame;
+
+struct audioClipInfo {
+    wxString name;
+    wxString duration;
+    wxString date;
+    wxString size;
+};
+
+struct applicationInfo {
+    wxString name;
+    wxString version;
+    wxString size;
+};
+
+class BackgroundMonitor : public wxThread
+{
+    public:
+        BackgroundMonitor(GUIFrame* handler) : wxThread(wxTHREAD_DETACHED) {
+            m_pHandler = handler;
+        };
+        ~BackgroundMonitor();
+    protected:
+        virtual ExitCode Entry();
+        GUIFrame* m_pHandler;
+};
+
 class GUIFrame: public wxFrame
 {
 	public:
@@ -27,6 +61,10 @@ class GUIFrame: public wxFrame
 		GUIFrame(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
+        void addAudioClipToList(audioClipInfo info);
+        void addApplicationToList(applicationInfo info);
+        BackgroundMonitor *m_pThread;
+        wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
 		//(*Declarations(GUIFrame)
 		wxMenuItem* MenuItem2;
 		wxToolBarToolBase* devInfoButton;
@@ -77,7 +115,7 @@ class GUIFrame: public wxFrame
         static const long idToolbarInfo;
         static const long idToolbarQuit;
         static const long ID_TOOLBAR1;
-        static const long ID_STATUSBAR1;
+        static const long idStatusBar;
         //*)
 
 	private:
@@ -87,10 +125,14 @@ class GUIFrame: public wxFrame
 		void OnInfo(wxCommandEvent& event);
 		void OnQuit(wxCommandEvent& event);
 		void OnAbout(wxCommandEvent& event);
+		void OnClose(wxCloseEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
         uint16_t refreshDeviceState();
+        void StartBackgroundMonitor();
+        void setupPageHierarchy();
+        void setupLists();
 };
 
 #endif

@@ -7,6 +7,7 @@
 		<minsize>750,550</minsize>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxBoxSizer" variable="contentSizer" member="no">
 			<object class="sizeritem">
 				<object class="wxNotebook" name="ID_NOTEBOOK1" variable="tabContainer" member="yes">
@@ -192,11 +193,11 @@
 				<handler function="OnQuit" entry="EVT_TOOL" />
 			</object>
 		</object>
-		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="statusBar" member="yes">
+		<object class="wxStatusBar" name="idStatusBar" variable="statusBar" member="yes">
 			<fields>2</fields>
 			<widths>-10,-10</widths>
 			<styles>wxSB_NORMAL,wxSB_NORMAL</styles>
-			<style>wxST_SIZEGRIP</style>
+			<style>wxST_SIZEGRIP|wxCLIP_CHILDREN|wxFULL_REPAINT_ON_RESIZE</style>
 		</object>
 	</object>
 </wxsmith>
