@@ -149,8 +149,9 @@ again:
 
         num = OBEX_FindInterfaces(handle, &obex_intf);
 	for (i=0; i<num; i++) {
-		if (!strcmp(obex_intf[i].usb.manufacturer, "Livescribe"))
-			break;
+        if (!strcmp(obex_intf[i].usb.manufacturer, "Livescribe")) {
+            break;
+		}
 	}
 
         if (i == num) {

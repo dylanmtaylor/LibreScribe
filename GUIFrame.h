@@ -35,6 +35,8 @@ uint16_t refreshDeviceState();
 #endif
 #include <wx/imaglist.h>
 #include <wx/thread.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 //(*Headers(GUIFrame)
 #include <wx/notebook.h>
 #include <wx/treectrl.h>
