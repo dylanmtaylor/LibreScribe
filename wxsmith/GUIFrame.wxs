@@ -139,37 +139,37 @@
 		<object class="wxMenuBar" variable="menuBar" member="yes">
 			<object class="wxMenu" variable="fileMenu" member="yes">
 				<label>&amp;File</label>
-				<object class="wxMenuItem" name="idMenuFilePrint" variable="MenuItem2" member="yes">
+				<object class="wxMenuItem" name="idMenuFilePrint" variable="printMenuItem" member="yes">
 					<label>&amp;Print</label>
 					<accel>Ctrl+P</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
-				<object class="wxMenuItem" name="idMenuFileDeletePages" variable="MenuItem4" member="yes">
+				<object class="wxMenuItem" name="idMenuFileDeletePages" variable="deletePagesMenuItem" member="yes">
 					<label>Delete &amp;Page(s)</label>
 					<accel>Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
-				<object class="wxMenuItem" name="idMenuFileArchiveNotebook" variable="MenuItem5" member="yes">
+				<object class="wxMenuItem" name="idMenuFileArchiveNotebook" variable="archiveNotebookMenuItem" member="yes">
 					<label>&amp;Archive Notebook</label>
 					<accel>Shift+Ctrl+A</accel>
 					<enabled>0</enabled>
 				</object>
-				<object class="wxMenuItem" name="idMenuFileDeleteNotebok" variable="MenuItem6" member="yes">
+				<object class="wxMenuItem" name="idMenuFileDeleteNotebok" variable="deleteNotebookMenuItem" member="yes">
 					<label>&amp;Delete Notebook</label>
 					<accel>Shift+Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
-				<object class="wxMenuItem" name="idMenuFileQuit" variable="MenuItem8" member="yes">
+				<object class="wxMenuItem" name="idMenuFileQuit" variable="quitMenuItem" member="yes">
 					<label>&amp;Quit</label>
 					<accel>Ctrl+Q</accel>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
-			<object class="wxMenu" variable="Menu1" member="yes">
+			<object class="wxMenu" variable="helpMenu" member="yes">
 				<label>&amp;Help</label>
-				<object class="wxMenuItem" name="idMenuHelpAbout" variable="MenuItem1" member="yes">
+				<object class="wxMenuItem" name="idMenuHelpAbout" variable="aboutMenuItem" member="yes">
 					<label>&amp;About</label>
 					<accel>F1</accel>
 					<handler function="OnAbout" entry="EVT_MENU" />
