@@ -131,10 +131,6 @@ void LibreScribe__Frame::OnClose(wxCloseEvent &event) {
     Destroy();
 }
 
-void LibreScribe__Frame::OnQuit(wxCommandEvent &event) {
-    Destroy();
-}
-
 //the following method is based on wxWidgets sample code at http://docs.wxwidgets.org/trunk/classwx_thread.html
 void LibreScribe__Frame::StartBackgroundMonitor() {
     m_pThread = new BackgroundMonitor(this);
@@ -159,8 +155,4 @@ void LibreScribe__Frame::StartBackgroundMonitor() {
         // To avoid dangling pointers OnThreadExit() will set m_pThread
         // to NULL when the thread dies.
     }
-}
-
-void LibreScribe__Frame::OnAbout(wxCommandEvent &event) {
-    wxMessageBox(_("Written by Dylan Taylor. A large portion of the code is taken from libsmartpen, written by Steven Walter. This is alpha quality software. Use in production environments is NOT recommended."), _("LibreScribe Smartpen Manager"));
 }

@@ -2347,7 +2347,7 @@
 	<wx/stattext.h>
 	<wx/statbmp.h>
 
-1305316100 source:/home/dylan/LibreScribe/GUIFrame.cpp
+1305316320 source:/home/dylan/LibreScribe/GUIFrame.cpp
 	"wx_pch.h"
 	"GUIFrame.h"
 	<wx/string.h>
@@ -2356,7 +2356,7 @@
 	<wx/bitmap.h>
 	<wx/image.h>
 
-1305316155 /home/dylan/LibreScribe/GUIFrame.h
+1305316323 /home/dylan/LibreScribe/GUIFrame.h
 	"DeviceInformation.h"
 	"Smartpen.h"
 	<wx/toolbar.h>
@@ -2381,7 +2381,7 @@
 1305314588 /home/dylan/LibreScribe/LibreScribe__App.h
 	<wx/app.h>
 
-1305316056 /home/dylan/LibreScribe/LibreScribe__Main.h
+1305316346 /home/dylan/LibreScribe/LibreScribe__Main.h
 	<openobex/obex.h>
 	<string.h>
 	<stdlib.h>
@@ -2395,7 +2395,7 @@
 	<wx/imaglist.h>
 	<wx/thread.h>
 
-1305316067 source:/home/dylan/LibreScribe/LibreScribe__Main.cpp
+1305316354 source:/home/dylan/LibreScribe/LibreScribe__Main.cpp
 	"wx_pch.h"
 	"LibreScribe__Main.h"
 	"DeviceInformation.h"

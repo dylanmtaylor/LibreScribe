@@ -86,6 +86,7 @@ class GUIFrame: public wxFrame
 		void OnRefresh(wxCommandEvent& event);
 		void OnInfo(wxCommandEvent& event);
 		void OnQuit(wxCommandEvent& event);
+		void OnAbout(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
