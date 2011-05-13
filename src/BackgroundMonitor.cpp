@@ -51,7 +51,9 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
             udev_device_unref(udevice);
             printf("Refreshing device state...\n");
             try {
+                wxMutexGuiEnter();
                 m_pHandler->doRefreshDeviceState();
+                wxMutexGuiLeave();
                 //m_pHandler->refreshDeviceState();
             } catch(...) {
                 printf("Error refreshing device state");
