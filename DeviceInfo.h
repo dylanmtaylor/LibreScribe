@@ -55,14 +55,14 @@ class DeviceInfo: public wxDialog
         obex_t *device_handle;
 
 		//(*Identifiers(DeviceInfo)
-		static const long ID_STATICBITMAP1;
-		static const long ID_STATICTEXT1;
-		static const long ID_STATICTEXT3;
-		static const long ID_STATICTEXT4;
-		static const long ID_STATICTEXT5;
-		static const long ID_GAUGE1;
-		static const long ID_STATICTEXT6;
-		static const long ID_STATICTEXT2;
+		static const long idInformationIcon;
+		static const long idDeviceTypeText;
+		static const long idDeviceNameLabel;
+		static const long idDeviceName;
+		static const long idBatteryLabel;
+		static const long idBatteryRemainingGauge;
+		static const long idStorageLabel;
+		static const long idStorageRemaining;
 		//*)
 
 	private:
