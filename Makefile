@@ -16,7 +16,7 @@ RANLIB = ranlib
 WINDRES = windres
 
 INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude
-CFLAGS =  -std=c++0x -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
+CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
 RESINC = 
 RCFLAGS = 
 LIBDIR = 
@@ -45,40 +45,40 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/LibreScribe
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/GUIFrame.o $(OBJDIR_DEBUG)/LibreScribe__App.o $(OBJDIR_DEBUG)/LibreScribe__Main.o $(OBJDIR_DEBUG)/src/DeviceInformation.o $(OBJDIR_DEBUG)/src/Smartpen.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/DeviceInfo.o $(OBJDIR_DEBUG)/GUIFrame.o $(OBJDIR_DEBUG)/LibreScribe.o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o $(OBJDIR_DEBUG)/src/Smartpen.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/GUIFrame.o $(OBJDIR_RELEASE)/LibreScribe__App.o $(OBJDIR_RELEASE)/LibreScribe__Main.o $(OBJDIR_RELEASE)/src/DeviceInformation.o $(OBJDIR_RELEASE)/src/Smartpen.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/DeviceInfo.o $(OBJDIR_RELEASE)/GUIFrame.o $(OBJDIR_RELEASE)/LibreScribe.o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o $(OBJDIR_RELEASE)/src/Smartpen.o
 
 all: debug release
 
 clean: clean_debug clean_release
 
 before_debug: 
-	rm -rfv $(TARGET_OUTPUT_DIR)
+	rm -rfv ./bin/Debug
 	test -d bin/Debug || mkdir -p bin/Debug
 	test -d $(OBJDIR_DEBUG) || mkdir -p $(OBJDIR_DEBUG)
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
 
 after_debug: 
-	cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res
-	cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)
+	cp -rfv -L ./res ./bin/Debug/res
+	cp -fv -L ./stf.py ./parsestf.py ./bin/Debug/
 
 debug: before_debug $(OUT_DEBUG) after_debug
 
 $(OUT_DEBUG): $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) -o $(OUT_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG)
 
+$(OBJDIR_DEBUG)/DeviceInfo.o: DeviceInfo.cpp
+	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/DeviceInfo.o DeviceInfo.cpp
+
 $(OBJDIR_DEBUG)/GUIFrame.o: GUIFrame.cpp
 	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/GUIFrame.o GUIFrame.cpp
 
-$(OBJDIR_DEBUG)/LibreScribe__App.o: LibreScribe__App.cpp
-	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/LibreScribe__App.o LibreScribe__App.cpp
+$(OBJDIR_DEBUG)/LibreScribe.o: LibreScribe.cpp
+	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/LibreScribe.o LibreScribe.cpp
 
-$(OBJDIR_DEBUG)/LibreScribe__Main.o: LibreScribe__Main.cpp
-	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/LibreScribe__Main.o LibreScribe__Main.cpp
-
-$(OBJDIR_DEBUG)/src/DeviceInformation.o: src/DeviceInformation.cpp
-	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/src/DeviceInformation.o src/DeviceInformation.cpp
+$(OBJDIR_DEBUG)/src/BackgroundMonitor.o: src/BackgroundMonitor.cpp
+	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o src/BackgroundMonitor.cpp
 
 $(OBJDIR_DEBUG)/src/Smartpen.o: src/Smartpen.cpp
 	$(CPP) $(CFLAGS_DEBUG) $(INC_DEBUG) -c -o $(OBJDIR_DEBUG)/src/Smartpen.o src/Smartpen.cpp
@@ -90,31 +90,31 @@ clean_debug:
 	rm -rf $(OBJDIR_DEBUG)/src
 
 before_release: 
-	rm -rfv $(TARGET_OUTPUT_DIR)
+	rm -rfv ./bin/Release
 	test -d bin/Release || mkdir -p bin/Release
 	test -d $(OBJDIR_RELEASE) || mkdir -p $(OBJDIR_RELEASE)
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
 
 after_release: 
-	cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res
-	cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)
+	cp -rfv -L ./res ./bin/Release/res
+	cp -fv -L ./stf.py ./parsestf.py ./bin/Release/
 
 release: before_release $(OUT_RELEASE) after_release
 
 $(OUT_RELEASE): $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) -o $(OUT_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE)
 
+$(OBJDIR_RELEASE)/DeviceInfo.o: DeviceInfo.cpp
+	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/DeviceInfo.o DeviceInfo.cpp
+
 $(OBJDIR_RELEASE)/GUIFrame.o: GUIFrame.cpp
 	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/GUIFrame.o GUIFrame.cpp
 
-$(OBJDIR_RELEASE)/LibreScribe__App.o: LibreScribe__App.cpp
-	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/LibreScribe__App.o LibreScribe__App.cpp
+$(OBJDIR_RELEASE)/LibreScribe.o: LibreScribe.cpp
+	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/LibreScribe.o LibreScribe.cpp
 
-$(OBJDIR_RELEASE)/LibreScribe__Main.o: LibreScribe__Main.cpp
-	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/LibreScribe__Main.o LibreScribe__Main.cpp
-
-$(OBJDIR_RELEASE)/src/DeviceInformation.o: src/DeviceInformation.cpp
-	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/src/DeviceInformation.o src/DeviceInformation.cpp
+$(OBJDIR_RELEASE)/src/BackgroundMonitor.o: src/BackgroundMonitor.cpp
+	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o src/BackgroundMonitor.cpp
 
 $(OBJDIR_RELEASE)/src/Smartpen.o: src/Smartpen.cpp
 	$(CPP) $(CFLAGS_RELEASE) $(INC_RELEASE) -c -o $(OBJDIR_RELEASE)/src/Smartpen.o src/Smartpen.cpp
