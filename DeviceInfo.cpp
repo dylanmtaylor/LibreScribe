@@ -57,7 +57,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
 	SetMinSize(wxSize(585,165));
 	SetMaxSize(wxSize(585,165));
 	mainSizer = new wxFlexGridSizer(0, 3, 0, 0);
-	infoIcon = new wxStaticBitmap(this, idInformationIcon, wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/dialog-information-128.png")).Rescale(wxSize(128,128).GetWidth(),wxSize(128,128).GetHeight())), wxDefaultPosition, wxSize(128,128), 0, _T("idInformationIcon"));
+	infoIcon = new wxStaticBitmap(this, idInformationIcon, wxBitmap(wxImage(_T("res/dialog-information-128.png")).Rescale(wxSize(128,128).GetWidth(),wxSize(128,128).GetHeight())), wxDefaultPosition, wxSize(128,128), 0, _T("idInformationIcon"));
 	mainSizer->Add(infoIcon, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	dialogSizer = new wxFlexGridSizer(0, 1, 0, 0);
 	deviceType = new wxStaticText(this, idDeviceTypeText, _("LightScribe Pulse(TM) Smartpen"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT, _T("idDeviceTypeText"));
