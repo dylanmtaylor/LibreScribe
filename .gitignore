@@ -3,3 +3,4 @@ obj/
 wx_pch.h.gch/
 *.stf
 *.pyc
+*.depend
