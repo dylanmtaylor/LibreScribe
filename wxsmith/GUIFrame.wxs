@@ -78,7 +78,7 @@
 											<object class="wxBoxSizer" variable="pageViewerContainer" member="no">
 												<object class="sizeritem">
 													<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="pageImage" member="yes">
-														<bitmap>/home/dylan/cpp/LibreScribe/res/page1.png</bitmap>
+														<bitmap>res/page1.png</bitmap>
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 													<border>5</border>
@@ -180,21 +180,21 @@
 		<object class="wxToolBar" name="idMainToolbar" variable="mainToolbar" member="yes">
 			<object class="tool" name="idToolbarRefresh" variable="refreshButton" member="yes">
 				<label>Refresh</label>
-				<bitmap>/home/dylan/cpp/LibreScribe/res/view-refresh.png</bitmap>
+				<bitmap>res/view-refresh.png</bitmap>
 				<tooltip>Refresh Connection Status</tooltip>
 				<longhelp>Scan for a compatible smartpen device.</longhelp>
 				<handler function="OnRefresh" entry="EVT_TOOL" />
 			</object>
 			<object class="tool" name="idToolbarInfo" variable="devInfoButton" member="yes">
 				<label>Information</label>
-				<bitmap>/home/dylan/cpp/LibreScribe/res/emblem-system.png</bitmap>
+				<bitmap>res/emblem-system.png</bitmap>
 				<tooltip>Device Information</tooltip>
 				<longhelp>Display connected smartpen device information.</longhelp>
 				<handler function="OnInfo" entry="EVT_TOOL" />
 			</object>
 			<object class="tool" name="idToolbarQuit" variable="quitButton" member="yes">
 				<label>Quit</label>
-				<bitmap>/home/dylan/cpp/LibreScribe/res/process-stop.png</bitmap>
+				<bitmap>res/process-stop.png</bitmap>
 				<tooltip>Quit LibreScribe</tooltip>
 				<longhelp>Quit this application.</longhelp>
 				<handler function="OnQuit" entry="EVT_TOOL" />
