@@ -317,22 +317,10 @@ int smartpen_get_paperreplay (obex_t *handle, FILE *out,
 	return 1;
 }
 
-//int smartpen_get_penletlist (obex_t *handle, FILE *out)
-//{
-//	char *name = "penletlist";
-//	char *buf;
-//	int len;
-//
-//	buf = get_named_object(handle, name, &len);
-//	fwrite(buf, len, 1, out);
-//	return 1;
-//}
-
 char* smartpen_get_penletlist(obex_t *handle) {
-    printf("entering get\n");
 	char *name = "penletlist";
 	int len;
-    printf("returning\n");
+
 	return get_named_object(handle, name, &len);
 }
 
