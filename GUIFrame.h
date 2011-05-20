@@ -149,6 +149,7 @@ class GUIFrame: public wxFrame
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
+        void refreshApplicationList();
 };
 
 #endif

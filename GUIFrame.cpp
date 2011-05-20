@@ -239,7 +239,15 @@ void GUIFrame::refreshLists() {
     audioList->ClearAll();
     appList->ClearAll();
     setupLists();
+    refreshApplicationList();
+}
 
+void GUIFrame::refreshApplicationList() {
+    //right now this is just for debugging purposes.
+    printf("Penlet List:\n");
+    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+    char* s = smartpen_get_penletlist(handle);
+    printf("%s\n",s);
 }
 
 void GUIFrame::setupLists() {
@@ -302,7 +310,6 @@ uint16_t GUIFrame::refreshDeviceState() {
         }
         return dev->descriptor.idProduct;
     }
-    refreshLists();
 }
 
 void GUIFrame::doRefreshDeviceState() {
@@ -337,6 +344,7 @@ void GUIFrame::doRefreshDeviceState() {
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
     doRefreshDeviceState();
+    refreshLists();
 }
 
 void GUIFrame::OnInfo(wxCommandEvent& event)
