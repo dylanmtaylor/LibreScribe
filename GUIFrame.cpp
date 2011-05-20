@@ -271,7 +271,7 @@ void GUIFrame::refreshApplicationList() {
                                 printf("\tname: %s\n",xmlGetProp(lsps, (const xmlChar*)"name"));
                                 printf("\tgroup: %s\n",xmlGetProp(lsps, (const xmlChar*)"group"));
                                 printf("\tversion: %s\n",xmlGetProp(lsps, (const xmlChar*)"groupversion"));
-                                printf("\size: %s\n",xmlGetProp(lsps, (const xmlChar*)"size"));
+                                printf("\tsize: %s\n",xmlGetProp(lsps, (const xmlChar*)"size"));
                                 printf("\tfull path: %s\n",xmlGetProp(lsps, (const xmlChar*)"fullpath"));
                             }
                         }
