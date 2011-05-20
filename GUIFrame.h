@@ -148,6 +148,7 @@ class GUIFrame: public wxFrame
         void StartBackgroundMonitor();
         void setupPageHierarchy();
         void setupLists();
+        void refreshLists();
 };
 
 #endif

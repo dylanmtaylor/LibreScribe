@@ -17,6 +17,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include "wx_pch.h"
 #include "GUIFrame.h"
 
+//#define USE_FAKE_SAMPLE_INFORMATION true
 #ifndef WX_PRECOMP
     #include "wx_pch.h"
 	//(*InternalHeadersPCH(GUIFrame)
@@ -180,6 +181,12 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     StartBackgroundMonitor();
     setupPageHierarchy();
     setupLists();
+#if USE_FAKE_SAMPLE_INFORMATION
+    audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
+    addAudioClipToList(sampleClipInfo);
+    applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
+    addApplicationToList(sampleAppInfo);
+#endif
     doRefreshDeviceState();
 }
 
@@ -227,6 +234,14 @@ void GUIFrame::addApplicationToList(applicationInfo info) {
     appList->SetItem(0, 2, info.size);
 }
 
+//This method will clear the lists, set them up again, and fill them with new information.
+void GUIFrame::refreshLists() {
+    audioList->ClearAll();
+    appList->ClearAll();
+    setupLists();
+
+}
+
 void GUIFrame::setupLists() {
     const int audio_column_width = 180;
     const int app_column_width = 240;
@@ -237,16 +252,12 @@ void GUIFrame::setupLists() {
     appSizer->Add(appList, true, wxEXPAND | wxALL, 5);
     audioTab->SetSizer(audioSizer);
     appTab->SetSizer(appSizer);
-    audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     for (int i = 0; i < (sizeof(audioColumns)/sizeof(wxString)); i++) {
         audioList->InsertColumn(i, audioColumns[i], wxLIST_FORMAT_LEFT, audio_column_width);
     }
-    addAudioClipToList(sampleClipInfo);
-    applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     for (int i = 0; i < (sizeof(appColumns)/sizeof(wxString)); i++) {
         appList->InsertColumn(i, appColumns[i], wxLIST_FORMAT_LEFT, app_column_width);
     }
-    addApplicationToList(sampleAppInfo);
 }
 
 //the following method is based on wxWidgets sample code at http://docs.wxwidgets.org/trunk/classwx_thread.html
@@ -282,7 +293,6 @@ uint16_t GUIFrame::refreshDeviceState() {
         printf("Sorry! No compatible smartpen device found!\n");
         return 0x0000;
     } else {
-
         if (dev->descriptor.idProduct == LS_PULSE) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
         } else if (dev->descriptor.idProduct == LS_ECHO || dev->descriptor.idProduct == 0x1032) {
@@ -292,6 +302,7 @@ uint16_t GUIFrame::refreshDeviceState() {
         }
         return dev->descriptor.idProduct;
     }
+    refreshLists();
 }
 
 void GUIFrame::doRefreshDeviceState() {
@@ -366,14 +377,14 @@ void GUIFrame::OnClose(wxCloseEvent& event)
         // the possibility to enter its destructor
         // (which is guarded with m_pThreadCS critical section!)
 
-    while (true) {
-        { // was the ~BackgroundMonitor() function executed?
-            wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!m_pThread) break;
-        }
-        // wait for thread completion
-        wxThread::This()->Sleep(1);
-    }
+//    while (true) {
+//        { // was the ~BackgroundMonitor() function executed?
+//            wxCriticalSectionLocker enter(m_pThreadCS);
+//            if (!m_pThread) break;
+//        }
+//        // wait for thread completion
+//        wxThread::This()->Sleep(1);
+//    }
 
     Destroy();
 }
