@@ -243,12 +243,9 @@ void GUIFrame::refreshLists() {
 }
 
 void GUIFrame::refreshApplicationList() {
-    //right now this is mostly just for debugging purposes.
-    printf("Penlet List:\n");
     obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
     char* s = smartpen_get_penletlist(handle);
-    printf("%s\n",s);
-    printf("parsing list...\n");
+    printf("Parsing application list...\n");
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
     xmlNode *cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
     if (cur == NULL) {
@@ -272,23 +269,23 @@ void GUIFrame::refreshApplicationList() {
             }
         }
     }
-    printf("done parsing list.\n");
+    printf("Done parsing application list!\n");
 }
 
 void GUIFrame::handleLsp(xmlNode *lsp) {
     //we need to make sure this item isn't system software
     if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
-        printf("non-system lsp detected:\n");
+        printf("Non-system lsp detected:\n");
         xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
         xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
         xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
         xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
         xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
-        printf("\tname: %s\n",name);
-        printf("\tgroup: %s\n",group);
-        printf("\tversion: %s\n",ver);
-        printf("\tsize: %s\n",size);
-        printf("\tfull path: %s\n",fullPath);
+        printf("\tName: %s\n",name);
+        printf("\tGroup: %s\n",group);
+        printf("\tVersion: %s\n",ver);
+        printf("\tSize: %s\n",size);
+        printf("\tFull path: %s\n",fullPath);
         applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
         addApplicationToList(thisApp);
     }
