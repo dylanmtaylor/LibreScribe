@@ -150,6 +150,7 @@ class GUIFrame: public wxFrame
         void setupLists();
         void refreshLists();
         void refreshApplicationList();
+        void handleLsp(xmlNode *lsp);
 };
 
 #endif
