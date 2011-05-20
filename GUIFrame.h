@@ -150,6 +150,7 @@ class GUIFrame: public wxFrame
         void setupLists();
         void refreshLists();
         void refreshApplicationList(obex_t *handle);
+        void refreshAudioList(obex_t *handle);
         void handleLsp(xmlNode *lsp);
 };
 

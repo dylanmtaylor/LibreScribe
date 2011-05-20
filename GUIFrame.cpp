@@ -245,6 +245,7 @@ void GUIFrame::refreshLists() {
         return;
     }
     refreshApplicationList(handle);
+    refreshAudioList(handle);
 }
 
 void GUIFrame::refreshApplicationList(obex_t *handle) {
@@ -274,6 +275,10 @@ void GUIFrame::refreshApplicationList(obex_t *handle) {
         }
     }
     printf("Done parsing application list!\n");
+}
+
+void GUIFrame::refreshAudioList(obex_t *handle) {
+    return;
 }
 
 void GUIFrame::handleLsp(xmlNode *lsp) {
