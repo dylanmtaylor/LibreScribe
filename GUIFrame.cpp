@@ -385,7 +385,7 @@ void GUIFrame::doRefreshDeviceState() {
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
     doRefreshDeviceState();
-    refreshLists();
+    if (dev != NULL) refreshLists();
 }
 
 void GUIFrame::OnInfo(wxCommandEvent& event)
