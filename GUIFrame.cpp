@@ -265,15 +265,7 @@ void GUIFrame::refreshApplicationList() {
                 for (lsps = lsps; lsps; lsps = lsps->next) {
                      if (lsps->type == XML_ELEMENT_NODE) {
                         if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                            //we need to make sure this item isn't system software
-                            if (xmlStrcmp((xmlGetProp(lsps, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
-                                printf("non-system lsp detected:\n");
-                                printf("\tname: %s\n",xmlGetProp(lsps, (const xmlChar*)"name"));
-                                printf("\tgroup: %s\n",xmlGetProp(lsps, (const xmlChar*)"group"));
-                                printf("\tversion: %s\n",xmlGetProp(lsps, (const xmlChar*)"groupversion"));
-                                printf("\tsize: %s\n",xmlGetProp(lsps, (const xmlChar*)"size"));
-                                printf("\tfull path: %s\n",xmlGetProp(lsps, (const xmlChar*)"fullpath"));
-                            }
+                            handleLsp(lsps);
                         }
                      }
                 }
@@ -281,6 +273,25 @@ void GUIFrame::refreshApplicationList() {
         }
     }
     printf("done parsing list.\n");
+}
+
+void GUIFrame::handleLsp(xmlNode *lsp) {
+    //we need to make sure this item isn't system software
+    if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
+        printf("non-system lsp detected:\n");
+        xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
+        xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
+        xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
+        xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
+        xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
+        printf("\tname: %s\n",name);
+        printf("\tgroup: %s\n",group);
+        printf("\tversion: %s\n",ver);
+        printf("\tsize: %s\n",size);
+        printf("\tfull path: %s\n",fullPath);
+        applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
+        addApplicationToList(thisApp);
+    }
 }
 
 void GUIFrame::setupLists() {
