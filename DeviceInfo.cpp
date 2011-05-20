@@ -51,7 +51,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
 	wxFlexGridSizer* mainSizer;
 	wxFlexGridSizer* informationSizer;
 	wxFlexGridSizer* dialogSizer;
-	
+
 	Create(parent, wxID_ANY, _("Smartpen Device Information"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
 	SetClientSize(wxSize(585,165));
 	SetMinSize(wxSize(585,165));
@@ -97,7 +97,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
     int freeBytes = getFreeBytes(cur);
     int totalBytes = getTotalBytes(cur);
     char fs[256];
-    sprintf(fs, "%d of %d bytes remaining.\n",freeBytes,totalBytes); //stores formatted string in fs
+    sprintf(fs, "%.02f of %.02f MiB remaining.\n",convertBytesToMiB(freeBytes),convertBytesToMiB(totalBytes)); //stores formatted string in fs
     printf("%s",fs); //displays fs on stdout
     printf("Setting device name label\n");
     deviceName->SetLabel(devName);
@@ -132,23 +132,6 @@ int stripNonNumericChars(char* s) {
     return res;
 }
 
-static void showStorageInformation(xmlNode * a_node) {
-    xmlNode *cur_node = NULL;
-    //scan for battery element
-    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
-        if (cur_node->type == XML_ELEMENT_NODE) {
-            if (strcmp((const char*)cur_node->name,"memory") == 0) {
-                //printf("node type: Element, name: %s\n", cur_node->name);
-                char* free = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
-                char* total = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
-                printf("Storage: %.02f of %.02f MB remaining\n", ((float)atoi(free)/(float)1048576), ((float)atoi(total)/(float)1048576));
-                return;
-            }
-        }
-        showStorageInformation(cur_node->children);
-    }
-}
-
 static void showBatteryStatistics(xmlNode * a_node) {
     xmlNode *cur_node = NULL;
     //scan for battery element
@@ -173,6 +156,10 @@ xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
             return cur_node;
         }
     }
+}
+
+float DeviceInfo::convertBytesToMiB(long long int bytes) {
+    return (bytes / 1048576); //there are 1,048,576 bytes in one megabyte.
 }
 
 float DeviceInfo::getBatteryVoltage(xmlNode *root) {
