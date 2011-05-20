@@ -243,11 +243,42 @@ void GUIFrame::refreshLists() {
 }
 
 void GUIFrame::refreshApplicationList() {
-    //right now this is just for debugging purposes.
+    //right now this is mostly just for debugging purposes.
     printf("Penlet List:\n");
     obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
     char* s = smartpen_get_penletlist(handle);
     printf("%s\n",s);
+    printf("parsing list...\n");
+    xmlDocPtr doc = xmlParseMemory(s, strlen(s));
+    xmlNode *cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+    if (cur == NULL) {
+        printf("cur is NULL!\n");
+        xmlFreeDoc(doc);
+        return; //do nothing if the xml document is empty
+    }
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
+    cur = cur->children;
+    for (cur = cur; cur; cur = cur->next) {
+        if (cur->type == XML_ELEMENT_NODE) {
+            if ((!xmlStrcmp(cur->name, (const xmlChar *)"lsps"))) { //if the current element's name is 'lsps'
+                xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                for (lsps = lsps; lsps; lsps = lsps->next) {
+                     if (lsps->type == XML_ELEMENT_NODE) {
+                        if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                            //we need to make sure this item isn't system software
+                            if (xmlStrcmp((xmlGetProp(lsps, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
+                                printf("non-system lsp detected:\n");
+                                printf("\tname: %s\n",xmlGetProp(lsps, (const xmlChar*)"name"));
+                                printf("\tgroup: %s\n",xmlGetProp(lsps, (const xmlChar*)"group"));
+                                printf("\tfull path: %s\n",xmlGetProp(lsps, (const xmlChar*)"fullpath"));
+                            }
+                        }
+                     }
+                }
+            }
+        }
+    }
+    printf("done parsing list.\n");
 }
 
 void GUIFrame::setupLists() {
