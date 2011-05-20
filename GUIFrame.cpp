@@ -239,11 +239,15 @@ void GUIFrame::refreshLists() {
     audioList->ClearAll();
     appList->ClearAll();
     setupLists();
-    refreshApplicationList();
+    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+    if (handle == NULL) {
+        wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
+        return;
+    }
+    refreshApplicationList(handle);
 }
 
-void GUIFrame::refreshApplicationList() {
-    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+void GUIFrame::refreshApplicationList(obex_t *handle) {
     char* s = smartpen_get_penletlist(handle);
     printf("Parsing application list...\n");
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
@@ -356,7 +360,6 @@ uint16_t GUIFrame::refreshDeviceState() {
 void GUIFrame::doRefreshDeviceState() {
     printf("Searching for your Smartpen... ");
     statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
-    //uint16_t result = refreshDeviceState();
     try {
         dev = findSmartpen();
         if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL

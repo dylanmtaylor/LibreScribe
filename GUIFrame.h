@@ -149,7 +149,7 @@ class GUIFrame: public wxFrame
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
-        void refreshApplicationList();
+        void refreshApplicationList(obex_t *handle);
         void handleLsp(xmlNode *lsp);
 };
 
