@@ -138,7 +138,6 @@ static void showBatteryStatistics(xmlNode * a_node) {
     for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
         if (cur_node->type == XML_ELEMENT_NODE) {
             if (strcmp((const char*)cur_node->name,"battery") == 0) {
-                //printf("node type: Element, name: %s\n", cur_node->name);
                 char* voltage = (char*)xmlGetProp(cur_node, (const xmlChar*)"voltage");
                 char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
                 printf("Battery Level: %s, Voltage: %s\n", level, voltage);
