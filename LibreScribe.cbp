@@ -15,12 +15,6 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<ExtraCommands>
-					<Add before="rm -rfv $(TARGET_OUTPUT_DIR)" />
-					<Add after="cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res" />
-					<Add after="cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/LibreScribe" prefix_auto="1" extension_auto="1" />
@@ -34,12 +28,6 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
-				<ExtraCommands>
-					<Add before="rm -rfv $(TARGET_OUTPUT_DIR)" />
-					<Add after="cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res" />
-					<Add after="cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
@@ -61,6 +49,12 @@
 			<Add library="xml2" />
 			<Add library="udev" />
 		</Linker>
+		<ExtraCommands>
+			<Add before="rm -rfv $(TARGET_OUTPUT_DIR)" />
+			<Add after="cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res" />
+			<Add after="cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)" />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="DeviceInfo.cpp" />
 		<Unit filename="DeviceInfo.h" />
 		<Unit filename="GUIFrame.cpp" />
