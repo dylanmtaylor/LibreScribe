@@ -140,7 +140,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	fileMenu->Append(deleteNotebookMenuItem);
 	deleteNotebookMenuItem->Enable(false);
 	fileMenu->AppendSeparator();
-	quitMenuItem = new wxMenuItem(fileMenu, idMenuFileQuit, _("&Quit\tCtrl+Q"), wxEmptyString, wxITEM_NORMAL);
+	quitMenuItem = new wxMenuItem(fileMenu, idMenuFileQuit, _("&Quit\tCtrl+Q"), _("Quit this application."), wxITEM_NORMAL);
 	fileMenu->Append(quitMenuItem);
 	menuBar->Append(fileMenu, _("&File"));
 	helpMenu = new wxMenu();
@@ -170,7 +170,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
-	printf("LibreScribe Alpha version 0.02, written by Dylan Taylor\n");
+	printf("LibreScribe Alpha version 0.03, written by Dylan Taylor\n");
     //the following code makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
