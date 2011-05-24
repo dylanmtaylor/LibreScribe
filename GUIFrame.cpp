@@ -171,9 +171,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
 	printf("LibreScribe Alpha version 0.02, written by Dylan Taylor\n");
-#if wxUSE_STATUSBAR
-    statusBar->SetStatusText(_("The status bar is still a work-in-progress."), 0);
-#endif
     //the following code makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
