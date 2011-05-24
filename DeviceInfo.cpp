@@ -113,14 +113,11 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
     printf("battery gauge value set, setting storage remaining label\n");
     wxString freeSpace(fs, wxConvUTF8);
     storageRemaining->SetLabel(freeSpace);
-    printf("storage remaining label set, disconnecting device\n");
-    smartpen_disconnect(device_handle);
     printf("success! we made it through the device information constructor unscathed!\n");
 }
 
 DeviceInfo::~DeviceInfo()
 {
-    smartpen_disconnect(device_handle);
 	//(*Destroy(DeviceInfo)
 	//*)
 }

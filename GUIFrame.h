@@ -80,6 +80,7 @@ class GUIFrame: public wxFrame
         void addApplicationToList(applicationInfo info);
         BackgroundMonitor *m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+        obex_t *device_handle;
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxStaticText* notebookPageName;
@@ -149,8 +150,8 @@ class GUIFrame: public wxFrame
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
-        void refreshApplicationList(obex_t *handle);
-        void refreshAudioList(obex_t *handle);
+        void refreshApplicationList();
+        void refreshAudioList();
         void handleLsp(xmlNode *lsp);
 };
 

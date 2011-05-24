@@ -188,6 +188,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     addApplicationToList(sampleAppInfo);
 #endif
     doRefreshDeviceState();
+    refreshLists();
 }
 
 GUIFrame::~GUIFrame()
@@ -239,19 +240,16 @@ void GUIFrame::refreshLists() {
     audioList->ClearAll();
     appList->ClearAll();
     setupLists();
-    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-    if (handle == NULL) {
+    if (device_handle == NULL) {
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
         return;
     }
-    refreshApplicationList(handle);
-    refreshAudioList(handle);
-    smartpen_disconnect(handle);
-    handle = NULL;
+    refreshApplicationList();
+    refreshAudioList();
 }
 
-void GUIFrame::refreshApplicationList(obex_t *handle) {
-    char* s = smartpen_get_penletlist(handle);
+void GUIFrame::refreshApplicationList() {
+    char* s = smartpen_get_penletlist(device_handle);
     printf("Parsing application list...\n");
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
     xmlNode *cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
@@ -279,7 +277,7 @@ void GUIFrame::refreshApplicationList(obex_t *handle) {
     printf("Done parsing application list!\n");
 }
 
-void GUIFrame::refreshAudioList(obex_t *handle) {
+void GUIFrame::refreshAudioList() {
 //    char* s = smartpen_get_paperreplay(handle,0);
     printf("Parsing audio list...\n");
     return;
@@ -387,6 +385,7 @@ void GUIFrame::doRefreshDeviceState() {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
+            device_handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
         }
     } catch(...) {
         printf("Failed to search for your Smartpen\n");
@@ -396,17 +395,15 @@ void GUIFrame::doRefreshDeviceState() {
 
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
-    doRefreshDeviceState();
     if (dev != NULL) refreshLists();
 }
 
 void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
-    obex_t *handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-    if (handle != NULL) {
+    if (device_handle != NULL) {
         wxString deviceName("My Smartpen", wxConvUTF8);
-        DeviceInfo d(this, deviceName,dev->descriptor.idProduct,handle);
+        DeviceInfo d(this, deviceName,dev->descriptor.idProduct,device_handle);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
