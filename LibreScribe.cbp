@@ -50,9 +50,11 @@
 			<Add library="udev" />
 		</Linker>
 		<ExtraCommands>
-			<Add before="rm -rfv $(TARGET_OUTPUT_DIR)" />
-			<Add after="cp -rfv -L $(PROJECT_DIRECTORY)/res $(TARGET_OUTPUT_DIR)/res" />
-			<Add after="cp -fv -L $(PROJECT_DIRECTORY)/stf.py $(PROJECT_DIRECTORY)/parsestf.py $(TARGET_OUTPUT_DIR)" />
+			<Add before="cd $(PROJECT_DIRECTORY)" />
+			<Add before="rm -rfv ./bin" />
+			<Add after="cd $(PROJECT_DIRECTORY)" />
+			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res" />
+			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="DeviceInfo.cpp" />
