@@ -285,6 +285,8 @@ void smartpen_disconnect (obex_t *handle)
 	while (state->req_done == req_done) {
 		OBEX_HandleInput(handle, 100);
 	}
+	handle = NULL;
+	printf("disconnected.\n");
 }
 
 int smartpen_get_guid (obex_t *handle, FILE *out, char *guid,
@@ -302,19 +304,30 @@ int smartpen_get_guid (obex_t *handle, FILE *out, char *guid,
 	return len;
 }
 
-int smartpen_get_paperreplay (obex_t *handle, FILE *out,
-			      long long int start_time)
-{
-	char name[256];
+//int smartpen_get_paperreplay (obex_t *handle, FILE *out,
+//			      long long int start_time)
+//{
+//	char name[256];
+//	char *buf;
+//	int len;
+//
+//	snprintf(name, sizeof(name), "lspdata?name=com.livescribe.paperreplay.PaperReplay&start_time=%lld&returnVersion=0.3&remoteCaller=WIN_LD_200",
+//		 start_time);
+//
+//	buf = get_named_object(handle, name, &len);
+//	fwrite(buf, len, 1, out);
+//	return 1;
+//}
+
+char* smartpen_get_paperreplay (obex_t *handle, long long int start_time) {
+    char name[256];
 	char *buf;
 	int len;
 
 	snprintf(name, sizeof(name), "lspdata?name=com.livescribe.paperreplay.PaperReplay&start_time=%lld&returnVersion=0.3&remoteCaller=WIN_LD_200",
 		 start_time);
 
-	buf = get_named_object(handle, name, &len);
-	fwrite(buf, len, 1, out);
-	return 1;
+    return  get_named_object(handle, name, &len);
 }
 
 char* smartpen_get_penletlist(obex_t *handle) {

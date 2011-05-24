@@ -246,6 +246,8 @@ void GUIFrame::refreshLists() {
     }
     refreshApplicationList(handle);
     refreshAudioList(handle);
+    smartpen_disconnect(handle);
+    handle = NULL;
 }
 
 void GUIFrame::refreshApplicationList(obex_t *handle) {
@@ -278,6 +280,8 @@ void GUIFrame::refreshApplicationList(obex_t *handle) {
 }
 
 void GUIFrame::refreshAudioList(obex_t *handle) {
+//    char* s = smartpen_get_paperreplay(handle,0);
+    printf("Parsing audio list...\n");
     return;
 }
 

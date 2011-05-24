@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="DeviceInfo.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2501" topLine="42" />
+	<File name="DeviceInfo.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="5706" topLine="165" />
 	</File>
-	<File name="DeviceInfo.h" open="0" top="0" tabpos="0">
-		<Cursor position="651" topLine="0" />
+	<File name="DeviceInfo.h" open="1" top="0" tabpos="6">
+		<Cursor position="1242" topLine="28" />
 	</File>
-	<File name="GUIFrame.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="9591" topLine="160" />
+	<File name="GUIFrame.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="12461" topLine="228" />
 	</File>
-	<File name="GUIFrame.h" open="1" top="1" tabpos="0">
-		<Cursor position="4120" topLine="130" />
+	<File name="GUIFrame.h" open="1" top="0" tabpos="1">
+		<Cursor position="4347" topLine="133" />
 	</File>
 	<File name="LibreScribe.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="857" topLine="20" />
@@ -19,14 +19,14 @@
 	<File name="LibreScribe.h" open="0" top="0" tabpos="0">
 		<Cursor position="699" topLine="0" />
 	</File>
-	<File name="include/Smartpen.h" open="0" top="0" tabpos="0">
-		<Cursor position="36" topLine="0" />
+	<File name="include/Smartpen.h" open="1" top="0" tabpos="4">
+		<Cursor position="2139" topLine="47" />
 	</File>
 	<File name="src/BackgroundMonitor.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1238" topLine="15" />
 	</File>
-	<File name="src/Smartpen.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="7696" topLine="316" />
+	<File name="src/Smartpen.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="2522" topLine="225" />
 	</File>
 	<File name="wx_pch.h" open="0" top="0" tabpos="0">
 		<Cursor position="649" topLine="3" />
