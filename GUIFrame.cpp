@@ -240,10 +240,7 @@ void GUIFrame::refreshLists() {
     audioList->ClearAll();
     appList->ClearAll();
     setupLists();
-    if (device_handle == NULL) {
-        wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
-        return;
-    }
+    if (device_handle == NULL || dev == NULL) return;
     refreshApplicationList();
     refreshAudioList();
 }
@@ -387,6 +384,7 @@ void GUIFrame::doRefreshDeviceState() {
             }
             device_handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
         }
+        refreshLists();
     } catch(...) {
         printf("Failed to search for your Smartpen\n");
     }
@@ -396,6 +394,10 @@ void GUIFrame::doRefreshDeviceState() {
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
     if (dev != NULL) refreshLists();
+    if (device_handle == NULL) {
+        wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
+        return;
+    }
 }
 
 void GUIFrame::OnInfo(wxCommandEvent& event)
