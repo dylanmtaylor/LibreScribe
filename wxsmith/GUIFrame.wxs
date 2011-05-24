@@ -164,6 +164,7 @@
 				<object class="wxMenuItem" name="idMenuFileQuit" variable="quitMenuItem" member="yes">
 					<label>&amp;Quit</label>
 					<accel>Ctrl+Q</accel>
+					<help>Quit this application.</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
