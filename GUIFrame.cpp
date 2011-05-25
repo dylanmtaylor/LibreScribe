@@ -233,19 +233,23 @@ void GUIFrame::addApplicationToList(applicationInfo info) {
 
 //This method will clear the lists, set them up again, and fill them with new information.
 void GUIFrame::refreshLists() {
+try {
     audioList->ClearAll();
     appList->ClearAll();
     setupLists();
     if (device_handle == NULL || dev == NULL) return;
-    refreshApplicationList();
-    refreshAudioList();
+        refreshApplicationList();
+        refreshAudioList();
+    } catch(...) {
+        wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
+    }
 }
 
 void GUIFrame::refreshApplicationList() {
     char* s = smartpen_get_penletlist(device_handle);
-    printf("Parsing application list...\n");
+    printf("Parsing application list...\n%s\n",s);
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
-    xmlNode *cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+    xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
     if (cur == NULL) {
         printf("cur is NULL!\n");
         xmlFreeDoc(doc);
