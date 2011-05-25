@@ -185,7 +185,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     addApplicationToList(sampleAppInfo);
 #endif
     doRefreshDeviceState();
-    refreshLists();
 }
 
 GUIFrame::~GUIFrame()
