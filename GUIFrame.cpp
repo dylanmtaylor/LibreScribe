@@ -233,11 +233,11 @@ void GUIFrame::addApplicationToList(applicationInfo info) {
 
 //This method will clear the lists, set them up again, and fill them with new information.
 void GUIFrame::refreshLists() {
-try {
-    audioList->ClearAll();
-    appList->ClearAll();
-    setupLists();
-    if (device_handle == NULL || dev == NULL) return;
+    try {
+        audioList->ClearAll();
+        appList->ClearAll();
+        setupLists();
+        if (device_handle == NULL || dev == NULL) return;
         refreshApplicationList();
         refreshAudioList();
     } catch(...) {
@@ -248,6 +248,7 @@ try {
 void GUIFrame::refreshApplicationList() {
     char* s = smartpen_get_penletlist(device_handle);
     printf("Parsing application list...\n%s\n",s);
+    printf("strlen of s: %d\n", strlen(s));
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
     xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
     if (cur == NULL) {
@@ -350,9 +351,11 @@ uint16_t GUIFrame::refreshDeviceState() {
         printf("Sorry! No compatible smartpen device found!\n");
         return 0x0000;
     } else {
+        printf("detecting smartpen...");
+        printf("smartpen idProduct: %s\n", dev->descriptor.idProduct);
         if (dev->descriptor.idProduct == LS_PULSE) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-        } else if (dev->descriptor.idProduct == LS_ECHO || dev->descriptor.idProduct == 0x1032) {
+        } else if ((dev->descriptor.idProduct == LS_ECHO) || (dev->descriptor.idProduct == 0x1032)) {
             printf("LiveScribe Echo(TM) Smartpen Detected!\n");
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
