@@ -15,7 +15,7 @@ AR = ar
 RANLIB = ranlib
 WINDRES = windres
 
-INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude
+INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude -I/usr/lib/i386-linux-gnu/glib-2.0/include/
 CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
 RESINC = 
 RCFLAGS = 
