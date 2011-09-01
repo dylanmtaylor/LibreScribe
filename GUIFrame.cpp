@@ -354,9 +354,9 @@ uint16_t GUIFrame::refreshDeviceState() {
     } else {
         printf("detecting smartpen...");
         printf("smartpen idProduct: %s\n", dev->descriptor.idProduct);
-        if (dev->descriptor.idProduct == LS_PULSE) {
+        if (is_ls_pulse(dev->descriptor.idProduct)) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-        } else if ((dev->descriptor.idProduct == LS_ECHO) || (dev->descriptor.idProduct == 0x1032)) {
+        } else if(is_ls_echo(dev->descriptor.idProduct)) {
             printf("LiveScribe Echo(TM) Smartpen Detected!\n");
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
@@ -376,10 +376,10 @@ void GUIFrame::doRefreshDeviceState() {
             statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
         } else {
             this->mainToolbar->EnableTool(idToolbarInfo,true);
-            if (dev->descriptor.idProduct == LS_PULSE) {
+            if (is_ls_pulse(dev->descriptor.idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
                 printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-            } else if (dev->descriptor.idProduct == LS_ECHO) {
+            } else if (is_ls_echo(dev->descriptor.idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
                 printf("LiveScribe Echo(TM) Smartpen Detected!\n");
             } else {

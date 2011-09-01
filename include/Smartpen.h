@@ -28,8 +28,8 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include <usb.h>
 
 #define LS_VENDOR_ID 0x1cfb //LiveScribe Vendor ID
-#define LS_PULSE 0x1020 //LiveScribe Pulse(TM) Smartpen
-#define LS_ECHO 0x1030 //LiveScribe Echo(TM) Smartpen
+inline bool is_ls_pulse(unsigned int c) { return c == 0x1020; } //LiveScribe Pulse(TM) Smartpen
+inline bool is_ls_echo(unsigned int c) { return c == 0x1030 || c == 0x1032; } //LiveScribe Echo(TM) Smartpen
 
 static struct usb_device *findSmartpen() {
     printf("\nentering findSmartpen()\n");
