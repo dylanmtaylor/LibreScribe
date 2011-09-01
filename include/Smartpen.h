@@ -32,6 +32,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #define LS_ECHO 0x1030 //LiveScribe Echo(TM) Smartpen
 
 static struct usb_device *findSmartpen() {
+    printf("\nentering findSmartpen()\n");
     struct usb_bus *bus;
     struct usb_device *dev;
     struct usb_bus *busses;
@@ -43,10 +44,12 @@ static struct usb_device *findSmartpen() {
     for (bus = busses; bus; bus = bus->next) {
         for (dev = bus->devices; dev; dev = dev->next) {
             if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
+                printf("\nexiting findSmartpen() returning device\n");
                 return dev;
             }
         }
     }
+    printf("\nexiting findSmartpen() returning NULL\n");
     return NULL;
 }
 
