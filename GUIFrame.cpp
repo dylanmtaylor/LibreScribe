@@ -56,6 +56,7 @@ const long GUIFrame::idStatusBar = wxNewId();
 //*)
 
 struct usb_device *dev;
+obex_t *device_handle;
 wxImageList* treeImages;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
@@ -385,7 +386,9 @@ void GUIFrame::doRefreshDeviceState() {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
+            printf("assigning device_handle.\n");
             device_handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+            if (device_handle == NULL) printf("device_handle assignment failure.\n");
         }
         refreshLists();
     } catch(...) {
@@ -396,8 +399,13 @@ void GUIFrame::doRefreshDeviceState() {
 
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
-    if (dev != NULL) refreshLists();
+    if (dev != NULL) {
+        refreshLists();
+    } else {
+        printf("dev is NULL.\n");
+    }
     if (device_handle == NULL) {
+        printf("device_handle is NULL.\n");
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
         return;
     }

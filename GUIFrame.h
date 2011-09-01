@@ -80,7 +80,6 @@ class GUIFrame: public wxFrame
         void addApplicationToList(applicationInfo info);
         BackgroundMonitor *m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
-        obex_t *device_handle;
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxStaticText* notebookPageName;
