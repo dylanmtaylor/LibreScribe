@@ -53,11 +53,15 @@ const long GUIFrame::idToolbarInfo = wxNewId();
 const long GUIFrame::idToolbarQuit = wxNewId();
 const long GUIFrame::idMainToolbar = wxNewId();
 const long GUIFrame::idStatusBar = wxNewId();
+const long GUIFrame::idRootItemMenuInformation = wxNewId();
+const long GUIFrame::idRootItemMenuRenameDevice = wxNewId();
+const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 //*)
 
 struct usb_device *dev;
 obex_t *device_handle;
 wxImageList* treeImages;
+wxTreeItemId root;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
 	//(*EventTable(GUIFrame)
@@ -161,14 +165,24 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	statusBar->SetFieldsCount(2,__wxStatusBarWidths_1);
 	statusBar->SetStatusStyles(2,__wxStatusBarStyles_1);
 	SetStatusBar(statusBar);
+	deviceInformationMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuInformation, _("Device &Information"), _("Display information about the connected smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(deviceInformationMenuItem);
+	MenuItem1 = new wxMenuItem((&rootItemMenu), idRootItemMenuRenameDevice, _("Re&name Smartpen"), _("Change the name of the connected smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(MenuItem1);
+	refreshConnectionMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRefresh, _("&Refresh Connection"), _("Refresh the connection to the attached smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(refreshConnectionMenuItem);
 	contentSizer->SetSizeHints(this);
 	Center();
 
+	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
 	Connect(idToolbarInfo,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnInfo);
 	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
+	Connect(idRootItemMenuInformation,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnInfo);
+	Connect(idRootItemMenuRenameDevice,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::RenameSmartpen);
+	Connect(idRootItemMenuRefresh,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
 	printf("LibreScribe Alpha version 0.04, written by Dylan Taylor\n");
@@ -202,11 +216,11 @@ void GUIFrame::setupPageHierarchy() {
     pageTree->SetImageList(treeImages);
 
     if ((!device_handle) || (dev == NULL)) {
-       wxTreeItemId root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
+       root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
     } else {
         wxString penName(smartpen_get_penname(device_handle), wxConvUTF8);
-        wxTreeItemId root = pageTree->AddRoot(penName, 0);
+        root = pageTree->AddRoot(penName, 0);
         printf("Attempting to retrieve changelist...\n");
         char *changelist;
         changelist = smartpen_get_changelist(device_handle, 0);
@@ -503,4 +517,21 @@ void GUIFrame::OnClose(wxCloseEvent& event)
 //    }
 
     Destroy();
+}
+
+void GUIFrame::OnPageTreePopupClick() {
+
+}
+
+void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
+{
+	wxTreeItemId item = event.GetItem();
+    printf("page tree item context menu request detected. item id: %d\n",item);
+	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
+        PopupMenu(&rootItemMenu);
+	}
+}
+
+void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
+    printf("rename smartpen option chosen.\n");
 }
