@@ -338,14 +338,14 @@ char* smartpen_get_penletlist(obex_t *handle) {
 }
 
 
-std::string to_hex ( const std::string& src ) {
+std::string to_hex ( const std::string& src, bool spaces ) {
   //source: http://www.programmingforums.org/thread14348.html
   std::stringstream out;
 
   for ( std::string::size_type i = 0; i < src.size(); i++ ) {
     out<< std::hex << int ( src[i] );
 
-    if ( i < src.size() - 1 )
+    if (( i < src.size() - 1 ) && (spaces))
       out<<' ';
   }
 
