@@ -337,7 +337,7 @@ void GUIFrame::handleLsp(xmlNode *lsp) {
         printf("\tVersion: %s\n",ver);
         printf("\tSize: %s\n",size);
         printf("\tFull path: %s\n",fullPath);
-        if (name != NULL) {
+        if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"") != 0) { //if the group name is not blank
             applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
             addApplicationToList(thisApp);
         }
