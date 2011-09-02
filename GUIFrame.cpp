@@ -534,4 +534,21 @@ void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 
 void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
     printf("rename smartpen option chosen.\n");
+    wxString currentName(smartpen_get_penname(device_handle),wxConvUTF8);
+    wxTextEntryDialog renameDialog(this,_("Enter the new name for your smartpen"),_("Rename Smartpen"),
+                                  currentName,wxOK|wxCANCEL);
+    renameDialog.ShowModal();
+    wxString newName = renameDialog.GetValue();
+    if (newName != currentName) {
+        printf("The name entered is not the same as the current name. Asking for confirmation...\n");
+        std::string desiredName = std::string(newName.mb_str());
+        printf("The new name that was requested is \"%s\". Is this correct?\n",desiredName.c_str());
+        std::string promptText = "Rename device to \"" + desiredName + "\"?";
+        wxMessageDialog confirmationDialog(this,wxString(promptText.c_str(),wxConvUTF8),_("Confirm Rename Operation"),wxYES_NO);
+        if (confirmationDialog.ShowModal() == wxID_YES) {
+            printf("Request confirmed. Attempting to rename device...\n");
+            smartpen_set_penname(device_handle,(char*)desiredName.c_str());
+        } else printf("Rename operation cancelled.\n");
+
+    }
 }
