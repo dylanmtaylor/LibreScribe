@@ -82,8 +82,8 @@ class GUIFrame: public wxFrame
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
-		wxMenuItem* MenuItem1;
 		wxStaticText* notebookPageName;
+		wxMenuItem* renameSmartpenMenuItem;
 		wxMenuBar* menuBar;
 		wxMenuItem* refreshConnectionMenuItem;
 		wxStatusBar* statusBar;
