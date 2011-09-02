@@ -270,24 +270,13 @@ static bool put_named_object(obex_t *handle, char *name, char *body)
 	glong bnum;
 	printf("getting obex state...\n");
 	state = (obex_state*)OBEX_GetUserData(handle);
-//	printf("adding header\n");
-//    printf("done setting up connection...\n");
     printf("creating object\n");
 	obj = OBEX_ObjectNew(handle, OBEX_CMD_PUT);
     if(obj== NULL) {
         return false;
     }
-    printf("converting body from utf8 to utf16\n");
-    unsigned char *u16_body = (unsigned char *)g_utf8_to_utf16(body, strlen(body), NULL, &bnum, NULL);
-    printf("starting for loop. bnum = %d\n",bnum);
-	for (i=0; i<bnum; i++) {
-        printf("for loop iteration; i = %d\n",i);
-		uint16_t *wchar = (uint16_t*)&hd.bs[i*2];
-		printf("wchar: %x\n",wchar);
-		*wchar = ntohs(*wchar);
-	}
-	printf("determining body size\n");
-    body_size = (bnum+1) * sizeof(uint16_t);
+    body_size = strlen(body);
+	printf("determining body size: %d\n",body_size);
     printf("Adding length header...\n");
     /* Add length header */
     hd.bq4 = body_size;
@@ -308,19 +297,14 @@ static bool put_named_object(obex_t *handle, char *name, char *body)
 	}
     name_size = (nnum+1) * sizeof(uint16_t);
     printf("name size: %d\n", name_size);
-
     OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_NAME, hd, name_size, OBEX_FL_FIT_ONE_PACKET);
     printf("Adding body header...\n");
     /* Add body header*/
-    hd.bs = u16_body;
+    hd.bs = (unsigned char*)body;
     printf("body size: %d\n", body_size);
     OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_BODY, hd, body_size, OBEX_FL_FIT_ONE_PACKET);
     printf("Sending request...\n");
-    if (OBEX_Request(handle, obj) < 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return (OBEX_Request(handle, obj) >= 0);
 }
 
 char *smartpen_get_changelist(obex_t *handle, int starttime)
@@ -470,8 +454,8 @@ const char* smartpen_get_penname(obex_t *handle) {
 bool smartpen_set_penname(obex_t *handle, char* new_name) {
     char *name_header = "ppdata?key=pp8011";
     printf("Attempting to set smartpen name to \"%s\"...\n",new_name);
-    std::string encoded = "0x" + to_hex(new_name,false);
-    printf("New Name (HEX Encoded): \"%s\"\n",encoded.c_str());
+//    std::string encoded = "0x" + to_hex(new_name,false);
+//    printf("New Name (HEX Encoded): \"%s\"\n",encoded.c_str());
 //    bool success = put_named_object(handle, name_header, (char*)encoded.c_str());
     bool success = put_named_object(handle, name_header, new_name);
     if (success) {
