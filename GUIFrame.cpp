@@ -167,8 +167,8 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	SetStatusBar(statusBar);
 	deviceInformationMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuInformation, _("Device &Information"), _("Display information about the connected smartpen"), wxITEM_NORMAL);
 	rootItemMenu.Append(deviceInformationMenuItem);
-	MenuItem1 = new wxMenuItem((&rootItemMenu), idRootItemMenuRenameDevice, _("Re&name Smartpen"), _("Change the name of the connected smartpen"), wxITEM_NORMAL);
-	rootItemMenu.Append(MenuItem1);
+	renameSmartpenMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRenameDevice, _("Re&name Smartpen"), _("Change the name of the connected smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(renameSmartpenMenuItem);
 	refreshConnectionMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRefresh, _("&Refresh Connection"), _("Refresh the connection to the attached smartpen"), wxITEM_NORMAL);
 	rootItemMenu.Append(refreshConnectionMenuItem);
 	contentSizer->SetSizeHints(this);
