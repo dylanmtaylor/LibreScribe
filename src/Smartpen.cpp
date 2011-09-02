@@ -78,7 +78,7 @@ static void obex_event (obex_t *hdl, obex_object_t *obj, int mode,
 
 	if (obex_rsp != OBEX_RSP_SUCCESS && obex_rsp != OBEX_RSP_CONTINUE) {
 		printf("FAIL %x %x\n", obex_rsp, event);
-		assert(0);
+//		assert(0);
 		state->req_done++;
 		return;
 	}
