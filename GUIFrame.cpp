@@ -201,7 +201,7 @@ void GUIFrame::setupPageHierarchy() {
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
 
-    if (!device_handle) {
+    if ((!device_handle) || (dev == NULL)) {
        wxTreeItemId root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
     } else {
