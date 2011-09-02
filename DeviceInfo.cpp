@@ -117,7 +117,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxW
     wxString freeSpace(fs, wxConvUTF8);
     storageRemaining->SetLabel(freeSpace);
     printf("success! we made it through the device information constructor unscathed!\n");
-//    smartpen_set_penname(device_handle,"MySmartpen");
+//    smartpen_set_penname(device_handle,"Dylan Taylor's Smartpen");
 }
 
 DeviceInfo::~DeviceInfo()
