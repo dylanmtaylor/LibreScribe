@@ -197,16 +197,17 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
+    treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-    wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
-    printf("Attempting to retrieve changelist...\n");
-    char *changelist;
-    int rc;
 
     if (!device_handle) {
-        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
+       wxTreeItemId root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
+       printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
     } else {
+        wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
+        printf("Attempting to retrieve changelist...\n");
+        char *changelist;
         changelist = smartpen_get_changelist(device_handle, 0);
         printf("Parsing changelist...\n%s\n",changelist);
         printf("strlen of changelist: %d\n", strlen(changelist));
