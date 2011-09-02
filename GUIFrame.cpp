@@ -177,15 +177,13 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
     StartBackgroundMonitor();
-    setupPageHierarchy();
-    setupLists();
+    doRefreshDeviceState();
 #if USE_FAKE_SAMPLE_INFORMATION
     audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     addAudioClipToList(sampleClipInfo);
     applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     addApplicationToList(sampleAppInfo);
 #endif
-    doRefreshDeviceState();
 }
 
 GUIFrame::~GUIFrame()
@@ -202,8 +200,48 @@ void GUIFrame::setupPageHierarchy() {
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
     wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
-    pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
-    pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
+    printf("Attempting to retrieve changelist...\n");
+    char *changelist;
+    int rc;
+
+    if (!device_handle) {
+        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
+    } else {
+        changelist = smartpen_get_changelist(device_handle, 0);
+        printf("Parsing changelist...\n%s\n",changelist);
+        printf("strlen of changelist: %d\n", strlen(changelist));
+        xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
+        xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+        if (cur == NULL) {
+            printf("cur is NULL!\n");
+            xmlFreeDoc(doc);
+            return; //do nothing if the xml document is empty
+        }
+        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
+        cur = cur->children;
+        for (cur = cur; cur; cur = cur->next) {
+            if (cur->type == XML_ELEMENT_NODE) {
+                if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
+                    xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                    for (lsps = lsps; lsps; lsps = lsps->next) {
+                         if (lsps->type == XML_ELEMENT_NODE) {
+                            if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                                xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
+                                xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
+                                if (guid != NULL) {
+                                    printf("Notebook detected: %s (%s)\n",title,guid);
+                                    pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                }
+                            }
+                         }
+                    }
+                }
+            }
+        }
+        printf("Done parsing change list!\n");
+    }
+//    pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
+//    pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
     pageTree->ExpandAll();
     pageTree->SetIndent(10);
     pageTree->SetSpacing(0);
@@ -238,9 +276,9 @@ void GUIFrame::refreshLists() {
         audioList->ClearAll();
         appList->ClearAll();
         setupLists();
-        if (device_handle == NULL || dev == NULL) return;
         refreshApplicationList();
         refreshAudioList();
+        if (device_handle == NULL || dev == NULL) return;
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
     }
@@ -298,12 +336,15 @@ void GUIFrame::handleLsp(xmlNode *lsp) {
         printf("\tVersion: %s\n",ver);
         printf("\tSize: %s\n",size);
         printf("\tFull path: %s\n",fullPath);
-        applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
-        addApplicationToList(thisApp);
+        if (name != NULL) {
+            applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
+            addApplicationToList(thisApp);
+        }
     }
 }
 
 void GUIFrame::setupLists() {
+    setupPageHierarchy();
     const int audio_column_width = 180;
     const int app_column_width = 240;
     //first, set up the list control sizers
