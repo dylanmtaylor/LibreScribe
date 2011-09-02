@@ -212,6 +212,7 @@ out:
 
 static char *get_named_object(obex_t *handle, char *name, int *len)
 {
+    printf("attempting to retrieve named object \"%s\"...\n",name);
 	struct obex_state *state;
 	int req_done;
 	obex_object_t *obj;
@@ -237,8 +238,10 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 	size = (num+1) * sizeof(uint16_t);
 	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_NAME, hd, size, OBEX_FL_FIT_ONE_PACKET);
 
-	if (OBEX_Request(handle, obj) < 0)
+	if (OBEX_Request(handle, obj) < 0) {
+        printf("an error occured while retrieving the object. returning null value.\n");
 		return NULL;
+	}
 
 	req_done = state->req_done;
 	while (state->req_done == req_done) {
@@ -252,6 +255,72 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 		*len = 0;
 	}
 	return state->body;
+}
+
+static bool put_named_object(obex_t *handle, char *name, char *body)
+{
+    //reference: http://dev.zuckschwerdt.org/openobex/doxygen/
+    printf("Attempting to set \"%s\" to \"%s\"\n",name,body);
+    struct obex_state *state;
+    int req_done;
+    obex_object_t *obj;
+	obex_headerdata_t hd;
+	int name_size, body_size, i;
+	glong nnum;
+	glong bnum;
+	printf("getting obex state...\n");
+	state = (obex_state*)OBEX_GetUserData(handle);
+//	printf("adding header\n");
+//    printf("done setting up connection...\n");
+    printf("creating object\n");
+	obj = OBEX_ObjectNew(handle, OBEX_CMD_PUT);
+    if(obj== NULL) {
+        return false;
+    }
+    printf("converting body from utf8 to utf16\n");
+    unsigned char *u16_body = (unsigned char *)g_utf8_to_utf16(body, strlen(body), NULL, &bnum, NULL);
+    printf("starting for loop. bnum = %d\n",bnum);
+	for (i=0; i<bnum; i++) {
+        printf("for loop iteration; i = %d\n",i);
+		uint16_t *wchar = (uint16_t*)&hd.bs[i*2];
+		printf("wchar: %x\n",wchar);
+		*wchar = ntohs(*wchar);
+	}
+	printf("determining body size\n");
+    body_size = (bnum+1) * sizeof(uint16_t);
+    printf("Adding length header...\n");
+    /* Add length header */
+    hd.bq4 = body_size;
+    printf("length: %d\n", body_size);
+    OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_LENGTH, hd, 4, OBEX_FL_FIT_ONE_PACKET);
+	printf("Setting connection id header to state->connid (%d)\n",state->connid);
+	hd.bq4 = state->connid;
+	printf("Adding connection id header...\n");
+	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_CONNECTION,
+			     hd, 4, OBEX_FL_FIT_ONE_PACKET);
+    printf("Adding unicode name header...\n");
+    /* Add unicode name header*/
+    hd.bs = (unsigned char *)g_utf8_to_utf16(name, strlen(name),
+						 NULL, &nnum, NULL);
+    for (i=0; i<nnum; i++) {
+		uint16_t *wchar = (uint16_t*)&hd.bs[i*2];
+		*wchar = ntohs(*wchar);
+	}
+    name_size = (nnum+1) * sizeof(uint16_t);
+    printf("name size: %d\n", name_size);
+
+    OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_NAME, hd, name_size, OBEX_FL_FIT_ONE_PACKET);
+    printf("Adding body header...\n");
+    /* Add body header*/
+    hd.bs = u16_body;
+    printf("body size: %d\n", body_size);
+    OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_BODY, hd, body_size, OBEX_FL_FIT_ONE_PACKET);
+    printf("Sending request...\n");
+    if (OBEX_Request(handle, obj) < 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 char *smartpen_get_changelist(obex_t *handle, int starttime)
@@ -396,6 +465,22 @@ const char* smartpen_get_penname(obex_t *handle) {
             }
         }
     }
+}
+
+bool smartpen_set_penname(obex_t *handle, char* new_name) {
+    char *name_header = "ppdata?key=pp8011";
+    printf("Attempting to set smartpen name to \"%s\"...\n",new_name);
+    std::string encoded = "0x" + to_hex(new_name,false);
+    printf("New Name (HEX Encoded): \"%s\"\n",encoded.c_str());
+//    bool success = put_named_object(handle, name_header, (char*)encoded.c_str());
+    bool success = put_named_object(handle, name_header, new_name);
+    if (success) {
+        printf("Name changed successfully.\n");
+        printf("Retrieving smartpen name: %s\n",smartpen_get_penname(handle));
+    } else {
+        printf("Error occured while changing smartpen name.\n");
+    }
+    return success;
 }
 
 char * smartpen_get_peninfo (obex_t *handle)
