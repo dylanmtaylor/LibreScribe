@@ -102,8 +102,8 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxW
     printf("Setting device name label\n");
     const char* n = smartpen_get_penname(device_handle);
     printf("%s\n",n);
-    wxString devN(n, wxConvUTF8);
-    deviceName->SetLabel(devN);
+    wxString devName(n, wxConvUTF8);
+    deviceName->SetLabel(devName);
     if (is_ls_pulse(productID)) {
         deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
     } else if (is_ls_echo(productID)) {
