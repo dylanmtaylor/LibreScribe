@@ -82,8 +82,10 @@ class GUIFrame: public wxFrame
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
+		wxMenuItem* MenuItem1;
 		wxStaticText* notebookPageName;
 		wxMenuBar* menuBar;
+		wxMenuItem* refreshConnectionMenuItem;
 		wxStatusBar* statusBar;
 		wxPanel* appTab;
 		wxMenuItem* deletePagesMenuItem;
@@ -96,6 +98,7 @@ class GUIFrame: public wxFrame
 		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
 		wxMenuItem* deleteNotebookMenuItem;
+		wxMenuItem* deviceInformationMenuItem;
 		wxListCtrl* audioList;
 		wxMenu* fileMenu;
 		wxToolBarToolBase* quitButton;
@@ -103,6 +106,7 @@ class GUIFrame: public wxFrame
 		wxToolBarToolBase* refreshButton;
 		wxMenuItem* aboutMenuItem;
 		wxMenuItem* printMenuItem;
+		wxMenu rootItemMenu;
 		wxMenu* helpMenu;
 		wxMenuItem* archiveNotebookMenuItem;
 		//*)
@@ -131,6 +135,9 @@ class GUIFrame: public wxFrame
         static const long idToolbarQuit;
         static const long idMainToolbar;
         static const long idStatusBar;
+        static const long idRootItemMenuInformation;
+        static const long idRootItemMenuRenameDevice;
+        static const long idRootItemMenuRefresh;
         //*)
 
 	private:
@@ -141,7 +148,10 @@ class GUIFrame: public wxFrame
 		void OnQuit(wxCommandEvent& event);
 		void OnAbout(wxCommandEvent& event);
 		void OnClose(wxCloseEvent& event);
+		void OnPageTreeItemMenu(wxTreeEvent& event);
+		void RenameSmartpen(wxCommandEvent& event);
 		//*)
+		void OnPageTreePopupClick();
 
 		DECLARE_EVENT_TABLE()
         uint16_t refreshDeviceState();
