@@ -63,7 +63,6 @@
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="LibreScribe.cpp" />
 		<Unit filename="LibreScribe.h" />
-		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="include/Smartpen.h" />
 		<Unit filename="src/BackgroundMonitor.cpp" />
 		<Unit filename="src/Smartpen.cpp" />
@@ -71,6 +70,8 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="wxsmith/DeviceInfo.wxs" />
+		<Unit filename="wxsmith/GUIFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
