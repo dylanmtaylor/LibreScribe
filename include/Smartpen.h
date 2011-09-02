@@ -25,8 +25,11 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include <libusb.h>
 #include <assert.h>
 #include <arpa/inet.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 #include <usb.h>
 #include <string>
+#include <sstream>
 
 #define LS_VENDOR_ID 0x1cfb //LiveScribe Vendor ID
 inline bool is_ls_pulse(unsigned int c) { return c == 0x1020; } //LiveScribe Pulse(TM) Smartpen
@@ -71,5 +74,7 @@ int smartpen_get_guid (obex_t *handle, FILE *out, char *guid, long long int star
 char* smartpen_get_paperreplay (obex_t *handle, long long int start_time);
 char* smartpen_get_penletlist (obex_t *handle);
 char* smartpen_get_peninfo (obex_t *handle);
+const char* smartpen_get_penname (obex_t *handle);
+
 
 #endif

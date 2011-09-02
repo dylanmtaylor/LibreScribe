@@ -45,7 +45,7 @@ BEGIN_EVENT_TABLE(DeviceInfo,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
-DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, obex_t *handle, wxWindowID id,const wxPoint& pos,const wxSize& size)
+DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(DeviceInfo)
 	wxFlexGridSizer* mainSizer;
@@ -100,7 +100,10 @@ DeviceInfo::DeviceInfo(wxWindow* parent, wxString devName, uint16_t productID, o
     sprintf(fs, "%.02f of %.02f MiB remaining.\n",convertBytesToMiB(freeBytes),convertBytesToMiB(totalBytes)); //stores formatted string in fs
     printf("%s",fs); //displays fs on stdout
     printf("Setting device name label\n");
-    deviceName->SetLabel(devName);
+    const char* n = smartpen_get_penname(device_handle);
+    printf("%s\n",n);
+    wxString devN(n, wxConvUTF8);
+    deviceName->SetLabel(devN);
     if (is_ls_pulse(productID)) {
         deviceType->SetLabel(_("LiveScribe Pulse(TM) Smartpen"));
     } else if (is_ls_echo(productID)) {

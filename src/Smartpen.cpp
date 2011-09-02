@@ -337,6 +337,67 @@ char* smartpen_get_penletlist(obex_t *handle) {
 	return get_named_object(handle, name, &len);
 }
 
+
+std::string to_hex ( const std::string& src ) {
+  //source: http://www.programmingforums.org/thread14348.html
+  std::stringstream out;
+
+  for ( std::string::size_type i = 0; i < src.size(); i++ ) {
+    out<< std::hex << int ( src[i] );
+
+    if ( i < src.size() - 1 )
+      out<<' ';
+  }
+
+  return out.str();
+}
+
+std::string from_hex ( const std::string& src ) {
+    //source: http://www.programmingforums.org/thread14348.html
+  std::stringstream in(src);
+  std::string ret;
+  int byte;
+
+  while ( in>> std::hex >> byte ) {
+    ret += char ( byte );
+  }
+  return ret;
+}
+
+std::string space_hex ( const std::string& src ) {
+     std::string ret;
+     for(int x = 0; x < src.length(); x += 2) ret += src.substr(x,2) + ' ';
+     return ret;
+}
+
+const char* smartpen_get_penname(obex_t *handle) {
+    char *name = "ppdata?key=pp8011";
+	int len;
+	char* retrieved = get_named_object(handle, name, &len);
+    printf("retrieved: %s\n", retrieved);
+    xmlDocPtr doc = xmlParseMemory(retrieved, strlen(retrieved));
+    xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+    if (cur == NULL) {
+        printf("cur is NULL!\n");
+        xmlFreeDoc(doc);
+        return ""; //do nothing if the xml document is empty
+    }
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return ""; //do nothing if the current element's name is not 'xml'
+    cur = cur->children;
+    for (cur = cur; cur; cur = cur->next) {
+        if (cur->type == XML_ELEMENT_NODE) {
+            if ((!xmlStrcmp(cur->name, (const xmlChar *)"parameter"))) { //if the current element's name is 'parameter'
+                char* devName = (char*)xmlGetProp(cur, (const xmlChar*)"value");
+                std::string dN = devName;
+                dN = dN.substr(2);
+                printf("device name (hex): %s\n", dN.c_str());
+                printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
+                return from_hex(space_hex(dN)).c_str();
+            }
+        }
+    }
+}
+
 char * smartpen_get_peninfo (obex_t *handle)
 {
 	char *name = "peninfo";

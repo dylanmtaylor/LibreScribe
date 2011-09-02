@@ -171,7 +171,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
-	printf("LibreScribe Alpha version 0.03, written by Dylan Taylor\n");
+	printf("LibreScribe Alpha version 0.04, written by Dylan Taylor\n");
     //the following code makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
@@ -205,7 +205,8 @@ void GUIFrame::setupPageHierarchy() {
        wxTreeItemId root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
     } else {
-        wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
+        wxString penName(smartpen_get_penname(device_handle), wxConvUTF8);
+        wxTreeItemId root = pageTree->AddRoot(penName, 0);
         printf("Attempting to retrieve changelist...\n");
         char *changelist;
         changelist = smartpen_get_changelist(device_handle, 0);
@@ -459,8 +460,7 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
     if (device_handle != NULL) {
-        wxString deviceName("My Smartpen", wxConvUTF8);
-        DeviceInfo d(this, deviceName,dev->descriptor.idProduct,device_handle);
+        DeviceInfo d(this, dev->descriptor.idProduct,device_handle);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
