@@ -199,10 +199,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     addApplicationToList(sampleAppInfo);
 #endif
-    printf("sessions: %s\n",smartpen_get_sessionlist(device_handle));
-    const char * cert = smartpen_get_certificate(device_handle);
-    printf("retrieving certificate: %s\n",cert);
-    smartpen_reset_password(device_handle);
 }
 
 GUIFrame::~GUIFrame()
