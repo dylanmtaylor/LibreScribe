@@ -224,12 +224,12 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 	OBEX_SetTransportMTU(handle, OBEX_MAXIMUM_MTU, OBEX_MAXIMUM_MTU);
 	obj = OBEX_ObjectNew(handle, OBEX_CMD_GET);
 	size = 4;
-	printf("Setting connection id header to state->connid (%d)\n",state->connid);
+//	printf("Setting connection id header to state->connid (%d)\n",state->connid);
 	hd.bq4 = state->connid;
-	printf("Adding connection id header...\n");
+//	printf("Adding connection id header...\n");
 	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_CONNECTION,
 			     hd, size, OBEX_FL_FIT_ONE_PACKET);
-    printf("converting name from utf8 to utf16\n");
+//    printf("converting name from utf8 to utf16\n");
 	hd.bs = (unsigned char *)g_utf8_to_utf16(name, strlen(name),
 						 NULL, &num, NULL);
 
@@ -238,7 +238,7 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 		*wchar = ntohs(*wchar);
 	}
 	size = (num+1) * sizeof(uint16_t);
-	printf("Adding name header...\n");
+//	printf("Adding name header...\n");
 	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_NAME, hd, size, OBEX_FL_FIT_ONE_PACKET);
 
 	if (OBEX_Request(handle, obj) < 0) {
@@ -251,7 +251,7 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 	while (state->req_done == req_done) {
 		OBEX_HandleInput(handle, 100);
 	}
-    printf("done handling input\n");
+//    printf("done handling input\n");
 	if (state->body) {
 		*len = state->body_len;
 		state->body[state->body_len] = '\0';
