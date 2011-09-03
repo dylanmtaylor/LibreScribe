@@ -191,6 +191,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
     mkdir("./data", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create data directory if it doesn't exist
+    mkdir("./data/extracted", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create a directory for extracting archives to if it doesn't exist
     StartBackgroundMonitor();
     doRefreshDeviceState();
 //    smartpen_set_penname(device_handle,"Dylan Taylor's Smartpen"); //for testing only
