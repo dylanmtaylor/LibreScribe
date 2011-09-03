@@ -514,3 +514,15 @@ bool smartpen_reset_password (obex_t *handle) {
 	return (strcmp("success",result) == 0); //returns whether or not we successfully reset the password
 }
 
+void smartpen_get_lspdata(obex_t *handle, char* object_name,long long int start_time) {
+    char name[256];
+	int len;
+	snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%l",object_name,start_time);
+	printf("Downloading object with guid %s\n",object_name);
+	char * buf = get_named_object(handle, name, &len);
+	char * loc = (char*)malloc(snprintf(NULL, 0, "%s%s", "./data/", object_name) + 1);
+    sprintf(loc, "%s%s", "./data/", object_name);
+    FILE * out = fopen(loc, "w");
+    fwrite(buf, len, 1, out);
+    fclose(out);
+}

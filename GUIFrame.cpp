@@ -190,6 +190,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
+    mkdir("./data", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create data directory if it doesn't exist
     StartBackgroundMonitor();
     doRefreshDeviceState();
 //    smartpen_set_penname(device_handle,"Dylan Taylor's Smartpen"); //for testing only
@@ -215,7 +216,6 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-
     if ((!device_handle) || (dev == NULL)) {
        root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
        printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
@@ -248,6 +248,7 @@ void GUIFrame::setupPageHierarchy() {
                                 if (guid != NULL) {
                                     printf("Notebook detected: %s (%s)\n",title,guid);
                                     pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                    smartpen_get_lspdata(device_handle, (char*)guid);
                                 }
                             }
                          }
