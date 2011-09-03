@@ -518,6 +518,7 @@ void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
     printf("page tree item context menu request detected. item id: %d\n",item);
 	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         rootItemMenu.Enable(idRootItemMenuRenameDevice,(dev != NULL));
+        rootItemMenu.Enable(idRootItemMenuInformation,(dev != NULL));
         PopupMenu(&rootItemMenu);
 	}
 }
