@@ -479,3 +479,10 @@ char * smartpen_get_peninfo (obex_t *handle)
 	return get_named_object(handle, name, &len);
 }
 
+char* smartpen_get_sessionlist (obex_t *handle) {
+    char * name = "lspcommand?name=Paper Replay&command=listSessions";
+	int len;
+
+    return  get_named_object(handle, name, &len);
+}
+
