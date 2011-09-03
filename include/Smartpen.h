@@ -75,7 +75,9 @@ char* smartpen_get_paperreplay (obex_t *handle, long long int start_time);
 char* smartpen_get_penletlist (obex_t *handle);
 char* smartpen_get_peninfo (obex_t *handle);
 const char* smartpen_get_penname (obex_t *handle);
+const char* smartpen_get_certificate (obex_t *handle);
 char* smartpen_get_sessionlist (obex_t *handle);
+char* smartpen_reset_password (obex_t *handle);
 bool smartpen_set_penname (obex_t *handle, char *new_name);
 
 
