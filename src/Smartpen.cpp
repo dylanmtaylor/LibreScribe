@@ -221,13 +221,15 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 	glong num;
 
 	state = (obex_state*)OBEX_GetUserData(handle);
-
+	OBEX_SetTransportMTU(handle, OBEX_MAXIMUM_MTU, OBEX_MAXIMUM_MTU);
 	obj = OBEX_ObjectNew(handle, OBEX_CMD_GET);
-	hd.bq4 = state->connid;
 	size = 4;
+	printf("Setting connection id header to state->connid (%d)\n",state->connid);
+	hd.bq4 = state->connid;
+	printf("Adding connection id header...\n");
 	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_CONNECTION,
 			     hd, size, OBEX_FL_FIT_ONE_PACKET);
-
+    printf("converting name from utf8 to utf16\n");
 	hd.bs = (unsigned char *)g_utf8_to_utf16(name, strlen(name),
 						 NULL, &num, NULL);
 
@@ -236,9 +238,11 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 		*wchar = ntohs(*wchar);
 	}
 	size = (num+1) * sizeof(uint16_t);
+	printf("Adding name header...\n");
 	OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_NAME, hd, size, OBEX_FL_FIT_ONE_PACKET);
 
 	if (OBEX_Request(handle, obj) < 0) {
+	    OBEX_ObjectDelete(handle,obj);
         printf("an error occured while retrieving the object. returning null value.\n");
 		return NULL;
 	}
@@ -247,7 +251,7 @@ static char *get_named_object(obex_t *handle, char *name, int *len)
 	while (state->req_done == req_done) {
 		OBEX_HandleInput(handle, 100);
 	}
-
+    printf("done handling input\n");
 	if (state->body) {
 		*len = state->body_len;
 		state->body[state->body_len] = '\0';
@@ -270,6 +274,7 @@ static bool put_named_object(obex_t *handle, char *name, char *body)
 	glong bnum;
 	printf("getting obex state...\n");
 	state = (obex_state*)OBEX_GetUserData(handle);
+	OBEX_SetTransportMTU(handle, OBEX_MAXIMUM_MTU, OBEX_MAXIMUM_MTU);
     printf("creating object\n");
 	obj = OBEX_ObjectNew(handle, OBEX_CMD_PUT);
     if(obj== NULL) {
@@ -427,28 +432,30 @@ const char* smartpen_get_penname(obex_t *handle) {
     char *name = "ppdata?key=pp8011";
 	int len;
 	char* retrieved = get_named_object(handle, name, &len);
-    printf("retrieved: %s\n", retrieved);
-    xmlDocPtr doc = xmlParseMemory(retrieved, strlen(retrieved));
-    xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
-    if (cur == NULL) {
-        printf("cur is NULL!\n");
-        xmlFreeDoc(doc);
-        return ""; //do nothing if the xml document is empty
-    }
-    if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return ""; //do nothing if the current element's name is not 'xml'
-    cur = cur->children;
-    for (cur = cur; cur; cur = cur->next) {
-        if (cur->type == XML_ELEMENT_NODE) {
-            if ((!xmlStrcmp(cur->name, (const xmlChar *)"parameter"))) { //if the current element's name is 'parameter'
-                char* devName = (char*)xmlGetProp(cur, (const xmlChar*)"value");
-                std::string dN = devName;
-                dN = dN.substr(2);
-                printf("device name (hex): %s\n", dN.c_str());
-                printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
-                return from_hex(space_hex(dN)).c_str();
+	if (retrieved != NULL) {
+        printf("retrieved: %s\n", retrieved);
+        xmlDocPtr doc = xmlParseMemory(retrieved, strlen(retrieved));
+        xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+        if (cur == NULL) {
+            printf("cur is NULL!\n");
+            xmlFreeDoc(doc);
+            return ""; //do nothing if the xml document is empty
+        }
+        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return ""; //do nothing if the current element's name is not 'xml'
+        cur = cur->children;
+        for (cur = cur; cur; cur = cur->next) {
+            if (cur->type == XML_ELEMENT_NODE) {
+                if ((!xmlStrcmp(cur->name, (const xmlChar *)"parameter"))) { //if the current element's name is 'parameter'
+                    char* devName = (char*)xmlGetProp(cur, (const xmlChar*)"value");
+                    std::string dN = devName;
+                    dN = dN.substr(2);
+                    printf("device name (hex): %s\n", dN.c_str());
+                    printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
+                    return from_hex(space_hex(dN)).c_str();
+                }
             }
         }
-    }
+	}
 }
 
 bool smartpen_set_penname(obex_t *handle, char* new_name) {
