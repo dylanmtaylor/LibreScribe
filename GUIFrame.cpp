@@ -192,6 +192,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     pagesTab->SetSizer(pageTreeSizer);
     StartBackgroundMonitor();
     doRefreshDeviceState();
+//    smartpen_set_penname(device_handle,"Dylan Taylor's Smartpen"); //for testing only
 #if USE_FAKE_SAMPLE_INFORMATION
     audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     addAudioClipToList(sampleClipInfo);
@@ -548,7 +549,7 @@ void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
         if (confirmationDialog.ShowModal() == wxID_YES) {
             printf("Request confirmed. Attempting to rename device...\n");
             smartpen_set_penname(device_handle,(char*)desiredName.c_str());
+            printf("returned from setting pen name\n");
         } else printf("Rename operation cancelled.\n");
-
     }
 }
