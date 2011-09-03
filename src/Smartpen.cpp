@@ -517,12 +517,18 @@ bool smartpen_reset_password (obex_t *handle) {
 void smartpen_get_lspdata(obex_t *handle, char* object_name,long long int start_time) {
     char name[256];
 	int len;
-	snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%l",object_name,start_time);
-	printf("Downloading object with guid %s\n",object_name);
-	char * buf = get_named_object(handle, name, &len);
+	snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%d",object_name,start_time);
 	char * loc = (char*)malloc(snprintf(NULL, 0, "%s%s", "./data/", object_name) + 1);
     sprintf(loc, "%s%s", "./data/", object_name);
-    FILE * out = fopen(loc, "w");
-    fwrite(buf, len, 1, out);
-    fclose(out);
+    if (FILE * file = fopen(loc, "r")) {
+        fclose(file); //the file already exists
+    } else {
+        printf("Downloading object with guid %s from smartpen...\n",object_name);
+        char * buf = get_named_object(handle, name, &len);
+        FILE * out = fopen(loc, "w");
+        fwrite(buf, len, 1, out);
+        fclose(out);
+        std::string cmd = "unzip -qq -o -d ./data/extracted/" + (std::string)object_name + " ./data/" + (std::string)object_name;
+        system(cmd.c_str()); //I know... this is a horrible way to unzip the files, but it's so easy!
+    }
 }
