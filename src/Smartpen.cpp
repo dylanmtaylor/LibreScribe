@@ -506,11 +506,11 @@ char* smartpen_get_sessionlist (obex_t *handle) {
     return  get_named_object(handle, name, &len);
 }
 
-char* smartpen_reset_password (obex_t *handle) {
+bool smartpen_reset_password (obex_t *handle) {
     char * name = "lspcommand?name=Paper Replay&command=resetPW";
 	int len;
 	char * result = get_named_object(handle, name, &len);
 	printf("resetting paper replay password: %s\n",result);
-	return result;
+	return (strcmp("success",result) == 0); //returns whether or not we successfully reset the password
 }
 
