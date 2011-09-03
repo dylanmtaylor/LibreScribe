@@ -474,7 +474,7 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
 void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
-    if (device_handle != NULL) {
+    if ((device_handle != NULL) && (dev != NULL)) {
         DeviceInfo d(this, dev->descriptor.idProduct,device_handle);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
@@ -517,6 +517,7 @@ void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 	wxTreeItemId item = event.GetItem();
     printf("page tree item context menu request detected. item id: %d\n",item);
 	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
+        rootItemMenu.Enable(idRootItemMenuRenameDevice,(dev != NULL));
         PopupMenu(&rootItemMenu);
 	}
 }
