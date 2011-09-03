@@ -199,7 +199,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     addApplicationToList(sampleAppInfo);
 #endif
-    smartpen_reset_password(device_handle);
 }
 
 GUIFrame::~GUIFrame()
