@@ -428,13 +428,8 @@ std::string space_hex ( const std::string& src ) {
      return ret;
 }
 
-const char* smartpen_get_penname(obex_t *handle) {
-    char *name = "ppdata?key=pp8011";
-	int len;
-	char* retrieved = get_named_object(handle, name, &len);
-	if (retrieved != NULL) {
-        printf("retrieved: %s\n", retrieved);
-        xmlDocPtr doc = xmlParseMemory(retrieved, strlen(retrieved));
+const char* get_parameter_value(char * xml) {
+        xmlDocPtr doc = xmlParseMemory(xml, strlen(xml));
         xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
         if (cur == NULL) {
             printf("cur is NULL!\n");
@@ -446,15 +441,25 @@ const char* smartpen_get_penname(obex_t *handle) {
         for (cur = cur; cur; cur = cur->next) {
             if (cur->type == XML_ELEMENT_NODE) {
                 if ((!xmlStrcmp(cur->name, (const xmlChar *)"parameter"))) { //if the current element's name is 'parameter'
-                    char* devName = (char*)xmlGetProp(cur, (const xmlChar*)"value");
-                    std::string dN = devName;
-                    dN = dN.substr(2);
-                    printf("device name (hex): %s\n", dN.c_str());
-                    printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
-                    return from_hex(space_hex(dN)).c_str();
+                    char* value = (char*)xmlGetProp(cur, (const xmlChar*)"value");
+                    return value;
                 }
             }
         }
+}
+
+const char* smartpen_get_penname(obex_t *handle) {
+    char *name = "ppdata?key=pp8011";
+	int len;
+	char* retrieved = get_named_object(handle, name, &len);
+	if (retrieved != NULL) {
+        printf("retrieved: %s\n", retrieved);
+        const char* value = get_parameter_value(retrieved);
+        std::string dN = value;
+        dN = dN.substr(2);
+        printf("device name (hex): %s\n", dN.c_str());
+        printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
+        return from_hex(space_hex(dN)).c_str();
 	}
 }
 
@@ -479,10 +484,33 @@ char * smartpen_get_peninfo (obex_t *handle)
 	return get_named_object(handle, name, &len);
 }
 
+const char* smartpen_get_certificate (obex_t *handle) {
+    char * name = "ppdata?key=pp8010";
+	int len;
+
+    char * retrieved = get_named_object(handle, name, &len);
+	if (retrieved != NULL) {
+        const char* value = get_parameter_value(retrieved);
+        std::string hexCert = value;
+        hexCert = hexCert.substr(2);
+//        printf("Certificate (hex): %s\n", hexCert.c_str());
+        printf("From HEX: %s\n",from_hex(space_hex(hexCert)).c_str());
+        return from_hex(space_hex(hexCert)).c_str();
+	}
+}
+
 char* smartpen_get_sessionlist (obex_t *handle) {
     char * name = "lspcommand?name=Paper Replay&command=listSessions";
 	int len;
 
     return  get_named_object(handle, name, &len);
+}
+
+char* smartpen_reset_password (obex_t *handle) {
+    char * name = "lspcommand?name=Paper Replay&command=resetPW";
+	int len;
+	char * result = get_named_object(handle, name, &len);
+	printf("resetting paper replay password: %s\n",result);
+	return result;
 }
 
