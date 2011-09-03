@@ -1,5 +1,6 @@
 bin/
 obj/
+data/
 wx_pch.h.gch/
 *.stf
 *.pyc
