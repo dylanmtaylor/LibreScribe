@@ -461,9 +461,6 @@ const char* smartpen_get_penname(obex_t *handle) {
 bool smartpen_set_penname(obex_t *handle, char* new_name) {
     char *name_header = "ppdata?key=pp8011";
     printf("Attempting to set smartpen name to \"%s\"...\n",new_name);
-//    std::string encoded = "0x" + to_hex(new_name,false);
-//    printf("New Name (HEX Encoded): \"%s\"\n",encoded.c_str());
-//    bool success = put_named_object(handle, name_header, (char*)encoded.c_str());
     bool success = put_named_object(handle, name_header, new_name);
     if (success) {
         printf("Name changed successfully.\n");
