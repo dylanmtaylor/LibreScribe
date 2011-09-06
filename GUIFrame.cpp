@@ -59,7 +59,7 @@ const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 //*)
 
 struct usb_device *dev;
-obex_t *device_handle;
+Smartpen* smartpen;
 wxImageList* treeImages;
 wxTreeItemId root;
 
@@ -194,7 +194,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     mkdir("./data/extracted", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create a directory for extracting archives to if it doesn't exist
     StartBackgroundMonitor();
     doRefreshDeviceState();
-//    smartpen_set_penname(device_handle,"Dylan Taylor's Smartpen"); //for testing only
+//    smartpen->setName("Dylan Taylor's Smartpen"); //for testing only
 #if USE_FAKE_SAMPLE_INFORMATION
     audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     addAudioClipToList(sampleClipInfo);
@@ -217,15 +217,15 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-    if ((!device_handle) || (dev == NULL)) {
+    if ((!smartpen) || (dev == NULL)) {
        root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
-       printf("can't retrieve changelist. no device_handle set. perhaps a device isn't connected?\n");
+       printf("can't retrieve changelist. no smartpen set. perhaps a device isn't connected?\n");
     } else {
-        wxString penName(smartpen_get_penname(device_handle), wxConvUTF8);
+        wxString penName(smartpen->getName(), wxConvUTF8);
         root = pageTree->AddRoot(penName, 0);
         printf("Attempting to retrieve changelist...\n");
         char *changelist;
-        changelist = smartpen_get_changelist(device_handle, 0);
+        changelist = smartpen->getChangeList(0);
         printf("Parsing changelist...\n%s\n",changelist);
         printf("strlen of changelist: %d\n", strlen(changelist));
         xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
@@ -249,7 +249,7 @@ void GUIFrame::setupPageHierarchy() {
                                 if (guid != NULL) {
                                     printf("Notebook detected: %s (%s)\n",title,guid);
                                     pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
-                                    smartpen_get_lspdata(device_handle, (char*)guid);
+                                    smartpen->getLspData((char*)guid);
                                 }
                             }
                          }
@@ -297,15 +297,15 @@ void GUIFrame::refreshLists() {
         setupLists();
         refreshApplicationList();
         refreshAudioList();
-        if (device_handle == NULL || dev == NULL) return;
+        if (smartpen == NULL || dev == NULL) return;
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
     }
 }
 
 void GUIFrame::refreshApplicationList() {
-    if ((dev != NULL) && (device_handle != NULL)) {
-        char * s = smartpen_get_penletlist(device_handle);
+    if ((dev != NULL) && (smartpen != NULL)) {
+        char* s = smartpen->getPenletList();
         printf("Parsing application list...\n%s\n",s);
         printf("strlen of s: %d\n", strlen(s));
         xmlDocPtr doc = xmlParseMemory(s, strlen(s));
@@ -336,7 +336,7 @@ void GUIFrame::refreshApplicationList() {
 }
 
 void GUIFrame::refreshAudioList() {
-//    char* s = smartpen_get_paperreplay(device_handle,0);
+//    char* s = smartpen->getPaperReplay(0);
     printf("Parsing audio list...\n");
     return;
 }
@@ -448,9 +448,9 @@ void GUIFrame::doRefreshDeviceState() {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
-            printf("assigning device_handle.\n");
-            device_handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
-            if (device_handle == NULL) printf("device_handle assignment failure.\n");
+            printf("assigning smartpen.\n");
+            smartpen = Smartpen::connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+            if (smartpen == NULL) printf("smartpen assignment failure.\n");
         }
         refreshLists();
     } catch(...) {
@@ -466,8 +466,8 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
     } else {
         printf("dev is NULL.\n");
     }
-    if (device_handle == NULL) {
-        printf("device_handle is NULL.\n");
+    if (smartpen == NULL) {
+        printf("smartpen is NULL.\n");
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
         return;
     }
@@ -476,8 +476,8 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
 void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
-    if ((device_handle != NULL) && (dev != NULL)) {
-        DeviceInfo d(this, dev->descriptor.idProduct,device_handle);
+    if ((smartpen != NULL) && (dev != NULL)) {
+        DeviceInfo d(this, dev->descriptor.idProduct, smartpen);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
@@ -527,7 +527,7 @@ void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 
 void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
     printf("rename smartpen option chosen.\n");
-    wxString currentName(smartpen_get_penname(device_handle),wxConvUTF8);
+    wxString currentName(smartpen->getName(),wxConvUTF8);
     wxTextEntryDialog renameDialog(this,_("Enter the new name for your smartpen"),_("Rename Smartpen"),
                                   currentName,wxOK|wxCANCEL);
     renameDialog.ShowModal();
@@ -540,7 +540,7 @@ void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
         wxMessageDialog confirmationDialog(this,wxString(promptText.c_str(),wxConvUTF8),_("Confirm Rename Operation"),wxYES_NO);
         if (confirmationDialog.ShowModal() == wxID_YES) {
             printf("Request confirmed. Attempting to rename device...\n");
-            smartpen_set_penname(device_handle,(char*)desiredName.c_str());
+            smartpen->setName((char*)desiredName.c_str());
             printf("returned from setting pen name\n");
         } else printf("Rename operation cancelled.\n");
     }

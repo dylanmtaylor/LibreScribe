@@ -45,7 +45,7 @@ BEGIN_EVENT_TABLE(DeviceInfo,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
-DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxWindowID id,const wxPoint& pos,const wxSize& size)
+DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen, wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(DeviceInfo)
 	wxFlexGridSizer* mainSizer;
@@ -86,8 +86,8 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxW
 	mainSizer->SetSizeHints(this);
 	//*)
 
-    device_handle = handle;
-    char* s = smartpen_get_peninfo(device_handle);
+    this->smartpen = smartpen;
+    char* s = smartpen->getInfo();
     printf("%s\n",s);
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
     xmlNode *cur = xmlDocGetRootElement(doc);
@@ -100,7 +100,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxW
     sprintf(fs, "%.02f of %.02f MiB remaining.\n",convertBytesToMiB(freeBytes),convertBytesToMiB(totalBytes)); //stores formatted string in fs
     printf("%s",fs); //displays fs on stdout
     printf("Setting device name label\n");
-    const char* n = smartpen_get_penname(device_handle);
+    const char* n = smartpen->getName();
     printf("%s\n",n);
     wxString devName(n, wxConvUTF8);
     deviceName->SetLabel(devName);
