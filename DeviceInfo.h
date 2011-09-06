@@ -39,7 +39,7 @@ class DeviceInfo: public wxDialog
 {
 	public:
 
-        DeviceInfo(wxWindow* parent, uint16_t productID, obex_t *handle, wxWindowID id=wxID_ANY, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize);
+        DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen, wxWindowID id=wxID_ANY, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize);
 		virtual ~DeviceInfo();
         float convertBytesToMiB(long long int bytes);
 		//(*Declarations(DeviceInfo)
@@ -55,7 +55,7 @@ class DeviceInfo: public wxDialog
 
 	protected:
 
-        obex_t *device_handle;
+        Smartpen* smartpen;
 
 		//(*Identifiers(DeviceInfo)
 		static const long idInformationIcon;

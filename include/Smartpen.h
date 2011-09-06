@@ -67,20 +67,31 @@ struct obex_state {
     int connid;
 };
 
-obex_t *smartpen_connect(short vendor, short product);
-char *smartpen_get_changelist(obex_t *handle, int starttime);
-void smartpen_disconnect (obex_t *handle);
-int smartpen_get_guid (obex_t *handle, FILE *out, char *guid, long long int start_time);
-//int smartpen_get_paperreplay (obex_t *handle, FILE *out, long long int start_time);
-char* smartpen_get_paperreplay (obex_t *handle, long long int start_time);
-char* smartpen_get_penletlist (obex_t *handle);
-char* smartpen_get_peninfo (obex_t *handle);
-const char* smartpen_get_penname (obex_t *handle);
-const char* smartpen_get_certificate (obex_t *handle);
-void smartpen_get_lspdata (obex_t *handle,char* object_name,long long int start_time = 0);
-char* smartpen_get_sessionlist (obex_t *handle);
-bool smartpen_reset_password (obex_t *handle);
-bool smartpen_set_penname (obex_t *handle, char *new_name);
+class Smartpen {
+private:
+    obex_t* handle;
 
+    char* getNamedObject(char* name, int* len);
+    bool putNamedObject(char* name, char* body);
+
+public:
+    Smartpen(obex_t* handle) : handle(handle) {}
+
+    static Smartpen* connect(short vendor, short product);
+
+    void  disconnect();
+    char* getChangeList(int startTime);
+    int   getGuid(FILE* out, char* guid, long long int startTime);
+    //int getPaperReplay(FILE* out, long long int startTime);
+    char* getPaperReplay(long long int startTime);
+    char* getPenletList();
+    char* getInfo();
+    const char* getName();
+    const char* getCertificate();
+    void  getLspData(char* objectName, long long int startTime = 0);
+    char* getSessionList();
+    bool  resetPassword();
+    bool  setName(char* newName);
+};
 
 #endif
