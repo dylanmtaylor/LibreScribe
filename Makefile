@@ -15,7 +15,7 @@ AR = ar
 RANLIB = ranlib
 WINDRES = windres
 
-INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude -I/usr/lib/i386-linux-gnu/glib-2.0/include/
+INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude
 CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
 RESINC = 
 RCFLAGS = 
@@ -60,7 +60,7 @@ before_build:
 after_build: 
 	cd $(PROJECT_DIRECTORY)
 	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res
-	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py
+	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh
 
 before_Debug: 
 	test -d bin/Debug || mkdir -p bin/Debug
