@@ -252,8 +252,7 @@ char* Smartpen::getNamedObject(char* name, int* len) {
     if (state->body) {
         *len = state->body_len;
         state->body[state->body_len] = '\0';
-    }
-    else {
+    } else {
         *len = 0;
     }
     return state->body;
