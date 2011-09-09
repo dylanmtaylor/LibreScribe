@@ -137,74 +137,75 @@ Smartpen* Smartpen::connect(short vendor, short product) {
     char* buf;
     Smartpen* smartpen;
 
-again:
-    handle = OBEX_Init(OBEX_TRANS_USB, obex_event, 0);
-    if (!handle)
-        goto out;
-
-    num = OBEX_FindInterfaces(handle, &obex_intf);
-    for (i=0; i<num; i++) {
-        if (!strcmp(obex_intf[i].usb.manufacturer, "Livescribe")) {
-            break;
+    while (true) {
+        handle = OBEX_Init(OBEX_TRANS_USB, obex_event, 0);
+        if (!handle) {
+            return smartpen;
         }
+
+        num = OBEX_FindInterfaces(handle, &obex_intf);
+        for (i=0; i<num; i++) {
+            if (!strcmp(obex_intf[i].usb.manufacturer, "Livescribe")) {
+                break;
+            }
+        }
+
+        if (i == num) {
+            printf("No such device\n");
+            handle = NULL;
+            return smartpen;
+        }
+
+        state = (obex_state*)malloc(sizeof(struct obex_state));
+        if (!state) {
+            handle = NULL;
+            return smartpen;
+        }
+        memset(state, 0, sizeof(struct obex_state));
+
+        swizzle_usb(vendor, product);
+
+        rc = OBEX_InterfaceConnect(handle, &obex_intf[i]);
+        if (rc < 0) {
+            printf("Sorry! Connecting to your device failed. Miserably. Is it in use already?\n");
+            printf("Connect failed %d\n", rc);
+            handle = NULL;
+            return smartpen;
+        }
+
+        OBEX_SetUserData(handle, state);
+        OBEX_SetTransportMTU(handle, 0x400, 0x400);
+
+        obj = OBEX_ObjectNew(handle, OBEX_CMD_CONNECT);
+        hd.bs = (unsigned char *)"LivescribeService";
+        size = strlen((char*)hd.bs)+1;
+        OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_TARGET, hd, size, 0);
+
+        rc = OBEX_Request(handle, obj);
+
+        count = state->req_done;
+        while (rc == 0 && state->req_done <= count) {
+            OBEX_HandleInput(handle, 100);
+        }
+
+        if (rc < 0 || !state->got_connid) {
+            printf("Retry connection...\n");
+            OBEX_Cleanup(handle);
+            continue;
+        }
+
+        smartpen = new Smartpen(handle);
+
+        buf = smartpen->getNamedObject("ppdata?key=pp0000", &rc);
+        if (!buf) {
+            printf("Retry connection...\n");
+            OBEX_Cleanup(handle);
+            pen_reset(vendor, product);
+            delete smartpen;
+            continue;
+        }
+        break;
     }
-
-    if (i == num) {
-        printf("No such device\n");
-        handle = NULL;
-        goto out;
-    }
-
-    state = (obex_state*)malloc(sizeof(struct obex_state));
-    if (!state) {
-        handle = NULL;
-        goto out;
-    }
-    memset(state, 0, sizeof(struct obex_state));
-
-    swizzle_usb(vendor, product);
-
-    rc = OBEX_InterfaceConnect(handle, &obex_intf[i]);
-    if (rc < 0) {
-        printf("Sorry! Connecting to your device failed. Miserably. Is it in use already?\n");
-        printf("Connect failed %d\n", rc);
-        handle = NULL;
-        goto out;
-    }
-
-    OBEX_SetUserData(handle, state);
-    OBEX_SetTransportMTU(handle, 0x400, 0x400);
-
-    obj = OBEX_ObjectNew(handle, OBEX_CMD_CONNECT);
-    hd.bs = (unsigned char *)"LivescribeService";
-    size = strlen((char*)hd.bs)+1;
-    OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_TARGET, hd, size, 0);
-
-    rc = OBEX_Request(handle, obj);
-
-    count = state->req_done;
-    while (rc == 0 && state->req_done <= count) {
-        OBEX_HandleInput(handle, 100);
-    }
-
-    if (rc < 0 || !state->got_connid) {
-        printf("Retry connection...\n");
-        OBEX_Cleanup(handle);
-        goto again;
-    }
-
-    smartpen = new Smartpen(handle);
-
-    buf = smartpen->getNamedObject("ppdata?key=pp0000", &rc);
-    if (!buf) {
-        printf("Retry connection...\n");
-        OBEX_Cleanup(handle);
-        pen_reset(vendor, product);
-        delete smartpen;
-        goto again;
-    }
-
-out:
     return smartpen;
 }
 
