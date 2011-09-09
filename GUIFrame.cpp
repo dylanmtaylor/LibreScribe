@@ -223,44 +223,7 @@ void GUIFrame::setupPageHierarchy() {
     } else {
         wxString penName(smartpen->getName(), wxConvUTF8);
         root = pageTree->AddRoot(penName, 0);
-        printf("Attempting to retrieve changelist...\n");
-        char *changelist;
-        changelist = smartpen->getChangeList(0);
-        printf("Parsing changelist...\n%s\n",changelist);
-        printf("strlen of changelist: %d\n", strlen(changelist));
-        xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
-        xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
-        if (cur == NULL) {
-            printf("cur is NULL!\n");
-            xmlFreeDoc(doc);
-            return; //do nothing if the xml document is empty
-        }
-        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
-        cur = cur->children;
-        for (cur = cur; cur; cur = cur->next) {
-            if (cur->type == XML_ELEMENT_NODE) {
-                if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
-                    xmlNode *lsps = cur->children; //get the children of the 'lsps' element
-                    for (lsps = lsps; lsps; lsps = lsps->next) {
-                         if (lsps->type == XML_ELEMENT_NODE) {
-                            if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                                xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
-                                xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
-                                if (guid != NULL) {
-                                    printf("Notebook detected: %s (%s)\n",title,guid);
-                                    pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
-                                    smartpen->getLspData((char*)guid);
-                                }
-                            }
-                         }
-                    }
-                }
-            }
-        }
-        printf("Done parsing change list!\n");
     }
-//    pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
-//    pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
     pageTree->ExpandAll();
     pageTree->SetIndent(10);
     pageTree->SetSpacing(0);
@@ -289,21 +252,50 @@ void GUIFrame::addApplicationToList(applicationInfo info) {
     appList->SetItem(0, 2, info.size);
 }
 
+wxThread::ExitCode RefreshListThread::Entry() {
+    printf("background thread started successfully.\n");
+    wxString oldStatus = m_pHandler->statusBar->GetStatusText(1);
+    wxMutexGuiEnter();
+    m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
+    wxMutexGuiLeave();
+    refreshPageHierarchy();
+    refreshApplicationList();
+    refreshAudioList();
+    wxMutexGuiEnter();
+    m_pHandler->statusBar->SetStatusText(oldStatus, 1);
+    wxMutexGuiLeave();
+}
+
 //This method will clear the lists, set them up again, and fill them with new information.
 void GUIFrame::refreshLists() {
     try {
+        //first we need to clear and setup the lists
         audioList->ClearAll();
         appList->ClearAll();
         setupLists();
-        refreshApplicationList();
-        refreshAudioList();
-        if (smartpen == NULL || dev == NULL) return;
+        //now we retrieve the data in the background, so that we don't freeze the interface.
+        if ((!smartpen) || (dev == NULL)) { //make sure we have a connection to the smartpen before trying to refresh the lists
+            printf("It doesn't appear that a smartpen is connected. Sorry!\n");
+            return;
+        } else {
+            printf("Attempting to start background thread to refresh lists...\n");
+            RefreshListThread* refresh_thread = new RefreshListThread(this);
+            if (refresh_thread->Create() != wxTHREAD_NO_ERROR) {
+                printf("Can't create the thread!\n");
+                delete refresh_thread;
+                refresh_thread = NULL;
+            } else if (refresh_thread->Run() != wxTHREAD_NO_ERROR) {
+                printf("Can't create the thread!\n");
+                delete refresh_thread;
+                refresh_thread = NULL;
+            }
+        }
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
     }
 }
 
-void GUIFrame::refreshApplicationList() {
+void RefreshListThread::refreshApplicationList() {
     if ((dev != NULL) && (smartpen != NULL)) {
         char* s = smartpen->getPenletList();
         printf("Parsing application list...\n%s\n",s);
@@ -324,7 +316,7 @@ void GUIFrame::refreshApplicationList() {
                     for (lsps = lsps; lsps; lsps = lsps->next) {
                          if (lsps->type == XML_ELEMENT_NODE) {
                             if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                                handleLsp(lsps);
+                                m_pHandler->handleLsp(lsps);
                             }
                          }
                     }
@@ -335,7 +327,51 @@ void GUIFrame::refreshApplicationList() {
     }
 }
 
-void GUIFrame::refreshAudioList() {
+void RefreshListThread::refreshPageHierarchy() {
+    printf("Attempting to retrieve changelist...\n");
+    char *changelist;
+    changelist = smartpen->getChangeList(0);
+    printf("Parsing changelist...\n%s\n",changelist);
+    printf("strlen of changelist: %d\n", strlen(changelist));
+    xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
+    xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+    if (cur == NULL) {
+        printf("cur is NULL!\n");
+        xmlFreeDoc(doc);
+        return; //do nothing if the xml document is empty
+    }
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
+    cur = cur->children;
+    for (cur = cur; cur; cur = cur->next) {
+        if (cur->type == XML_ELEMENT_NODE) {
+            if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
+                xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                for (lsps = lsps; lsps; lsps = lsps->next) {
+                     if (lsps->type == XML_ELEMENT_NODE) {
+                        if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                            xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
+                            xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
+                            if (guid != NULL) {
+                                printf("Notebook detected: %s (%s)\n",title,guid);
+                                wxMutexGuiEnter();
+                                m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                wxMutexGuiLeave();
+                                smartpen->getLspData((char*)guid);
+                            }
+                        }
+                     }
+                }
+            }
+        }
+    }
+    wxMutexGuiEnter();
+    m_pHandler->pageTree->ExpandAll();
+    wxMutexGuiLeave();
+    printf("Done parsing change list!\n");
+    return;
+}
+
+void RefreshListThread::refreshAudioList() {
 //    char* s = smartpen->getPaperReplay(0);
     printf("Parsing audio list...\n");
     return;

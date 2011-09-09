@@ -69,6 +69,21 @@ class BackgroundMonitor : public wxThread
         GUIFrame* m_pHandler;
 };
 
+class RefreshListThread : public wxThread
+{
+    public:
+        RefreshListThread(GUIFrame* handler) : wxThread(wxTHREAD_DETACHED) {
+            m_pHandler = handler;
+        };
+        ~RefreshListThread(){};
+    protected:
+        void refreshApplicationList();
+        void refreshAudioList();
+        void refreshPageHierarchy();
+        virtual ExitCode Entry();
+        GUIFrame* m_pHandler;
+};
+
 class GUIFrame: public wxFrame
 {
 	public:
@@ -78,8 +93,9 @@ class GUIFrame: public wxFrame
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
         void addApplicationToList(applicationInfo info);
-        BackgroundMonitor *m_pThread;
+        BackgroundMonitor* m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+        void handleLsp(xmlNode *lsp);
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxStaticText* notebookPageName;
@@ -152,16 +168,12 @@ class GUIFrame: public wxFrame
 		void RenameSmartpen(wxCommandEvent& event);
 		//*)
 		void OnPageTreePopupClick();
-
 		DECLARE_EVENT_TABLE()
         uint16_t refreshDeviceState();
         void StartBackgroundMonitor();
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
-        void refreshApplicationList();
-        void refreshAudioList();
-        void handleLsp(xmlNode *lsp);
 };
 
 #endif
