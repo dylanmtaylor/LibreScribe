@@ -4,7 +4,7 @@ import cairo
 import sys
 import parsestf
 
-surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 6000, 6000)
+surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 8000, 8000)
 ctx = cairo.Context(surface)
 
 ctx.set_source_rgb(255, 255, 255)
@@ -21,6 +21,7 @@ class Parser(parsestf.STFParser):
         self.last_force = 0
 
     def handle_point(self, x, y, f, time):
+#	print "handling point (x: " + str(x) + ", y: " + str(y) + ", f: " + str(f) + ")" 
         if f:
             if self.last_force:
                 ctx.line_to(x, y)
