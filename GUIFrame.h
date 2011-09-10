@@ -100,7 +100,7 @@ class GUIFrame: public wxFrame
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
-        wxBitmap ScaleImage(char* filename);
+        wxBitmap ScaleImage(const char* filename);
 //        void addApplicationToList(applicationInfo info);
         BackgroundMonitor* m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
@@ -135,7 +135,7 @@ class GUIFrame: public wxFrame
 		wxMenu* helpMenu;
 		wxMenuItem* archiveNotebookMenuItem;
 		//*)
-
+        wxImageList* treeImages;
 	protected:
 
         //(*Identifiers(GUIFrame)
