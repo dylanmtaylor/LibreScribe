@@ -216,7 +216,7 @@ wxBitmap GUIFrame::ScaleImage(char* filename) {
     wxString fname(filename, wxConvUTF8);
     wxBitmap orig = wxBitmap(fname);
     wxImage img = orig.ConvertToImage();
-    return wxBitmap(img.Rescale(22,22));
+    return wxBitmap(img.Rescale(22,22,wxIMAGE_QUALITY_HIGH));
 }
 
 void GUIFrame::setupPageHierarchy() {
@@ -227,7 +227,7 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
 //    treeImages->Add(wxBitmap(ScaleImage("res/active_32x32.png"))); //scale image down from 32x32 to 22x22
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
-    treeImages->Add(wxBitmap(ScaleImage("res/view-refresh.png")));
+    treeImages->Add(wxBitmap(_("res/pen-refresh.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
     if ((smartpen != NULL) && (dev != NULL)) {
