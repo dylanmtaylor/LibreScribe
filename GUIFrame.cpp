@@ -211,18 +211,28 @@ GUIFrame::~GUIFrame()
 	//*)
 }
 
+wxBitmap GUIFrame::ScaleImage(char* filename) {
+    //reference: http://www.dreamincode.net/code/snippet2696.htm
+    wxString fname(filename, wxConvUTF8);
+    wxBitmap orig = wxBitmap(fname);
+    wxImage img = orig.ConvertToImage();
+    return wxBitmap(img.Rescale(22,22));
+}
+
 void GUIFrame::setupPageHierarchy() {
     printf("Setting up page hierarchy...\n");
     treeImages = new wxImageList(22,22,false,0);
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
+//    treeImages->Add(wxBitmap(ScaleImage("res/active_32x32.png"))); //scale image down from 32x32 to 22x22
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
+    treeImages->Add(wxBitmap(ScaleImage("res/view-refresh.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
     if ((smartpen != NULL) && (dev != NULL)) {
         wxString penName(smartpen->getName(), wxConvUTF8);
-        root = pageTree->AddRoot(penName, 0);
+        root = pageTree->AddRoot(penName, 4); //use refresh icon while retrieving notebooks/pages from pen
     } else {
         root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
         printf("can't retrieve changelist. no smartpen set. perhaps a device isn't connected?\n");
@@ -371,6 +381,7 @@ void RefreshListThread::refreshPageHierarchy() {
     }
     wxMutexGuiEnter();
     m_pHandler->pageTree->ExpandAll();
+    m_pHandler->pageTree->SetItemImage(root, 0); //set icon to pen icon once the notebooks are done being retrieved
     wxMutexGuiLeave();
     printf("Done parsing change list!\n");
     return;
