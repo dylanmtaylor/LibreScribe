@@ -269,12 +269,14 @@ wxThread::ExitCode RefreshListThread::Entry() {
     wxString oldStatus = m_pHandler->statusBar->GetStatusText(1);
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
+    m_pHandler->refreshButton->Enable(false); //prevent multiple simultaneous refreshes
     wxMutexGuiLeave();
     refreshApplicationList();
     refreshPageHierarchy();
     refreshAudioList();
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(oldStatus, 1);
+    m_pHandler->refreshButton->Enable(true);
     wxMutexGuiLeave();
 }
 
