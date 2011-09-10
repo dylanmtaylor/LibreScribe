@@ -35,6 +35,8 @@ uint16_t refreshDeviceState();
 #endif
 #include <wx/imaglist.h>
 #include <wx/thread.h>
+#include <wx/defs.h>
+#include <wx/sysopt.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 //(*Headers(GUIFrame)
@@ -56,6 +58,12 @@ struct applicationInfo {
     wxString version;
     wxString size;
 };
+
+typedef struct {
+    wxListCtrl *ListCtrl;
+    int Column;
+    bool SortOrder;
+} SortingInformation;
 
 class BackgroundMonitor : public wxThread
 {
@@ -92,10 +100,10 @@ class GUIFrame: public wxFrame
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
-        void addApplicationToList(applicationInfo info);
+//        void addApplicationToList(applicationInfo info);
         BackgroundMonitor* m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
-        void handleLsp(xmlNode *lsp);
+        void handleLsp(xmlNode* lsp,int& index);
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxStaticText* notebookPageName;
@@ -165,7 +173,11 @@ class GUIFrame: public wxFrame
 		void OnClose(wxCloseEvent& event);
 		void OnPageTreeItemMenu(wxTreeEvent& event);
 		void RenameSmartpen(wxCommandEvent& event);
+		void OntabContainerPageChanged(wxNotebookEvent& event);
+		void OnApplicationListColumnClick(wxListEvent& event);
 		//*)
+        enum {ASCENDING,DESCENDING};
+//        wxListCtrlCompare SortStringItems(long item1, long item2, long sortOrder);
 		void OnPageTreePopupClick();
 		DECLARE_EVENT_TABLE()
         uint16_t refreshDeviceState();

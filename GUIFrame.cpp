@@ -175,6 +175,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Center();
 
 	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
+	Connect(ID_LISTCTRL2,wxEVT_COMMAND_LIST_COL_CLICK,(wxObjectEventFunction)&GUIFrame::OnApplicationListColumnClick);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
@@ -248,11 +249,11 @@ void GUIFrame::addAudioClipToList(audioClipInfo info) {
     audioList->SetItem(0, 3, info.size);
 }
 
-void GUIFrame::addApplicationToList(applicationInfo info) {
-    appList->InsertItem(0, info.name);
-    appList->SetItem(0, 1, info.version);
-    appList->SetItem(0, 2, info.size);
-}
+//void GUIFrame::addApplicationToList(applicationInfo info) {
+//    appList->InsertItem(0, info.name);
+//    appList->SetItem(0, 1, info.version);
+//    appList->SetItem(0, 2, info.size);
+//}
 
 wxThread::ExitCode RefreshListThread::Entry() {
     printf("background thread started successfully.\n");
@@ -260,8 +261,8 @@ wxThread::ExitCode RefreshListThread::Entry() {
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
     wxMutexGuiLeave();
-    refreshPageHierarchy();
     refreshApplicationList();
+    refreshPageHierarchy();
     refreshAudioList();
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(oldStatus, 1);
@@ -298,8 +299,10 @@ void GUIFrame::refreshLists() {
 }
 
 void RefreshListThread::refreshApplicationList() {
+
     if ((dev != NULL) && (smartpen != NULL)) {
         char* s = smartpen->getPenletList();
+        int index = 0;
         printf("Parsing application list...\n%s\n",s);
         printf("strlen of s: %d\n", strlen(s));
         xmlDocPtr doc = xmlParseMemory(s, strlen(s));
@@ -318,7 +321,7 @@ void RefreshListThread::refreshApplicationList() {
                     for (lsps = lsps; lsps; lsps = lsps->next) {
                          if (lsps->type == XML_ELEMENT_NODE) {
                             if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                                m_pHandler->handleLsp(lsps);
+                                m_pHandler->handleLsp(lsps,index);
                             }
                          }
                     }
@@ -379,7 +382,7 @@ void RefreshListThread::refreshAudioList() {
     return;
 }
 
-void GUIFrame::handleLsp(xmlNode *lsp) {
+void GUIFrame::handleLsp(xmlNode *lsp, int& index) {
     //we need to make sure this item isn't system software
     if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
         if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"") != 0) { //if the group name is not blank
@@ -395,7 +398,12 @@ void GUIFrame::handleLsp(xmlNode *lsp) {
             printf("\tSize: %s\n",size);
             printf("\tFull path: %s\n",fullPath);
             applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
-            addApplicationToList(thisApp);
+//            addApplicationToList(thisApp);
+            appList->InsertItem(index, thisApp.name);
+            appList->SetItem(index, 1, thisApp.version);
+            appList->SetItem(index, 2, thisApp.size);
+            appList->SetItemData(index, index);
+            index += 1;
         }
     }
 }
@@ -582,4 +590,63 @@ void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
             printf("returned from setting pen name\n");
         } else printf("Rename operation cancelled.\n");
     }
+}
+
+int wxCALLBACK SortStringItems(long item1, long item2, long sortData) {
+//    printf("sorting items... item1: %d, item2: %d, sortData: %d\n",item1,item2,sortData);
+    SortingInformation *SortInfo = (SortingInformation*)sortData;
+    int column = SortInfo->Column;
+    wxListCtrl* ListCtrl = SortInfo->ListCtrl;
+    bool SortOrder = SortInfo->SortOrder; // gets sorting order
+    long index1 = ListCtrl->FindItem(-1, item1); // gets index of the first item
+    long index2 = ListCtrl->FindItem(-1, item2); // gets index of the second item
+    wxListItem Item1;
+    Item1.SetId(index1); // set the index
+    Item1.SetColumn(column); // set the column
+    Item1.SetMask(wxLIST_MASK_TEXT); // enable GetText()
+    ListCtrl->GetItem(Item1);
+    wxString string1 = Item1.GetText();
+//    printf("string1 value: \"%s\"\n",(char*)string1.ToUTF8().data());
+    wxListItem Item2;
+    Item2.SetId(index2); // set the index
+    Item2.SetColumn(column); // set the column
+    Item2.SetMask(wxLIST_MASK_TEXT); // enable GetText()
+    ListCtrl->GetItem(Item2);
+    wxString string2 = Item2.GetText();
+//    printf("string2 value: \"%s\"\n",(char*)string2.ToUTF8().data());
+    int result;
+    if (column == 0) { //application name column
+        result = string1.Cmp(string2);
+        if (!SortOrder) result = result * -1;
+    } else { //version or size column
+        long num1, num2;
+        if(string1.ToLong(&num1, 10) == true)
+        num1 = wxAtol(string1); //string to number
+        if(string2.ToLong(&num2, 10) == true)
+        num2 = wxAtol(string2); //string to number
+        if((num1 < num2)) {
+            result = SortOrder ? -1 : 1;
+        } else if((num1 > num2)) {
+            result = SortOrder ? 1 : -1;
+        } else {
+            result = 0;
+        }
+    }
+//    printf("result: %d\n ",result);
+    return result;
+}
+
+void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
+    //reference: http://forums.wxwidgets.org/viewtopic.php?t=30245
+    SortingInformation SortInfo;
+    if(event.GetColumn() == SortInfo.Column) { // user clicked same column as last time, change the sorting order
+        SortInfo.SortOrder = SortInfo.SortOrder ? FALSE : TRUE;
+    } else { // user clicked new column, sort ascending
+        SortInfo.SortOrder = TRUE;
+    }
+    SortInfo.Column = event.GetColumn(); // set the column
+    SortInfo.ListCtrl = (wxListCtrl*)appList; // set the list control pointer
+    printf("Application list column click detected. Column: %d Sorting list...\n", event.GetColumn());
+    SortingInformation sortInfo;
+    appList->SortItems(SortStringItems,(long)&SortInfo);
 }
