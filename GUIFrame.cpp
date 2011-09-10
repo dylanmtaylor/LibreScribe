@@ -670,3 +670,13 @@ void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
     SortingInformation sortInfo;
     appList->SortItems(SortStringItems,(long)&SortInfo);
 }
+
+void GUIFrame::decryptStfFile(char* filename) {
+    Py_Initialize();
+    FILE* parsestf = fopen("stf.py", "r");
+    std::string setFiles = "stf_file = \"" + (std::string)filename + "\"\n" +
+                       "png_file = \"" + (std::string)filename + ".png\"\n";
+    PyRun_SimpleString(setFiles.c_str());
+    PyRun_SimpleFile(parsestf,"stf.py");
+    Py_Finalize();
+}

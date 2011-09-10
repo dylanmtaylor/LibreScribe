@@ -101,6 +101,7 @@ class GUIFrame: public wxFrame
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
+        void decryptStfFile(char* filename);
         wxBitmap ScaleImage(const char* filename);
 //        void addApplicationToList(applicationInfo info);
         BackgroundMonitor* m_pThread;
