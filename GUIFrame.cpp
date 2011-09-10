@@ -386,16 +386,21 @@ void RefreshListThread::refreshPageHierarchy() {
                                 smartpen->getLspData((char*)guid);
                                 if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
                                     wxMutexGuiEnter();
-                                    std::string path = "./data/extracted/";
-                                    path = path + (char*)guid + "/userdata/icon/active_32x32.png";
-                                    if (FILE * file = fopen(path.c_str(), "r")) {
-                                        fclose(file); //the file already exists
-                                        printf("Notebook icon file exists: %s\n",path.c_str());
-                                        int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
-                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                    if ((!xmlStrcmp(title, (const xmlChar *)"Tutorial"))) { //if it's the tutorial notebook
+                                        //override the default icon with the page icon to have consistend behavior with LS Desktop
+                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 1, 1);
                                     } else {
-                                        printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
-                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                        std::string path = "./data/extracted/";
+                                        path = path + (char*)guid + "/userdata/icon/active_32x32.png";
+                                        if (FILE * file = fopen(path.c_str(), "r")) {
+                                            fclose(file); //the file already exists
+                                            printf("Notebook icon file exists: %s\n",path.c_str());
+                                            int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
+                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                        } else {
+                                            printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
+                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                        }
                                     }
                                     wxMutexGuiLeave();
                                 } else {
