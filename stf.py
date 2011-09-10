@@ -29,9 +29,19 @@ class Parser(parsestf.STFParser):
                 ctx.move_to(x, y)
         self.last_force = 1
 
-f = file(sys.argv[1])
+try:
+    stf_file
+except NameError:
+    stf_file = sys.argv[1]
+
+try:
+    png_file
+except NameError:
+    png_file = sys.argv[2]
+
+f = file(stf_file)
 p = Parser(f)
 p.parse()
 
 ctx.stroke()
-surface.write_to_png(sys.argv[2])
+surface.write_to_png(png_file)
