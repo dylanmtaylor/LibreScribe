@@ -60,7 +60,6 @@ const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 
 struct usb_device *dev;
 Smartpen* smartpen;
-wxImageList* treeImages;
 wxTreeItemId root;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
@@ -211,7 +210,7 @@ GUIFrame::~GUIFrame()
 	//*)
 }
 
-wxBitmap GUIFrame::ScaleImage(char* filename) {
+wxBitmap GUIFrame::ScaleImage(const char* filename) {
     //reference: http://www.dreamincode.net/code/snippet2696.htm
     wxString fname(filename, wxConvUTF8);
     wxBitmap orig = wxBitmap(fname);
@@ -368,10 +367,21 @@ void RefreshListThread::refreshPageHierarchy() {
                             xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
                             if (guid != NULL) {
                                 printf("Notebook detected: %s (%s)\n",title,guid);
-                                wxMutexGuiEnter();
-                                m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
-                                wxMutexGuiLeave();
                                 smartpen->getLspData((char*)guid);
+
+                                wxMutexGuiEnter();
+                                std::string path = "./data/extracted/";
+                                path = path + (char*)guid + "/userdata/icon/active_32x32.png";
+                                if (FILE * file = fopen(path.c_str(), "r")) {
+                                    fclose(file); //the file already exists
+                                    printf("Notebook icon file exists: %s\n",path.c_str());
+                                    int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
+                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                } else {
+                                    printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
+                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                }
+                                wxMutexGuiLeave();
                             }
                         }
                      }
