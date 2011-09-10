@@ -392,6 +392,7 @@ void RefreshListThread::refreshPageHierarchy() {
     wxMutexGuiEnter();
     m_pHandler->pageTree->ExpandAll();
     m_pHandler->pageTree->SetItemImage(root, 0); //set icon to pen icon once the notebooks are done being retrieved
+    m_pHandler->pageTree->SortChildren(root); //sort the list of notebooks in ascending alphabetical order
     wxMutexGuiLeave();
     printf("Done parsing change list!\n");
     return;
