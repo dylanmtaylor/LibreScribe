@@ -341,6 +341,22 @@ void RefreshListThread::refreshApplicationList() {
     }
 }
 
+bool GUIFrame::PageHierarchyContains(const wxString query) {
+    //reference: http://wiki.wxwidgets.org/WxTreeCtrl
+    wxTreeItemIdValue cookie;
+    wxTreeItemId item = pageTree->GetFirstChild(root, cookie);
+	wxTreeItemId child;
+
+	while(item.IsOk()) {
+		wxString sData = pageTree->GetItemText(item);
+		if (query.CompareTo(sData) == 0) {
+			return true;
+		}
+		item = pageTree->GetNextChild(root, cookie);
+	}
+	return false; //item not found
+}
+
 void RefreshListThread::refreshPageHierarchy() {
     printf("Attempting to retrieve changelist...\n");
     char *changelist;
@@ -368,20 +384,23 @@ void RefreshListThread::refreshPageHierarchy() {
                             if (guid != NULL) {
                                 printf("Notebook detected: %s (%s)\n",title,guid);
                                 smartpen->getLspData((char*)guid);
-
-                                wxMutexGuiEnter();
-                                std::string path = "./data/extracted/";
-                                path = path + (char*)guid + "/userdata/icon/active_32x32.png";
-                                if (FILE * file = fopen(path.c_str(), "r")) {
-                                    fclose(file); //the file already exists
-                                    printf("Notebook icon file exists: %s\n",path.c_str());
-                                    int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
-                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
+                                    wxMutexGuiEnter();
+                                    std::string path = "./data/extracted/";
+                                    path = path + (char*)guid + "/userdata/icon/active_32x32.png";
+                                    if (FILE * file = fopen(path.c_str(), "r")) {
+                                        fclose(file); //the file already exists
+                                        printf("Notebook icon file exists: %s\n",path.c_str());
+                                        int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
+                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                    } else {
+                                        printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
+                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                    }
+                                    wxMutexGuiLeave();
                                 } else {
-                                    printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
-                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                    printf("Duplicate notebook detected. Ignoring it.\n");
                                 }
-                                wxMutexGuiLeave();
                             }
                         }
                      }

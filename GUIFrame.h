@@ -102,6 +102,7 @@ class GUIFrame: public wxFrame
         void addAudioClipToList(audioClipInfo info);
         void decryptStfFile(char* filename);
         wxBitmap ScaleImage(const char* filename);
+        bool PageHierarchyContains(const wxString query);
 //        void addApplicationToList(applicationInfo info);
         BackgroundMonitor* m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
