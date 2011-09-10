@@ -224,7 +224,6 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
-//    treeImages->Add(wxBitmap(ScaleImage("res/active_32x32.png"))); //scale image down from 32x32 to 22x22
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/pen-refresh.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
