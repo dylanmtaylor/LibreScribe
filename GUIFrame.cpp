@@ -14,6 +14,7 @@ You should have received a copy of the GNU General Public License
 along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "LibreScribe.h"
 #include "wx_pch.h"
 #include "GUIFrame.h"
 
