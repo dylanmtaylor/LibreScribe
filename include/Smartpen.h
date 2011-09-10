@@ -16,7 +16,6 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef _SMARTPEN_H_
 #define _SMARTPEN_H_
-
 #include <openobex/obex.h>
 //#include <string.h>
 #include <stdlib.h>

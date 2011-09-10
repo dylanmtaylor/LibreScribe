@@ -39,7 +39,6 @@ uint16_t refreshDeviceState();
 #include <wx/sysopt.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
-#include <Python.h>
 //(*Headers(GUIFrame)
 #include <wx/notebook.h>
 #include <wx/treectrl.h>
