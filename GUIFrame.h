@@ -157,7 +157,6 @@ class GUIFrame: public wxFrame
         //*)
 
 	private:
-
 		//(*Handlers(GUIFrame)
 		void OnRefresh(wxCommandEvent& event);
 		void OnInfo(wxCommandEvent& event);

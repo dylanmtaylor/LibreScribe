@@ -186,6 +186,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
 	printf("LibreScribe Alpha version 0.04, written by Dylan Taylor\n");
+	printf("wxWidgets Version: %d.%d.%d\n",wxMAJOR_VERSION,wxMINOR_VERSION,wxRELEASE_NUMBER);
     //the following code makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
@@ -210,6 +211,7 @@ GUIFrame::~GUIFrame()
 }
 
 void GUIFrame::setupPageHierarchy() {
+    printf("Setting up page hierarchy...\n");
     treeImages = new wxImageList(22,22,false,0);
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
@@ -217,12 +219,12 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-    if ((!smartpen) || (dev == NULL)) {
-       root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
-       printf("can't retrieve changelist. no smartpen set. perhaps a device isn't connected?\n");
-    } else {
+    if ((smartpen != NULL) && (dev != NULL)) {
         wxString penName(smartpen->getName(), wxConvUTF8);
         root = pageTree->AddRoot(penName, 0);
+    } else {
+        root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
+        printf("can't retrieve changelist. no smartpen set. perhaps a device isn't connected?\n");
     }
     pageTree->ExpandAll();
     pageTree->SetIndent(10);
@@ -274,10 +276,7 @@ void GUIFrame::refreshLists() {
         appList->ClearAll();
         setupLists();
         //now we retrieve the data in the background, so that we don't freeze the interface.
-        if ((!smartpen) || (dev == NULL)) { //make sure we have a connection to the smartpen before trying to refresh the lists
-            printf("It doesn't appear that a smartpen is connected. Sorry!\n");
-            return;
-        } else {
+        if ((smartpen != NULL) && (dev != NULL)) { //make sure we have a connection to the smartpen before trying to refresh the lists
             printf("Attempting to start background thread to refresh lists...\n");
             RefreshListThread* refresh_thread = new RefreshListThread(this);
             if (refresh_thread->Create() != wxTHREAD_NO_ERROR) {
@@ -289,6 +288,9 @@ void GUIFrame::refreshLists() {
                 delete refresh_thread;
                 refresh_thread = NULL;
             }
+        } else {
+            printf("It doesn't appear that a smartpen is connected. Sorry!\n");
+            return;
         }
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
@@ -380,18 +382,18 @@ void RefreshListThread::refreshAudioList() {
 void GUIFrame::handleLsp(xmlNode *lsp) {
     //we need to make sure this item isn't system software
     if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
-        printf("Non-system lsp detected:\n");
-        xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
-        xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
-        xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
-        xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
-        xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
-        printf("\tName: %s\n",name);
-        printf("\tGroup: %s\n",group);
-        printf("\tVersion: %s\n",ver);
-        printf("\tSize: %s\n",size);
-        printf("\tFull path: %s\n",fullPath);
         if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"") != 0) { //if the group name is not blank
+            printf("Non-system lsp detected:\n");
+            xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
+            xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
+            xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
+            xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
+            xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
+            printf("\tName: %s\n",name);
+            printf("\tGroup: %s\n",group);
+            printf("\tVersion: %s\n",ver);
+            printf("\tSize: %s\n",size);
+            printf("\tFull path: %s\n",fullPath);
             applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
             addApplicationToList(thisApp);
         }
