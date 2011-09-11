@@ -16,6 +16,28 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Smartpen.h"
 
+struct usb_device *findSmartpen() {
+    printf("\nentering findSmartpen()\n");
+    struct usb_bus *bus;
+    struct usb_device *dev;
+    struct usb_bus *busses;
+
+    usb_init();
+    usb_find_busses();
+    usb_find_devices();
+    busses = usb_get_busses();
+    for (bus = busses; bus; bus = bus->next) {
+        for (dev = bus->devices; dev; dev = dev->next) {
+            if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
+                printf("\nexiting findSmartpen() returning device\n");
+                return dev;
+            }
+        }
+    }
+    printf("\nexiting findSmartpen() returning NULL\n");
+    return NULL;
+}
+
 static void obex_requestdone(struct obex_state* state, obex_t* hdl,
                             obex_object_t* obj, int cmd, int resp)
 {
@@ -134,7 +156,6 @@ Smartpen* Smartpen::connect(short vendor, short product) {
     obex_interface_t* obex_intf;
     obex_headerdata_t hd;
     int size, count;
-    char* buf;
     Smartpen* smartpen;
 
     while (true) {
@@ -196,7 +217,7 @@ Smartpen* Smartpen::connect(short vendor, short product) {
 
         smartpen = new Smartpen(handle);
 
-        buf = smartpen->getNamedObject("ppdata?key=pp0000", &rc);
+        const char* buf = smartpen->getNamedObject("ppdata?key=pp0000", &rc);
         if (!buf) {
             printf("Retry connection...\n");
             OBEX_Cleanup(handle);
@@ -209,7 +230,7 @@ Smartpen* Smartpen::connect(short vendor, short product) {
     return smartpen;
 }
 
-char* Smartpen::getNamedObject(char* name, int* len) {
+const char* Smartpen::getNamedObject(const char* name, int* len) {
     printf("attempting to retrieve named object \"%s\"...\n",name);
     struct obex_state *state;
     int req_done;
@@ -259,7 +280,7 @@ char* Smartpen::getNamedObject(char* name, int* len) {
     return state->body;
 }
 
-bool Smartpen::putNamedObject(char* name, char* body) {
+bool Smartpen::putNamedObject(const char* name, const char* body) {
     //reference: http://dev.zuckschwerdt.org/openobex/doxygen/
     printf("Attempting to set \"%s\" to \"%s\"\n",name,body);
     struct obex_state *state;
@@ -309,7 +330,7 @@ bool Smartpen::putNamedObject(char* name, char* body) {
     return (OBEX_Request(handle, obj) >= 0);
 }
 
-char* Smartpen::getChangeList(int startTime) {
+const char* Smartpen::getChangeList(int startTime) {
     char name[256];
     int len;
 
@@ -342,15 +363,14 @@ void Smartpen::disconnect() {
     printf("disconnected.\n");
 }
 
-int Smartpen::getGuid(FILE* out, char* guid, long long int startTime) {
+int Smartpen::getGuid(FILE* out, const char* guid, long long int startTime) {
     char name[256];
-    char *buf;
     int len;
 
     snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%lld",
         guid, startTime);
 
-    buf = getNamedObject(name, &len);
+    const char* buf = getNamedObject(name, &len);
     fwrite(buf, len, 1, out);
     return len;
 }
@@ -368,7 +388,7 @@ int Smartpen::getGuid(FILE* out, char* guid, long long int startTime) {
 //  return 1;
 //}
 
-char* Smartpen::getPaperReplay(long long int startTime) {
+const char* Smartpen::getPaperReplay(long long int startTime) {
     char name[256];
     char *buf;
     int len;
@@ -378,8 +398,8 @@ char* Smartpen::getPaperReplay(long long int startTime) {
     return getNamedObject(name, &len);
 }
 
-char* Smartpen::getPenletList() {
-    char *name = "penletlist";
+const char* Smartpen::getPenletList() {
+    const char *name = "penletlist";
     int len;
 
     return getNamedObject(name, &len);
@@ -414,11 +434,11 @@ std::string from_hex(const std::string& src) {
 
 std::string space_hex(const std::string& src) {
      std::string ret;
-     for(int x = 0; x < src.length(); x += 2) ret += src.substr(x,2) + ' ';
+     for(unsigned int x = 0; x < src.length(); x += 2) ret += src.substr(x,2) + ' ';
      return ret;
 }
 
-const char* get_parameter_value(char * xml) {
+const char* get_parameter_value(const char * xml) {
         xmlDocPtr doc = xmlParseMemory(xml, strlen(xml));
         xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
         if (cur == NULL) {
@@ -436,12 +456,14 @@ const char* get_parameter_value(char * xml) {
                 }
             }
         }
+        assert(false);
+        return 0;
 }
 
 const char* Smartpen::getName() {
-    char* name = "ppdata?key=pp8011";
+    const char* name = "ppdata?key=pp8011";
     int len;
-    char* retrieved = getNamedObject(name, &len);
+    const char* retrieved = getNamedObject(name, &len);
     if (retrieved != NULL) {
         printf("retrieved: %s\n", retrieved);
         const char* value = get_parameter_value(retrieved);
@@ -451,10 +473,12 @@ const char* Smartpen::getName() {
         printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
         return from_hex(space_hex(dN)).c_str();
     }
+    assert(false);
+    return 0;
 }
 
-bool Smartpen::setName(char* newName) {
-    char* name_header = "ppdata?key=pp8011";
+bool Smartpen::setName(const char* newName) {
+    const char* name_header = "ppdata?key=pp8011";
     printf("Attempting to set smartpen name to \"%s\"...\n",newName);
     bool success = putNamedObject(name_header, newName);
     if (success) {
@@ -466,18 +490,18 @@ bool Smartpen::setName(char* newName) {
     return success;
 }
 
-char* Smartpen::getInfo() {
-    char* name = "peninfo";
+const char* Smartpen::getInfo() {
+    const char* name = "peninfo";
     int len;
 
     return getNamedObject(name, &len);
 }
 
 const char* Smartpen::getCertificate() {
-    char* name = "ppdata?key=pp8010";
+    const char* name = "ppdata?key=pp8010";
     int len;
 
-    char* retrieved = getNamedObject(name, &len);
+    const char* retrieved = getNamedObject(name, &len);
     if (retrieved != NULL) {
         const char* value = get_parameter_value(retrieved);
         std::string hexCert = value;
@@ -486,34 +510,36 @@ const char* Smartpen::getCertificate() {
         printf("From HEX: %s\n",from_hex(space_hex(hexCert)).c_str());
         return from_hex(space_hex(hexCert)).c_str();
     }
+    assert(false);
+    return 0;
 }
 
-char* Smartpen::getSessionList () {
-    char* name = "lspcommand?name=Paper Replay&command=listSessions";
+const char* Smartpen::getSessionList () {
+    const char* name = "lspcommand?name=Paper Replay&command=listSessions";
     int len;
 
     return getNamedObject(name, &len);
 }
 
 bool Smartpen::resetPassword() {
-    char* name = "lspcommand?name=Paper Replay&command=resetPW";
+    const char* name = "lspcommand?name=Paper Replay&command=resetPW";
     int len;
-    char* result = getNamedObject(name, &len);
+    const char* result = getNamedObject(name, &len);
     printf("resetting paper replay password: %s\n",result);
     return (strcmp("success",result) == 0); //returns whether or not we successfully reset the password
 }
 
-void Smartpen::getLspData(char* object_name, long long int start_time) {
+void Smartpen::getLspData(const char* object_name, long long int start_time) {
     char name[256];
     int len;
-    snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%d",object_name,start_time);
+    snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%d",object_name,int(start_time));
     char* loc = (char*)malloc(snprintf(NULL, 0, "%s%s", "./data/", object_name) + 1);
     sprintf(loc, "%s%s", "./data/", object_name);
     if (FILE * file = fopen(loc, "r")) {
         fclose(file); //the file already exists
     } else {
         printf("Downloading object with guid %s from smartpen...\n",object_name);
-        char* buf = getNamedObject(name, &len);
+        const char* buf = getNamedObject(name, &len);
         FILE* out = fopen(loc, "w");
         fwrite(buf, len, 1, out);
         fclose(out);
