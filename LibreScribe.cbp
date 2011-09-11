@@ -42,19 +42,21 @@
 			<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include/" />
 			<Add directory="/usr/include/libusb-1.0/" />
 			<Add directory="include" />
+			<Add directory="/usr/include/python2.7_d/" />
 		</Compiler>
 		<Linker>
 			<Add option="`wx-config --libs` -lusb-1.0 -lglib-2.0" />
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
+			<Add library="python2.7" />
 		</Linker>
 		<ExtraCommands>
 			<Add before="cd $(PROJECT_DIRECTORY)" />
 			<Add before="rm -rfv ./bin" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res" />
-			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py" />
+			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="DeviceInfo.cpp" />
@@ -63,7 +65,6 @@
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="LibreScribe.cpp" />
 		<Unit filename="LibreScribe.h" />
-		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="include/Smartpen.h" />
 		<Unit filename="src/BackgroundMonitor.cpp" />
 		<Unit filename="src/Smartpen.cpp" />
@@ -71,6 +72,8 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="wxsmith/DeviceInfo.wxs" />
+		<Unit filename="wxsmith/GUIFrame.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />

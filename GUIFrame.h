@@ -35,6 +35,8 @@ uint16_t refreshDeviceState();
 #endif
 #include <wx/imaglist.h>
 #include <wx/thread.h>
+#include <wx/defs.h>
+#include <wx/sysopt.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 //(*Headers(GUIFrame)
@@ -57,6 +59,12 @@ struct applicationInfo {
     wxString size;
 };
 
+typedef struct {
+    wxListCtrl *ListCtrl;
+    int Column;
+    bool SortOrder;
+} SortingInformation;
+
 class BackgroundMonitor : public wxThread
 {
     public:
@@ -69,6 +77,21 @@ class BackgroundMonitor : public wxThread
         GUIFrame* m_pHandler;
 };
 
+class RefreshListThread : public wxThread
+{
+    public:
+        RefreshListThread(GUIFrame* handler) : wxThread(wxTHREAD_DETACHED) {
+            m_pHandler = handler;
+        };
+        ~RefreshListThread(){};
+    protected:
+        void refreshApplicationList();
+        void refreshAudioList();
+        void refreshPageHierarchy();
+        virtual ExitCode Entry();
+        GUIFrame* m_pHandler;
+};
+
 class GUIFrame: public wxFrame
 {
 	public:
@@ -77,14 +100,19 @@ class GUIFrame: public wxFrame
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
-        void addApplicationToList(applicationInfo info);
-        BackgroundMonitor *m_pThread;
+        void decryptStfFile(char* filename);
+        wxBitmap ScaleImage(const char* filename);
+        bool PageHierarchyContains(const wxString query);
+//        void addApplicationToList(applicationInfo info);
+        BackgroundMonitor* m_pThread;
         wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
-        obex_t *device_handle;
+        void handleLsp(xmlNode* lsp,int& index);
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxStaticText* notebookPageName;
+		wxMenuItem* renameSmartpenMenuItem;
 		wxMenuBar* menuBar;
+		wxMenuItem* refreshConnectionMenuItem;
 		wxStatusBar* statusBar;
 		wxPanel* appTab;
 		wxMenuItem* deletePagesMenuItem;
@@ -97,6 +125,7 @@ class GUIFrame: public wxFrame
 		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
 		wxMenuItem* deleteNotebookMenuItem;
+		wxMenuItem* deviceInformationMenuItem;
 		wxListCtrl* audioList;
 		wxMenu* fileMenu;
 		wxToolBarToolBase* quitButton;
@@ -104,10 +133,11 @@ class GUIFrame: public wxFrame
 		wxToolBarToolBase* refreshButton;
 		wxMenuItem* aboutMenuItem;
 		wxMenuItem* printMenuItem;
+		wxMenu rootItemMenu;
 		wxMenu* helpMenu;
 		wxMenuItem* archiveNotebookMenuItem;
 		//*)
-
+        wxImageList* treeImages;
 	protected:
 
         //(*Identifiers(GUIFrame)
@@ -132,27 +162,32 @@ class GUIFrame: public wxFrame
         static const long idToolbarQuit;
         static const long idMainToolbar;
         static const long idStatusBar;
+        static const long idRootItemMenuInformation;
+        static const long idRootItemMenuRenameDevice;
+        static const long idRootItemMenuRefresh;
         //*)
 
 	private:
-
 		//(*Handlers(GUIFrame)
 		void OnRefresh(wxCommandEvent& event);
 		void OnInfo(wxCommandEvent& event);
 		void OnQuit(wxCommandEvent& event);
 		void OnAbout(wxCommandEvent& event);
 		void OnClose(wxCloseEvent& event);
+		void OnPageTreeItemMenu(wxTreeEvent& event);
+		void RenameSmartpen(wxCommandEvent& event);
+		void OntabContainerPageChanged(wxNotebookEvent& event);
+		void OnApplicationListColumnClick(wxListEvent& event);
 		//*)
-
+        enum {ASCENDING,DESCENDING};
+//        wxListCtrlCompare SortStringItems(long item1, long item2, long sortOrder);
+		void OnPageTreePopupClick();
 		DECLARE_EVENT_TABLE()
         uint16_t refreshDeviceState();
         void StartBackgroundMonitor();
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
-        void refreshApplicationList();
-        void refreshAudioList();
-        void handleLsp(xmlNode *lsp);
 };
 
 #endif
