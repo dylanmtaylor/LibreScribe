@@ -15,13 +15,13 @@ AR = ar
 RANLIB = ranlib
 WINDRES = windres
 
-INC =  -I/usr/lib/glib-2.0/include/ -I/usr/include/glib-2.0/ -I/usr/include/libxml2 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/include/libusb-1.0/ -Iinclude
+INC =  `pkg-config --libs --cflags glib-2.0` `python-config --include` -I/usr/include/libxml2 -I/usr/include/libusb-1.0/ -Iinclude
 CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
 RESINC = 
 RCFLAGS = 
 LIBDIR = 
 LIB =  -lopenobex -lxml2 -ludev
-LDFLAGS =  `wx-config --libs` -lusb-1.0 -lglib-2.0
+LDFLAGS =  `wx-config --libs` `python-config --libs` -lusb-1.0 -lglib-2.0
 
 INC_DEBUG =  $(INC)
 CFLAGS_DEBUG =  $(CFLAGS) -g
