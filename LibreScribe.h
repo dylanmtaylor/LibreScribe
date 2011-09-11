@@ -16,7 +16,8 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef LibreScribe_H
 #define LibreScribe_H
-
+#pragma GCC system_header
+#include "Python.h"
 #include <wx/app.h>
 
 class LibreScribe : public wxApp

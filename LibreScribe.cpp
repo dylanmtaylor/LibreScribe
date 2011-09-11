@@ -14,6 +14,7 @@ You should have received a copy of the GNU General Public License
 along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "LibreScribe.h"
 #ifdef WX_PRECOMP
 #include "wx_pch.h"
 #endif
@@ -22,7 +23,6 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 #endif //__BORLANDC__
 
-#include "LibreScribe.h"
 //(*AppHeaders
 #include "GUIFrame.h"
 #include <wx/image.h>

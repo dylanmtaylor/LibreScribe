@@ -14,6 +14,7 @@ You should have received a copy of the GNU General Public License
 along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "LibreScribe.h"
 #include "wx_pch.h"
 #include "GUIFrame.h"
 
@@ -53,10 +54,14 @@ const long GUIFrame::idToolbarInfo = wxNewId();
 const long GUIFrame::idToolbarQuit = wxNewId();
 const long GUIFrame::idMainToolbar = wxNewId();
 const long GUIFrame::idStatusBar = wxNewId();
+const long GUIFrame::idRootItemMenuInformation = wxNewId();
+const long GUIFrame::idRootItemMenuRenameDevice = wxNewId();
+const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 //*)
 
 struct usb_device *dev;
-wxImageList* treeImages;
+Smartpen* smartpen;
+wxTreeItemId root;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
 	//(*EventTable(GUIFrame)
@@ -160,31 +165,44 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	statusBar->SetFieldsCount(2,__wxStatusBarWidths_1);
 	statusBar->SetStatusStyles(2,__wxStatusBarStyles_1);
 	SetStatusBar(statusBar);
+	deviceInformationMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuInformation, _("Device &Information"), _("Display information about the connected smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(deviceInformationMenuItem);
+	renameSmartpenMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRenameDevice, _("Re&name Smartpen"), _("Change the name of the connected smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(renameSmartpenMenuItem);
+	refreshConnectionMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRefresh, _("&Refresh Connection"), _("Refresh the connection to the attached smartpen"), wxITEM_NORMAL);
+	rootItemMenu.Append(refreshConnectionMenuItem);
 	contentSizer->SetSizeHints(this);
 	Center();
 
+	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
+	Connect(ID_LISTCTRL2,wxEVT_COMMAND_LIST_COL_CLICK,(wxObjectEventFunction)&GUIFrame::OnApplicationListColumnClick);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
 	Connect(idToolbarInfo,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnInfo);
 	Connect(idToolbarQuit,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnQuit);
+	Connect(idRootItemMenuInformation,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnInfo);
+	Connect(idRootItemMenuRenameDevice,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::RenameSmartpen);
+	Connect(idRootItemMenuRefresh,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&GUIFrame::OnClose);
 	//*)
-	printf("LibreScribe Alpha version 0.03, written by Dylan Taylor\n");
+	printf("LibreScribe Alpha version 0.04, written by Dylan Taylor\n");
+	printf("wxWidgets Version: %d.%d.%d\n",wxMAJOR_VERSION,wxMINOR_VERSION,wxRELEASE_NUMBER);
     //the following code makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
+    mkdir("./data", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create data directory if it doesn't exist
+    mkdir("./data/extracted", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create a directory for extracting archives to if it doesn't exist
     StartBackgroundMonitor();
-    setupPageHierarchy();
-    setupLists();
+    doRefreshDeviceState();
+//    smartpen->setName("Dylan Taylor's Smartpen"); //for testing only
 #if USE_FAKE_SAMPLE_INFORMATION
     audioClipInfo sampleClipInfo = {_("Sample Audio Clip Info"), _("13:37"), _("11/11/2011 11:11AM"), _("421.8 KiB")};
     addAudioClipToList(sampleClipInfo);
     applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     addApplicationToList(sampleAppInfo);
 #endif
-    doRefreshDeviceState();
 }
 
 GUIFrame::~GUIFrame()
@@ -193,16 +211,31 @@ GUIFrame::~GUIFrame()
 	//*)
 }
 
+wxBitmap GUIFrame::ScaleImage(const char* filename) {
+    //reference: http://www.dreamincode.net/code/snippet2696.htm
+    wxString fname(filename, wxConvUTF8);
+    wxBitmap orig = wxBitmap(fname);
+    wxImage img = orig.ConvertToImage();
+    return wxBitmap(img.Rescale(22,22,wxIMAGE_QUALITY_HIGH));
+}
+
 void GUIFrame::setupPageHierarchy() {
+    printf("Setting up page hierarchy...\n");
     treeImages = new wxImageList(22,22,false,0);
     treeImages->Add(wxBitmap(_("res/pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/page-icon.png")));
     treeImages->Add(wxBitmap(_("res/notepad-icon.png")));
+    treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
+    treeImages->Add(wxBitmap(_("res/pen-refresh.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
     pageTree->SetImageList(treeImages);
-    wxTreeItemId root = pageTree->AddRoot(_("My LiveScribe Smartpen"), 0);
-    pageTree->AppendItem(root, _("A5 Starter Notebook [2]"), 2, 2);
-    pageTree->AppendItem(root, _("Tutorial [2]"), 1, 1);
+    if ((smartpen != NULL) && (dev != NULL)) {
+        wxString penName(smartpen->getName(), wxConvUTF8);
+        root = pageTree->AddRoot(penName, 4); //use refresh icon while retrieving notebooks/pages from pen
+    } else {
+        root = pageTree->AddRoot(_("No Smartpen Detected"), 3);
+        printf("can't retrieve changelist. no smartpen set. perhaps a device isn't connected?\n");
+    }
     pageTree->ExpandAll();
     pageTree->SetIndent(10);
     pageTree->SetSpacing(0);
@@ -225,31 +258,114 @@ void GUIFrame::addAudioClipToList(audioClipInfo info) {
     audioList->SetItem(0, 3, info.size);
 }
 
-void GUIFrame::addApplicationToList(applicationInfo info) {
-    appList->InsertItem(0, info.name);
-    appList->SetItem(0, 1, info.version);
-    appList->SetItem(0, 2, info.size);
+//void GUIFrame::addApplicationToList(applicationInfo info) {
+//    appList->InsertItem(0, info.name);
+//    appList->SetItem(0, 1, info.version);
+//    appList->SetItem(0, 2, info.size);
+//}
+
+wxThread::ExitCode RefreshListThread::Entry() {
+    printf("background thread started successfully.\n");
+    wxString oldStatus = m_pHandler->statusBar->GetStatusText(1);
+    wxMutexGuiEnter();
+    m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
+    m_pHandler->refreshButton->Enable(false); //prevent multiple simultaneous refreshes
+    wxMutexGuiLeave();
+    refreshApplicationList();
+    refreshPageHierarchy();
+    refreshAudioList();
+    wxMutexGuiEnter();
+    m_pHandler->statusBar->SetStatusText(oldStatus, 1);
+    m_pHandler->refreshButton->Enable(true);
+    wxMutexGuiLeave();
 }
 
 //This method will clear the lists, set them up again, and fill them with new information.
 void GUIFrame::refreshLists() {
     try {
+        //first we need to clear and setup the lists
         audioList->ClearAll();
         appList->ClearAll();
         setupLists();
-        if (device_handle == NULL || dev == NULL) return;
-        refreshApplicationList();
-        refreshAudioList();
+        //now we retrieve the data in the background, so that we don't freeze the interface.
+        if ((smartpen != NULL) && (dev != NULL)) { //make sure we have a connection to the smartpen before trying to refresh the lists
+            printf("Attempting to start background thread to refresh lists...\n");
+            RefreshListThread* refresh_thread = new RefreshListThread(this);
+            if (refresh_thread->Create() != wxTHREAD_NO_ERROR) {
+                printf("Can't create the thread!\n");
+                delete refresh_thread;
+                refresh_thread = NULL;
+            } else if (refresh_thread->Run() != wxTHREAD_NO_ERROR) {
+                printf("Can't create the thread!\n");
+                delete refresh_thread;
+                refresh_thread = NULL;
+            }
+        } else {
+            printf("It doesn't appear that a smartpen is connected. Sorry!\n");
+            return;
+        }
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
     }
 }
 
-void GUIFrame::refreshApplicationList() {
-    char* s = smartpen_get_penletlist(device_handle);
-    printf("Parsing application list...\n%s\n",s);
-    printf("strlen of s: %d\n", strlen(s));
-    xmlDocPtr doc = xmlParseMemory(s, strlen(s));
+void RefreshListThread::refreshApplicationList() {
+
+    if ((dev != NULL) && (smartpen != NULL)) {
+        char* s = smartpen->getPenletList();
+        int index = 0;
+        printf("Parsing application list...\n%s\n",s);
+        printf("strlen of s: %d\n", strlen(s));
+        xmlDocPtr doc = xmlParseMemory(s, strlen(s));
+        xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+        if (cur == NULL) {
+            printf("cur is NULL!\n");
+            xmlFreeDoc(doc);
+            return; //do nothing if the xml document is empty
+        }
+        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
+        cur = cur->children;
+        for (cur = cur; cur; cur = cur->next) {
+            if (cur->type == XML_ELEMENT_NODE) {
+                if ((!xmlStrcmp(cur->name, (const xmlChar *)"lsps"))) { //if the current element's name is 'lsps'
+                    xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                    for (lsps = lsps; lsps; lsps = lsps->next) {
+                         if (lsps->type == XML_ELEMENT_NODE) {
+                            if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                                m_pHandler->handleLsp(lsps,index);
+                            }
+                         }
+                    }
+                }
+            }
+        }
+        printf("Done parsing application list!\n");
+    }
+}
+
+bool GUIFrame::PageHierarchyContains(const wxString query) {
+    //reference: http://wiki.wxwidgets.org/WxTreeCtrl
+    wxTreeItemIdValue cookie;
+    wxTreeItemId item = pageTree->GetFirstChild(root, cookie);
+	wxTreeItemId child;
+
+	while(item.IsOk()) {
+		wxString sData = pageTree->GetItemText(item);
+		if (query.CompareTo(sData) == 0) {
+			return true;
+		}
+		item = pageTree->GetNextChild(root, cookie);
+	}
+	return false; //item not found
+}
+
+void RefreshListThread::refreshPageHierarchy() {
+    printf("Attempting to retrieve changelist...\n");
+    char *changelist;
+    changelist = smartpen->getChangeList(0);
+    printf("Parsing changelist...\n%s\n",changelist);
+    printf("strlen of changelist: %d\n", strlen(changelist));
+    xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
     xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
     if (cur == NULL) {
         printf("cur is NULL!\n");
@@ -260,47 +376,88 @@ void GUIFrame::refreshApplicationList() {
     cur = cur->children;
     for (cur = cur; cur; cur = cur->next) {
         if (cur->type == XML_ELEMENT_NODE) {
-            if ((!xmlStrcmp(cur->name, (const xmlChar *)"lsps"))) { //if the current element's name is 'lsps'
+            if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
                 xmlNode *lsps = cur->children; //get the children of the 'lsps' element
                 for (lsps = lsps; lsps; lsps = lsps->next) {
                      if (lsps->type == XML_ELEMENT_NODE) {
                         if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                            handleLsp(lsps);
+                            xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
+                            xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
+                            if (guid != NULL) {
+                                printf("Notebook detected: %s (%s)\n",title,guid);
+                                smartpen->getLspData((char*)guid);
+                                if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
+                                    wxMutexGuiEnter();
+                                    if ((!xmlStrcmp(title, (const xmlChar *)"Tutorial"))) { //if it's the tutorial notebook
+                                        //override the default icon with the page icon to have consistend behavior with LS Desktop
+                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 1, 1);
+                                    } else {
+                                        std::string path = "./data/extracted/";
+                                        path = path + (char*)guid + "/userdata/icon/active_32x32.png";
+                                        if (FILE * file = fopen(path.c_str(), "r")) {
+                                            fclose(file); //the file already exists
+                                            printf("Notebook icon file exists: %s\n",path.c_str());
+                                            int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
+                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                        } else {
+                                            printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
+                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                        }
+                                    }
+                                    wxMutexGuiLeave();
+                                } else {
+                                    printf("Duplicate notebook detected. Ignoring it.\n");
+                                }
+                            }
                         }
                      }
                 }
             }
         }
     }
-    printf("Done parsing application list!\n");
+    wxMutexGuiEnter();
+    m_pHandler->pageTree->ExpandAll();
+    m_pHandler->pageTree->SetItemImage(root, 0); //set icon to pen icon once the notebooks are done being retrieved
+    m_pHandler->pageTree->SortChildren(root); //sort the list of notebooks in ascending alphabetical order
+    wxMutexGuiLeave();
+    printf("Done parsing change list!\n");
+    return;
 }
 
-void GUIFrame::refreshAudioList() {
-//    char* s = smartpen_get_paperreplay(handle,0);
+void RefreshListThread::refreshAudioList() {
+//    char* s = smartpen->getPaperReplay(0);
     printf("Parsing audio list...\n");
     return;
 }
 
-void GUIFrame::handleLsp(xmlNode *lsp) {
+void GUIFrame::handleLsp(xmlNode *lsp, int& index) {
     //we need to make sure this item isn't system software
     if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"Livescribe Smartpen Update") != 0) {
-        printf("Non-system lsp detected:\n");
-        xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
-        xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
-        xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
-        xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
-        xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
-        printf("\tName: %s\n",name);
-        printf("\tGroup: %s\n",group);
-        printf("\tVersion: %s\n",ver);
-        printf("\tSize: %s\n",size);
-        printf("\tFull path: %s\n",fullPath);
-        applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
-        addApplicationToList(thisApp);
+        if (xmlStrcmp((xmlGetProp(lsp, (const xmlChar*)"group")), (const xmlChar *)"") != 0) { //if the group name is not blank
+            printf("Non-system lsp detected:\n");
+            xmlChar* name = xmlGetProp(lsp, (const xmlChar*)"name");
+            xmlChar* group = xmlGetProp(lsp, (const xmlChar*)"group");
+            xmlChar* ver = xmlGetProp(lsp, (const xmlChar*)"groupversion");
+            xmlChar* size = xmlGetProp(lsp, (const xmlChar*)"size");
+            xmlChar* fullPath = xmlGetProp(lsp, (const xmlChar*)"fullpath");
+            printf("\tName: %s\n",name);
+            printf("\tGroup: %s\n",group);
+            printf("\tVersion: %s\n",ver);
+            printf("\tSize: %s\n",size);
+            printf("\tFull path: %s\n",fullPath);
+            applicationInfo thisApp = {wxString((char*)group, wxConvUTF8), wxString((char*)ver, wxConvUTF8), wxString((char*)size, wxConvUTF8)};
+//            addApplicationToList(thisApp);
+            appList->InsertItem(index, thisApp.name);
+            appList->SetItem(index, 1, thisApp.version);
+            appList->SetItem(index, 2, thisApp.size);
+            appList->SetItemData(index, index);
+            index += 1;
+        }
     }
 }
 
 void GUIFrame::setupLists() {
+    setupPageHierarchy();
     const int audio_column_width = 180;
     const int app_column_width = 240;
     //first, set up the list control sizers
@@ -352,10 +509,10 @@ uint16_t GUIFrame::refreshDeviceState() {
         return 0x0000;
     } else {
         printf("detecting smartpen...");
-        printf("smartpen idProduct: %d\n", dev->descriptor.idProduct);
+        printf("smartpen idProduct: %s\n", dev->descriptor.idProduct);
         if (is_ls_pulse(dev->descriptor.idProduct)) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-        } else if (is_ls_echo(dev->descriptor.idProduct)) {
+        } else if(is_ls_echo(dev->descriptor.idProduct)) {
             printf("LiveScribe Echo(TM) Smartpen Detected!\n");
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
@@ -385,7 +542,9 @@ void GUIFrame::doRefreshDeviceState() {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
-            device_handle = smartpen_connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+            printf("assigning smartpen.\n");
+            smartpen = Smartpen::connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+            if (smartpen == NULL) printf("smartpen assignment failure.\n");
         }
         refreshLists();
     } catch(...) {
@@ -396,8 +555,13 @@ void GUIFrame::doRefreshDeviceState() {
 
 void GUIFrame::OnRefresh(wxCommandEvent& event)
 {
-    if (dev != NULL) refreshLists();
-    if (device_handle == NULL) {
+    if (dev != NULL) {
+        refreshLists();
+    } else {
+        printf("dev is NULL.\n");
+    }
+    if (smartpen == NULL) {
+        printf("smartpen is NULL.\n");
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
         return;
     }
@@ -406,9 +570,8 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
 void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
-    if (device_handle != NULL) {
-        wxString deviceName("My Smartpen", wxConvUTF8);
-        DeviceInfo d(this, deviceName,dev->descriptor.idProduct,device_handle);
+    if ((smartpen != NULL) && (dev != NULL)) {
+        DeviceInfo d(this, dev->descriptor.idProduct, smartpen);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
@@ -436,18 +599,112 @@ void GUIFrame::OnClose(wxCloseEvent& event)
         if (m_pThread->Delete() != wxTHREAD_NO_ERROR ) {
             printf("Can't delete the thread!\n");
         }
-    }       // exit from the critical section to give the thread
-        // the possibility to enter its destructor
-        // (which is guarded with m_pThreadCS critical section!)
-
-//    while (true) {
-//        { // was the ~BackgroundMonitor() function executed?
-//            wxCriticalSectionLocker enter(m_pThreadCS);
-//            if (!m_pThread) break;
-//        }
-//        // wait for thread completion
-//        wxThread::This()->Sleep(1);
-//    }
+    }
 
     Destroy();
+}
+
+void GUIFrame::OnPageTreePopupClick() {
+
+}
+
+void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
+{
+	wxTreeItemId item = event.GetItem();
+    printf("page tree item context menu request detected. item id: %d\n",item);
+	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
+        rootItemMenu.Enable(idRootItemMenuRenameDevice,(dev != NULL));
+        rootItemMenu.Enable(idRootItemMenuInformation,(dev != NULL));
+        PopupMenu(&rootItemMenu);
+	}
+}
+
+void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
+    printf("rename smartpen option chosen.\n");
+    wxString currentName(smartpen->getName(),wxConvUTF8);
+    wxTextEntryDialog renameDialog(this,_("Enter the new name for your smartpen"),_("Rename Smartpen"),
+                                  currentName,wxOK|wxCANCEL);
+    renameDialog.ShowModal();
+    wxString newName = renameDialog.GetValue();
+    if (newName != currentName) {
+        printf("The name entered is not the same as the current name. Asking for confirmation...\n");
+        std::string desiredName = std::string(newName.mb_str());
+        printf("The new name that was requested is \"%s\". Is this correct?\n",desiredName.c_str());
+        std::string promptText = "Rename device to \"" + desiredName + "\"?";
+        wxMessageDialog confirmationDialog(this,wxString(promptText.c_str(),wxConvUTF8),_("Confirm Rename Operation"),wxYES_NO);
+        if (confirmationDialog.ShowModal() == wxID_YES) {
+            printf("Request confirmed. Attempting to rename device...\n");
+            smartpen->setName((char*)desiredName.c_str());
+            printf("returned from setting pen name\n");
+        } else printf("Rename operation cancelled.\n");
+    }
+}
+
+int wxCALLBACK SortStringItems(long item1, long item2, long sortData) {
+//    printf("sorting items... item1: %d, item2: %d, sortData: %d\n",item1,item2,sortData);
+    SortingInformation *SortInfo = (SortingInformation*)sortData;
+    int column = SortInfo->Column;
+    wxListCtrl* ListCtrl = SortInfo->ListCtrl;
+    bool SortOrder = SortInfo->SortOrder; // gets sorting order
+    long index1 = ListCtrl->FindItem(-1, item1); // gets index of the first item
+    long index2 = ListCtrl->FindItem(-1, item2); // gets index of the second item
+    wxListItem Item1;
+    Item1.SetId(index1); // set the index
+    Item1.SetColumn(column); // set the column
+    Item1.SetMask(wxLIST_MASK_TEXT); // enable GetText()
+    ListCtrl->GetItem(Item1);
+    wxString string1 = Item1.GetText();
+//    printf("string1 value: \"%s\"\n",(char*)string1.ToUTF8().data());
+    wxListItem Item2;
+    Item2.SetId(index2); // set the index
+    Item2.SetColumn(column); // set the column
+    Item2.SetMask(wxLIST_MASK_TEXT); // enable GetText()
+    ListCtrl->GetItem(Item2);
+    wxString string2 = Item2.GetText();
+//    printf("string2 value: \"%s\"\n",(char*)string2.ToUTF8().data());
+    int result;
+    if (column == 0) { //application name column
+        result = string1.Cmp(string2);
+        if (!SortOrder) result = result * -1;
+    } else { //version or size column
+        long num1, num2;
+        if(string1.ToLong(&num1, 10) == true)
+        num1 = wxAtol(string1); //string to number
+        if(string2.ToLong(&num2, 10) == true)
+        num2 = wxAtol(string2); //string to number
+        if((num1 < num2)) {
+            result = SortOrder ? -1 : 1;
+        } else if((num1 > num2)) {
+            result = SortOrder ? 1 : -1;
+        } else {
+            result = 0;
+        }
+    }
+//    printf("result: %d\n ",result);
+    return result;
+}
+
+void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
+    //reference: http://forums.wxwidgets.org/viewtopic.php?t=30245
+    SortingInformation SortInfo;
+    if(event.GetColumn() == SortInfo.Column) { // user clicked same column as last time, change the sorting order
+        SortInfo.SortOrder = SortInfo.SortOrder ? FALSE : TRUE;
+    } else { // user clicked new column, sort ascending
+        SortInfo.SortOrder = TRUE;
+    }
+    SortInfo.Column = event.GetColumn(); // set the column
+    SortInfo.ListCtrl = (wxListCtrl*)appList; // set the list control pointer
+    printf("Application list column click detected. Column: %d Sorting list...\n", event.GetColumn());
+    SortingInformation sortInfo;
+    appList->SortItems(SortStringItems,(long)&SortInfo);
+}
+
+void GUIFrame::decryptStfFile(char* filename) {
+    Py_Initialize();
+    FILE* parsestf = fopen("stf.py", "r");
+    std::string setFiles = "stf_file = \"" + (std::string)filename + "\"\n" +
+                       "png_file = \"" + (std::string)filename + ".png\"\n";
+    PyRun_SimpleString(setFiles.c_str());
+    PyRun_SimpleFile(parsestf,"stf.py");
+    Py_Finalize();
 }

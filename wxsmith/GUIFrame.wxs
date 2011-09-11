@@ -25,6 +25,7 @@
 										<minsize>255,-1</minsize>
 										<maxsize>255,-1</maxsize>
 										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
+										<handler function="OnPageTreeItemMenu" entry="EVT_TREE_ITEM_MENU" />
 									</object>
 									<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 									<border>5</border>
@@ -206,6 +207,23 @@
 			<widths>-10,-10</widths>
 			<styles>wxSB_NORMAL,wxSB_NORMAL</styles>
 			<style>wxST_SIZEGRIP|wxCLIP_CHILDREN|wxFULL_REPAINT_ON_RESIZE</style>
+		</object>
+		<object class="wxMenu" variable="rootItemMenu" member="yes">
+			<object class="wxMenuItem" name="idRootItemMenuInformation" variable="deviceInformationMenuItem" member="yes">
+				<label>Device &amp;Information</label>
+				<help>Display information about the connected smartpen</help>
+				<handler function="OnInfo" entry="EVT_MENU" />
+			</object>
+			<object class="wxMenuItem" name="idRootItemMenuRenameDevice" variable="renameSmartpenMenuItem" member="yes">
+				<label>Re&amp;name Smartpen</label>
+				<help>Change the name of the connected smartpen</help>
+				<handler function="RenameSmartpen" entry="EVT_MENU" />
+			</object>
+			<object class="wxMenuItem" name="idRootItemMenuRefresh" variable="refreshConnectionMenuItem" member="yes">
+				<label>&amp;Refresh Connection</label>
+				<help>Refresh the connection to the attached smartpen</help>
+				<handler function="OnRefresh" entry="EVT_MENU" />
+			</object>
 		</object>
 	</object>
 </wxsmith>
