@@ -36,16 +36,14 @@
 			<Add option="-Winvalid-pch" />
 			<Add option="-include wx_pch.h" />
 			<Add option="-DWX_PRECOMP" />
-			<Add directory="/usr/lib/glib-2.0/include/" />
-			<Add directory="/usr/include/glib-2.0/" />
+			<Add directory="`pkg-config --libs --cflags glib-2.0`" />
+			<Add directory="`python-config --include`" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include/" />
 			<Add directory="/usr/include/libusb-1.0/" />
 			<Add directory="include" />
-			<Add directory="/usr/include/python2.7_d/" />
 		</Compiler>
 		<Linker>
-			<Add option="`wx-config --libs` -lusb-1.0 -lglib-2.0" />
+			<Add option="`wx-config --libs` `python-config --libs` -lusb-1.0 -lglib-2.0" />
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
