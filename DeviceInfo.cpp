@@ -87,7 +87,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	//*)
 
     this->smartpen = smartpen;
-    char* s = smartpen->getInfo();
+    const char* s = smartpen->getInfo();
     printf("%s\n",s);
     xmlDocPtr doc = xmlParseMemory(s, strlen(s));
     xmlNode *cur = xmlDocGetRootElement(doc);
@@ -126,9 +126,12 @@ DeviceInfo::~DeviceInfo()
 }
 
 //This function will strip out all non-numeric characters from a char*
-int stripNonNumericChars(char* s) {
+int stripNonNumericChars(const char* s) {
     int res;
     bool success = sscanf(s, "%d%%", &res) == 1;
+    if (!success) {
+        printf("Error matching '%s'", s);
+    }
     return res;
 }
 
@@ -155,6 +158,8 @@ xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
             return cur_node;
         }
     }
+    assert(false);
+    return 0;
 }
 
 float DeviceInfo::convertBytesToMiB(long long int bytes) {

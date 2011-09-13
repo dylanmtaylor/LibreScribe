@@ -35,27 +35,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 inline bool is_ls_pulse(unsigned int c) { return c == 0x1020; } //LiveScribe Pulse(TM) Smartpen
 inline bool is_ls_echo(unsigned int c) { return c == 0x1030 || c == 0x1032; } //LiveScribe Echo(TM) Smartpen
 
-static struct usb_device *findSmartpen() {
-    printf("\nentering findSmartpen()\n");
-    struct usb_bus *bus;
-    struct usb_device *dev;
-    struct usb_bus *busses;
-
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-    busses = usb_get_busses();
-    for (bus = busses; bus; bus = bus->next) {
-        for (dev = bus->devices; dev; dev = dev->next) {
-            if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
-                printf("\nexiting findSmartpen() returning device\n");
-                return dev;
-            }
-        }
-    }
-    printf("\nexiting findSmartpen() returning NULL\n");
-    return NULL;
-}
+struct usb_device *findSmartpen();
 
 struct obex_state {
     obex_t *handle;
@@ -70,8 +50,8 @@ class Smartpen {
 private:
     obex_t* handle;
 
-    char* getNamedObject(char* name, int* len);
-    bool putNamedObject(char* name, char* body);
+    const char* getNamedObject(const char* name, int* len);
+    bool putNamedObject(const char* name, const char* body);
 
 public:
     Smartpen(obex_t* handle) : handle(handle) {}
@@ -79,18 +59,18 @@ public:
     static Smartpen* connect(short vendor, short product);
 
     void  disconnect();
-    char* getChangeList(int startTime);
-    int   getGuid(FILE* out, char* guid, long long int startTime);
+    const char* getChangeList(int startTime);
+    int   getGuid(FILE* out, const char* guid, long long int startTime);
     //int getPaperReplay(FILE* out, long long int startTime);
-    char* getPaperReplay(long long int startTime);
-    char* getPenletList();
-    char* getInfo();
+    const char* getPaperReplay(long long int startTime);
+    const char* getPenletList();
+    const char* getInfo();
     const char* getName();
     const char* getCertificate();
-    void  getLspData(char* objectName, long long int startTime = 0);
-    char* getSessionList();
+    void  getLspData(const char* objectName, long long int startTime = 0);
+    const char* getSessionList();
     bool  resetPassword();
-    bool  setName(char* newName);
+    bool  setName(const char* newName);
 };
 
 #endif
