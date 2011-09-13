@@ -79,7 +79,7 @@
 											<object class="wxBoxSizer" variable="pageViewerContainer" member="no">
 												<object class="sizeritem">
 													<object class="wxListCtrl" name="idNotebookBrowserListCtrl" variable="notebookBrowser" member="yes">
-														<size>450,462</size>
+														<size>450,465</size>
 														<fg>wxSYS_COLOUR_MENUTEXT</fg>
 														<bg>wxSYS_COLOUR_MENU</bg>
 														<maxsize>-1,-1</maxsize>
