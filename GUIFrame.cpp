@@ -104,7 +104,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
-	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,465), wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER|wxVSCROLL, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
+	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,465), wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
 	notebookBrowser->SetMaxSize(wxSize(-1,-1));
 	notebookBrowser->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUTEXT));
 	notebookBrowser->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
@@ -179,6 +179,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Center();
 
 	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
+	Connect(idNotebookBrowserListCtrl,wxEVT_COMMAND_LIST_ITEM_ACTIVATED,(wxObjectEventFunction)&GUIFrame::OnNotebookBrowserItemActivated);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
@@ -200,7 +201,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     notebookBrowser->SetImageList(browserImages, wxIMAGE_LIST_NORMAL);
     notebookBrowser->ClearAll();
     std::string s;
-    for (int i = 0; i < 350; i++) {
+    for (int i = 0; i < 50; i++) {
         std::stringstream out;
         out << i + 1;
         s = "Page " + out.str();
@@ -720,4 +721,10 @@ void GUIFrame::decryptStfFile(char* filename) {
     PyRun_SimpleString(setFiles.c_str());
     PyRun_SimpleFile(parsestf,"stf.py");
     Py_Finalize();
+}
+
+void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
+    int page = event.GetIndex() + 1;
+    printf("Notebook browser page clicked: %d\n",page);
+    wxMessageBox(_("Sorry, the data in the notebook page browser is simulated.\nThis feature is not implemented yet."), event.GetText());
 }

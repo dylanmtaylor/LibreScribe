@@ -178,6 +178,7 @@ class GUIFrame: public wxFrame
 		void RenameSmartpen(wxCommandEvent& event);
 		void OntabContainerPageChanged(wxNotebookEvent& event);
 		void OnApplicationListColumnClick(wxListEvent& event);
+		void OnNotebookBrowserItemActivated(wxListEvent& event);
 		//*)
         enum {ASCENDING,DESCENDING};
 //        wxListCtrlCompare SortStringItems(long item1, long item2, long sortOrder);
