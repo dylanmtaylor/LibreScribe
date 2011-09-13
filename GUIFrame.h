@@ -30,7 +30,6 @@ uint16_t refreshDeviceState();
 	#include <wx/statusbr.h>
 	#include <wx/frame.h>
 	#include <wx/stattext.h>
-	#include <wx/statbmp.h>
 	//*)
 #endif
 #include <wx/imaglist.h>
@@ -109,6 +108,7 @@ class GUIFrame: public wxFrame
         void handleLsp(xmlNode* lsp,int& index);
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
+		wxListCtrl* notebookBrowser;
 		wxStaticText* notebookPageName;
 		wxMenuItem* renameSmartpenMenuItem;
 		wxMenuBar* menuBar;
@@ -121,7 +121,6 @@ class GUIFrame: public wxFrame
 		wxPanel* audioTab;
 		wxPanel* pagesTab;
 		wxStaticText* notebookPageSize;
-		wxStaticBitmap* pageImage;
 		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
 		wxMenuItem* deleteNotebookMenuItem;
@@ -144,7 +143,7 @@ class GUIFrame: public wxFrame
         static const long ID_TREECTRL1;
         static const long ID_STATICTEXT1;
         static const long ID_STATICTEXT2;
-        static const long ID_STATICBITMAP1;
+        static const long idNotebookBrowserListCtrl;
         static const long idPagesTab;
         static const long ID_LISTCTRL1;
         static const long idAudioTab;

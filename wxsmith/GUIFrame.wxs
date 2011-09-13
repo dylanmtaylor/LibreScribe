@@ -9,6 +9,7 @@
 		<style>wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxBoxSizer" variable="contentSizer" member="no">
+			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxNotebook" name="idTabContainer" variable="tabContainer" member="yes">
 					<size>-1,550</size>
@@ -78,10 +79,14 @@
 										<object class="sizeritem">
 											<object class="wxBoxSizer" variable="pageViewerContainer" member="no">
 												<object class="sizeritem">
-													<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="pageImage" member="yes">
-														<bitmap>res/page1.png</bitmap>
+													<object class="wxListCtrl" name="idNotebookBrowserListCtrl" variable="notebookBrowser" member="yes">
+														<size>450,420</size>
+														<fg>wxSYS_COLOUR_MENUTEXT</fg>
+														<bg>wxSYS_COLOUR_MENU</bg>
+														<maxsize>-1,-1</maxsize>
+														<style>wxLC_ICON|wxSUNKEN_BORDER</style>
 													</object>
-													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
 													<option>1</option>
 												</object>
@@ -132,8 +137,8 @@
 						<label>Applications</label>
 					</object>
 				</object>
-				<flag>wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-				<border>5</border>
+				<flag>wxBOTTOM|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+				<border>20</border>
 				<option>1</option>
 			</object>
 		</object>

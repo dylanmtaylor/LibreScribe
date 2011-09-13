@@ -27,6 +27,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 	//*)
 #endif
 //(*InternalHeaders(GUIFrame)
+#include <wx/settings.h>
 #include <wx/font.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -36,7 +37,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 const long GUIFrame::ID_TREECTRL1 = wxNewId();
 const long GUIFrame::ID_STATICTEXT1 = wxNewId();
 const long GUIFrame::ID_STATICTEXT2 = wxNewId();
-const long GUIFrame::ID_STATICBITMAP1 = wxNewId();
+const long GUIFrame::idNotebookBrowserListCtrl = wxNewId();
 const long GUIFrame::idPagesTab = wxNewId();
 const long GUIFrame::ID_LISTCTRL1 = wxNewId();
 const long GUIFrame::idAudioTab = wxNewId();
@@ -82,7 +83,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
 	SetClientSize(wxSize(750,550));
 	SetMinSize(wxSize(750,550));
-	contentSizer = new wxBoxSizer(wxHORIZONTAL);
+	contentSizer = new wxBoxSizer(wxVERTICAL);
 	tabContainer = new wxNotebook(this, idTabContainer, wxDefaultPosition, wxSize(-1,550), 0, _T("idTabContainer"));
 	tabContainer->SetMinSize(wxSize(750,550));
 	pagesTab = new wxPanel(tabContainer, idPagesTab, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("idPagesTab"));
@@ -103,8 +104,11 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
-	pageImage = new wxStaticBitmap(pagesTab, ID_STATICBITMAP1, wxBitmap(wxImage(_T("res/page1.png"))), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICBITMAP1"));
-	pageViewerContainer->Add(pageImage, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,420), wxLC_ICON|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
+	notebookBrowser->SetMaxSize(wxSize(-1,-1));
+	notebookBrowser->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUTEXT));
+	notebookBrowser->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
+	pageViewerContainer->Add(notebookBrowser, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	pageBrowser->Add(pageViewerContainer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	pageTabContainer->Add(pageBrowser, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 5);
 	pagesTab->SetSizer(pageTabContainer);
@@ -127,7 +131,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	tabContainer->AddPage(pagesTab, _("Pages"), false);
 	tabContainer->AddPage(audioTab, _("Audio"), false);
 	tabContainer->AddPage(appTab, _("Applications"), false);
-	contentSizer->Add(tabContainer, 1, wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	contentSizer->Add(tabContainer, 1, wxBOTTOM|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 20);
 	SetSizer(contentSizer);
 	menuBar = new wxMenuBar();
 	fileMenu = new wxMenu();
@@ -175,7 +179,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	Center();
 
 	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
-	Connect(ID_LISTCTRL2,wxEVT_COMMAND_LIST_COL_CLICK,(wxObjectEventFunction)&GUIFrame::OnApplicationListColumnClick);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
@@ -188,7 +191,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	//*)
 	printf("LibreScribe Alpha version 0.04, written by Dylan Taylor\n");
 	printf("wxWidgets Version: %d.%d.%d\n",wxMAJOR_VERSION,wxMINOR_VERSION,wxRELEASE_NUMBER);
-    //the following code makes it so the page tree is automatically fitted to the window.
+    //the following coSde makes it so the page tree is automatically fitted to the window.
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
