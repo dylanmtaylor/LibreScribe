@@ -312,7 +312,7 @@ void GUIFrame::refreshLists() {
 void RefreshListThread::refreshApplicationList() {
 
     if ((dev != NULL) && (smartpen != NULL)) {
-        char* s = smartpen->getPenletList();
+        const char* s = smartpen->getPenletList();
         int index = 0;
         printf("Parsing application list...\n%s\n",s);
         printf("strlen of s: %d\n", strlen(s));
@@ -361,8 +361,7 @@ bool GUIFrame::PageHierarchyContains(const wxString query) {
 
 void RefreshListThread::refreshPageHierarchy() {
     printf("Attempting to retrieve changelist...\n");
-    char *changelist;
-    changelist = smartpen->getChangeList(0);
+    const char* changelist = smartpen->getChangeList(0);
     printf("Parsing changelist...\n%s\n",changelist);
     printf("strlen of changelist: %d\n", strlen(changelist));
     xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
@@ -467,10 +466,10 @@ void GUIFrame::setupLists() {
     appSizer->Add(appList, true, wxEXPAND | wxALL, 5);
     audioTab->SetSizer(audioSizer);
     appTab->SetSizer(appSizer);
-    for (int i = 0; i < (sizeof(audioColumns)/sizeof(wxString)); i++) {
+    for (int i = 0; i < int(sizeof(audioColumns)/sizeof(wxString)); i++) {
         audioList->InsertColumn(i, audioColumns[i], wxLIST_FORMAT_LEFT, audio_column_width);
     }
-    for (int i = 0; i < (sizeof(appColumns)/sizeof(wxString)); i++) {
+    for (int i = 0; i < int(sizeof(appColumns)/sizeof(wxString)); i++) {
         appList->InsertColumn(i, appColumns[i], wxLIST_FORMAT_LEFT, app_column_width);
     }
 }
@@ -509,7 +508,7 @@ uint16_t GUIFrame::refreshDeviceState() {
         return 0x0000;
     } else {
         printf("detecting smartpen...");
-        printf("smartpen idProduct: %s\n", dev->descriptor.idProduct);
+        printf("smartpen idProduct: %d\n", dev->descriptor.idProduct);
         if (is_ls_pulse(dev->descriptor.idProduct)) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
         } else if(is_ls_echo(dev->descriptor.idProduct)) {
@@ -611,7 +610,7 @@ void GUIFrame::OnPageTreePopupClick() {
 void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 {
 	wxTreeItemId item = event.GetItem();
-    printf("page tree item context menu request detected. item id: %d\n",item);
+    printf("page tree item context menu request detected. item id: %d\n", static_cast<int>(item));
 	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         rootItemMenu.Enable(idRootItemMenuRenameDevice,(dev != NULL));
         rootItemMenu.Enable(idRootItemMenuInformation,(dev != NULL));
