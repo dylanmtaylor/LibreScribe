@@ -83,7 +83,8 @@
 														<fg>wxSYS_COLOUR_MENUTEXT</fg>
 														<bg>wxSYS_COLOUR_MENU</bg>
 														<maxsize>-1,-1</maxsize>
-														<style>wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER|wxVSCROLL</style>
+														<style>wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+														<handler function="OnNotebookBrowserItemActivated" entry="EVT_LIST_ITEM_ACTIVATED" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<option>1</option>
