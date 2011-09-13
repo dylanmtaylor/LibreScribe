@@ -137,6 +137,7 @@ class GUIFrame: public wxFrame
 		wxMenuItem* archiveNotebookMenuItem;
 		//*)
         wxImageList* treeImages;
+        wxImageList* browserImages;
 	protected:
 
         //(*Identifiers(GUIFrame)

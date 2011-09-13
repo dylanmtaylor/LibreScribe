@@ -104,7 +104,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
-	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,465), wxLC_ICON|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
+	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,465), wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER|wxVSCROLL, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
 	notebookBrowser->SetMaxSize(wxSize(-1,-1));
 	notebookBrowser->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUTEXT));
 	notebookBrowser->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
@@ -195,7 +195,17 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     wxBoxSizer* pageTreeSizer = new wxBoxSizer( wxVERTICAL );
     pageTreeSizer->Add(pageTree, true, wxEXPAND | wxALL, 5);
     pagesTab->SetSizer(pageTreeSizer);
+    browserImages = new wxImageList(32,32,false,0);
+    browserImages->Add(wxBitmap(_("res/page-icon-32.png")));
+    notebookBrowser->SetImageList(browserImages, wxIMAGE_LIST_NORMAL);
     notebookBrowser->ClearAll();
+    std::string s;
+    for (int i = 0; i < 350; i++) {
+        std::stringstream out;
+        out << i + 1;
+        s = "Page " + out.str();
+        notebookBrowser->InsertItem(i, wxString(s.c_str(),wxConvUTF8), 0);
+    }
     mkdir("./data", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create data directory if it doesn't exist
     mkdir("./data/extracted", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create a directory for extracting archives to if it doesn't exist
     StartBackgroundMonitor();
