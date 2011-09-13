@@ -104,7 +104,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
-	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,420), wxLC_ICON|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
+	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,462), wxLC_ICON|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
 	notebookBrowser->SetMaxSize(wxSize(-1,-1));
 	notebookBrowser->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUTEXT));
 	notebookBrowser->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
