@@ -588,6 +588,7 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
     if ((smartpen != NULL) && (dev != NULL)) {
+        refreshButton->Enable(false);
         DeviceInfo d(this, dev->descriptor.idProduct, smartpen);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
@@ -595,6 +596,7 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
     } else {
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
     }
+    refreshButton->Enable(true);
 }
 
 void GUIFrame::OnQuit(wxCommandEvent& event)
