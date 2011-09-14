@@ -596,11 +596,11 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
+        SetActionAllowed(RENAME,true);
     } else {
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
     }
     SetActionAllowed(REFRESH,true);
-    SetActionAllowed(RENAME,true);
 }
 
 void GUIFrame::OnQuit(wxCommandEvent& event)
