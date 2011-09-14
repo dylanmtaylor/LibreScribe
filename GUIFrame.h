@@ -141,14 +141,14 @@ class GUIFrame: public wxFrame
 	protected:
 
         //(*Identifiers(GUIFrame)
-        static const long ID_TREECTRL1;
+        static const long idPageTreeCtrl;
         static const long ID_STATICTEXT1;
         static const long ID_STATICTEXT2;
         static const long idNotebookBrowserListCtrl;
         static const long idPagesTab;
-        static const long ID_LISTCTRL1;
+        static const long idAudioListCtrl;
         static const long idAudioTab;
-        static const long ID_LISTCTRL2;
+        static const long idApplicatonListCtrl;
         static const long idAppTab;
         static const long idTabContainer;
         static const long idMenuFilePrint;
