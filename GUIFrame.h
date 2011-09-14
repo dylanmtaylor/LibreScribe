@@ -195,6 +195,7 @@ class GUIFrame: public wxFrame
 		void OnPageTreeSelectionChanged(wxTreeEvent& event);
 		//*)
         enum {ASCENDING,DESCENDING};
+        const char* GetNotebookGUID(const char* title);
 //        wxListCtrlCompare SortStringItems(long item1, long item2, long sortOrder);
 		void OnPageTreePopupClick();
 		DECLARE_EVENT_TABLE()

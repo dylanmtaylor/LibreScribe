@@ -762,15 +762,26 @@ void GUIFrame::SetActionAllowed(const int action, bool allow) {
     }
 }
 
+const char* GUIFrame::GetNotebookGUID(const char* title) {
+    for (int n = 0; n < notebooks.size(); n++) {
+        if (strcmp(title,notebooks[n].title) == 0) {
+            return notebooks[n].guid;
+        }
+    }
+}
+
 void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
 	wxTreeItemId item = event.GetItem();
 	wxString itemText = pageTree->GetItemText(item);
 	std::string textString = (std::string)itemText.mb_str();
-    printf("page tree selection changed. id: %d, text: \"%s\"\n", item, textString.c_str());
+    const char* text = textString.c_str();
+    printf("page tree selection changed. id: %d, text: \"%s\"\n", item, text);
     if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         selectedNotebookName->SetLabel(_("No Notebook Selected"));
 	} else {
         selectedNotebookName->SetLabel(itemText);
+        const char* guid = GetNotebookGUID(text);
+        printf("The selected notebook's GUID is \"%s\"\n",guid);
 	}
 }
 
