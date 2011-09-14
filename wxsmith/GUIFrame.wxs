@@ -21,7 +21,7 @@
 								<cols>2</cols>
 								<rows>1</rows>
 								<object class="sizeritem">
-									<object class="wxTreeCtrl" name="ID_TREECTRL1" variable="pageTree" member="yes">
+									<object class="wxTreeCtrl" name="idPageTreeCtrl" variable="pageTree" member="yes">
 										<size>255,-1</size>
 										<minsize>255,-1</minsize>
 										<maxsize>255,-1</maxsize>
@@ -108,7 +108,7 @@
 							<pos>35,20</pos>
 							<object class="wxBoxSizer" variable="audioTabContainer" member="no">
 								<object class="sizeritem">
-									<object class="wxListCtrl" name="ID_LISTCTRL1" variable="audioList" member="yes">
+									<object class="wxListCtrl" name="idAudioListCtrl" variable="audioList" member="yes">
 										<style>wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER</style>
 									</object>
 									<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
@@ -124,8 +124,9 @@
 							<pos>138,16</pos>
 							<object class="wxBoxSizer" variable="appTabContainer" member="no">
 								<object class="sizeritem">
-									<object class="wxListCtrl" name="ID_LISTCTRL2" variable="appList" member="yes">
+									<object class="wxListCtrl" name="idApplicatonListCtrl" variable="appList" member="yes">
 										<style>wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER</style>
+										<handler function="OnApplicationListColumnClick" entry="EVT_LIST_COL_CLICK" />
 									</object>
 									<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 									<border>5</border>

@@ -34,14 +34,14 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 //*)
 
 //(*IdInit(GUIFrame)
-const long GUIFrame::ID_TREECTRL1 = wxNewId();
+const long GUIFrame::idPageTreeCtrl = wxNewId();
 const long GUIFrame::ID_STATICTEXT1 = wxNewId();
 const long GUIFrame::ID_STATICTEXT2 = wxNewId();
 const long GUIFrame::idNotebookBrowserListCtrl = wxNewId();
 const long GUIFrame::idPagesTab = wxNewId();
-const long GUIFrame::ID_LISTCTRL1 = wxNewId();
+const long GUIFrame::idAudioListCtrl = wxNewId();
 const long GUIFrame::idAudioTab = wxNewId();
-const long GUIFrame::ID_LISTCTRL2 = wxNewId();
+const long GUIFrame::idApplicatonListCtrl = wxNewId();
 const long GUIFrame::idAppTab = wxNewId();
 const long GUIFrame::idTabContainer = wxNewId();
 const long GUIFrame::idMenuFilePrint = wxNewId();
@@ -88,7 +88,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	tabContainer->SetMinSize(wxSize(750,550));
 	pagesTab = new wxPanel(tabContainer, idPagesTab, wxPoint(13,75), wxDefaultSize, wxTAB_TRAVERSAL, _T("idPagesTab"));
 	pageTabContainer = new wxFlexGridSizer(1, 2, 0, 0);
-	pageTree = new wxTreeCtrl(pagesTab, ID_TREECTRL1, wxDefaultPosition, wxSize(255,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_TREECTRL1"));
+	pageTree = new wxTreeCtrl(pagesTab, idPageTreeCtrl, wxDefaultPosition, wxSize(255,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("idPageTreeCtrl"));
 	pageTree->SetMinSize(wxSize(255,-1));
 	pageTree->SetMaxSize(wxSize(255,-1));
 	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
@@ -116,14 +116,14 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	pageTabContainer->SetSizeHints(pagesTab);
 	audioTab = new wxPanel(tabContainer, idAudioTab, wxPoint(35,20), wxDefaultSize, wxTAB_TRAVERSAL, _T("idAudioTab"));
 	audioTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	audioList = new wxListCtrl(audioTab, ID_LISTCTRL1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_LISTCTRL1"));
+	audioList = new wxListCtrl(audioTab, idAudioListCtrl, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("idAudioListCtrl"));
 	audioTabContainer->Add(audioList, 1, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	audioTab->SetSizer(audioTabContainer);
 	audioTabContainer->Fit(audioTab);
 	audioTabContainer->SetSizeHints(audioTab);
 	appTab = new wxPanel(tabContainer, idAppTab, wxPoint(138,16), wxDefaultSize, wxTAB_TRAVERSAL, _T("idAppTab"));
 	appTabContainer = new wxBoxSizer(wxHORIZONTAL);
-	appList = new wxListCtrl(appTab, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	appList = new wxListCtrl(appTab, idApplicatonListCtrl, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_AUTOARRANGE|wxLC_HRULES|wxSUNKEN_BORDER, wxDefaultValidator, _T("idApplicatonListCtrl"));
 	appTabContainer->Add(appList, 1, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	appTab->SetSizer(appTabContainer);
 	appTabContainer->Fit(appTab);
@@ -178,8 +178,9 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	contentSizer->SetSizeHints(this);
 	Center();
 
-	Connect(ID_TREECTRL1,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
+	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
 	Connect(idNotebookBrowserListCtrl,wxEVT_COMMAND_LIST_ITEM_ACTIVATED,(wxObjectEventFunction)&GUIFrame::OnNotebookBrowserItemActivated);
+	Connect(idApplicatonListCtrl,wxEVT_COMMAND_LIST_COL_CLICK,(wxObjectEventFunction)&GUIFrame::OnApplicationListColumnClick);
 	Connect(idMenuFileQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnQuit);
 	Connect(idMenuHelpAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&GUIFrame::OnAbout);
 	Connect(idToolbarRefresh,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&GUIFrame::OnRefresh);
