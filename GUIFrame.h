@@ -67,7 +67,7 @@ struct notebook {
 
 struct notebookPage {
     short pageNumber;
-    const char* guid;
+    const char* pageAddress;
 };
 
 typedef struct {
