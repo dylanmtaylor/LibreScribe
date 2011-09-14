@@ -286,6 +286,7 @@ wxThread::ExitCode RefreshListThread::Entry() {
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
     m_pHandler->refreshButton->Enable(false); //prevent multiple simultaneous refreshes
+    m_pHandler->devInfoButton->Enable(false); //opening device info when refreshing causes a seg fault
     wxMutexGuiLeave();
     refreshApplicationList();
     refreshPageHierarchy();
@@ -293,6 +294,7 @@ wxThread::ExitCode RefreshListThread::Entry() {
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(oldStatus, 1);
     m_pHandler->refreshButton->Enable(true);
+    m_pHandler->devInfoButton->Enable(true);
     wxMutexGuiLeave();
 }
 
