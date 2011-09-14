@@ -775,6 +775,7 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
 	wxString itemText = pageTree->GetItemText(item);
 	std::string textString = (std::string)itemText.mb_str();
     const char* text = textString.c_str();
+    notebookBrowser->ClearAll(); //clear the notebook page browser of all previous data
     printf("page tree selection changed. id: %d, text: \"%s\"\n", item, text);
     if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         selectedNotebookName->SetLabel(_("No Notebook Selected"));
