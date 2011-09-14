@@ -80,16 +80,15 @@ static void obex_event(obex_t* hdl, obex_object_t* obj, int mode,
             int event, int obex_cmd, int obex_rsp) {
     struct obex_state* state;
     obex_headerdata_t hd;
-    int size;
-    int rc;
 
     state = (obex_state*)OBEX_GetUserData(hdl);
 
     if (event == OBEX_EV_PROGRESS) {
         hd.bq4 = state->connid;
-        size = 4;
-        rc = OBEX_ObjectAddHeader(hdl, obj, OBEX_HDR_CONNECTION,
-                                  hd, size, OBEX_FL_FIT_ONE_PACKET);
+        const int size = 4;
+        const unsigned int flags = 0;
+        const int rc = OBEX_ObjectAddHeader(
+                            hdl, obj, OBEX_HDR_CONNECTION, hd, size, flags);
         if (rc < 0) {
             printf("oah fail %d\n", rc);
         }
