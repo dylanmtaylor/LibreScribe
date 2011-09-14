@@ -285,16 +285,18 @@ wxThread::ExitCode RefreshListThread::Entry() {
     wxString oldStatus = m_pHandler->statusBar->GetStatusText(1);
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(_("Refreshing device contents, please wait..."), 1);
-    m_pHandler->refreshButton->Enable(false); //prevent multiple simultaneous refreshes
-    m_pHandler->devInfoButton->Enable(false); //opening device info when refreshing causes a seg fault
+    m_pHandler->SetActionAllowed(REFRESH,false); //prevent multiple simultaneous refreshes
+    m_pHandler->SetActionAllowed(INFORMATION,false); //opening device info when refreshing causes a seg fault
+    m_pHandler->SetActionAllowed(RENAME,false); //trying to rename the device when refreshing causes a seg fault
     wxMutexGuiLeave();
     refreshApplicationList();
     refreshPageHierarchy();
     refreshAudioList();
     wxMutexGuiEnter();
     m_pHandler->statusBar->SetStatusText(oldStatus, 1);
-    m_pHandler->refreshButton->Enable(true);
-    m_pHandler->devInfoButton->Enable(true);
+    m_pHandler->SetActionAllowed(REFRESH,true);
+    m_pHandler->SetActionAllowed(INFORMATION,true);
+    m_pHandler->SetActionAllowed(RENAME,true);
     wxMutexGuiLeave();
 }
 
@@ -544,11 +546,11 @@ void GUIFrame::doRefreshDeviceState() {
     try {
         dev = findSmartpen();
         if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
-            this->mainToolbar->EnableTool(idToolbarInfo,false);
+            SetActionAllowed(INFORMATION,false);
             printf("Sorry! No compatible smartpen device found!\n");
             statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
         } else {
-            this->mainToolbar->EnableTool(idToolbarInfo,true);
+            SetActionAllowed(INFORMATION,true);
             if (is_ls_pulse(dev->descriptor.idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
                 printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
@@ -588,7 +590,8 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
 {
     if (dev == NULL) doRefreshDeviceState();
     if ((smartpen != NULL) && (dev != NULL)) {
-        refreshButton->Enable(false);
+        SetActionAllowed(REFRESH,false);
+        SetActionAllowed(RENAME,false);
         DeviceInfo d(this, dev->descriptor.idProduct, smartpen);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
@@ -596,7 +599,8 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
     } else {
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
     }
-    refreshButton->Enable(true);
+    SetActionAllowed(REFRESH,true);
+    SetActionAllowed(RENAME,true);
 }
 
 void GUIFrame::OnQuit(wxCommandEvent& event)
@@ -632,8 +636,10 @@ void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 	wxTreeItemId item = event.GetItem();
     printf("page tree item context menu request detected. item id: %d\n", static_cast<int>(item));
 	if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
-        rootItemMenu.Enable(idRootItemMenuRenameDevice,(dev != NULL));
-        rootItemMenu.Enable(idRootItemMenuInformation,(dev != NULL));
+        if (dev == NULL) {
+            rootItemMenu.Enable(idRootItemMenuRenameDevice,false);
+            rootItemMenu.Enable(idRootItemMenuInformation,false);
+        }
         PopupMenu(&rootItemMenu);
 	}
 }
@@ -732,4 +738,23 @@ void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
     int page = event.GetIndex() + 1;
     printf("Notebook browser page clicked: %d\n",page);
     wxMessageBox(_("Sorry, the data in the notebook page browser is simulated.\nThis feature is not implemented yet."), event.GetText());
+}
+
+void GUIFrame::SetActionAllowed(const int action, bool allow) {
+    switch (action) {
+        case REFRESH:
+            refreshButton->Enable(allow);
+            rootItemMenu.Enable(idRootItemMenuRefresh,allow);
+            return;
+        case INFORMATION:
+            rootItemMenu.Enable(idRootItemMenuInformation,allow);
+            devInfoButton->Enable(allow);
+            return;
+        case RENAME:
+            rootItemMenu.Enable(idRootItemMenuRenameDevice,allow);
+            return;
+        default:
+            printf("Invalid action specified. Cannot enable/disable.\n");
+            return;
+    }
 }

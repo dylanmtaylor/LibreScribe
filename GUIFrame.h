@@ -44,6 +44,7 @@ uint16_t refreshDeviceState();
 //*)
 
 class GUIFrame;
+enum {REFRESH, INFORMATION, RENAME};
 
 struct audioClipInfo {
     wxString name;
@@ -100,6 +101,7 @@ class GUIFrame: public wxFrame
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
         void decryptStfFile(char* filename);
+        void SetActionAllowed(int action, bool allow);
         wxBitmap ScaleImage(const char* filename);
         bool PageHierarchyContains(const wxString query);
 //        void addApplicationToList(applicationInfo info);
