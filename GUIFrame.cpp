@@ -630,10 +630,6 @@ void GUIFrame::OnClose(wxCloseEvent& event)
     Destroy();
 }
 
-void GUIFrame::OnPageTreePopupClick() {
-
-}
-
 void GUIFrame::OnPageTreeItemMenu(wxTreeEvent& event)
 {
 	wxTreeItemId item = event.GetItem();
