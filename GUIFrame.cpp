@@ -423,8 +423,8 @@ void RefreshListThread::refreshPageHierarchy() {
                                             printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
                                             m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
                                         }
-                                        printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
                                     }
+                                    printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
                                     m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid});
                                     wxMutexGuiLeave();
                                 } else {
