@@ -52,7 +52,7 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
                 printf("ERROR: null udev action detected. Skipping to avoid crashing.");
                 continue;
             }
-            if (strcmp(action,lastAction) != 0) {
+            if ((strcmp(action,lastAction) != 0) && (strcmp(action,"change") != 0)) {
                 printf("udev device action detected: %s; refreshing device state...\n",action);
 //                if (strcmp(lastAction,"(none)")) printf("previous action detected: %s\n",lastAction);
                 strcpy(lastAction,action);
