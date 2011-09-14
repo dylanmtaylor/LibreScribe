@@ -244,6 +244,7 @@ void GUIFrame::setupPageHierarchy() {
     treeImages->Add(wxBitmap(_("res/no-pen-icon.png")));
     treeImages->Add(wxBitmap(_("res/pen-refresh.png")));
     pageTree->DeleteAllItems(); //in case we call this method more than once
+    notebooks.clear();
     pageTree->SetImageList(treeImages);
     if ((smartpen != NULL) && (dev != NULL)) {
         wxString penName(smartpen->getName(), wxConvUTF8);
@@ -422,7 +423,9 @@ void RefreshListThread::refreshPageHierarchy() {
                                             printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
                                             m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
                                         }
+                                        printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
                                     }
+                                    m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid});
                                     wxMutexGuiLeave();
                                 } else {
                                     printf("Duplicate notebook detected. Ignoring it.\n");
@@ -433,6 +436,10 @@ void RefreshListThread::refreshPageHierarchy() {
                 }
             }
         }
+    }
+    printf("Done retrieving notebooks. The notebook vector now contains:\n");
+    for (int i = 0; i < m_pHandler->notebooks.size(); i++) {
+        printf("   [%d] \"%s\" (\"%s\")\n", i, m_pHandler->notebooks[i].title, m_pHandler->notebooks[i].guid);
     }
     wxMutexGuiEnter();
     m_pHandler->pageTree->ExpandAll();

@@ -19,6 +19,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DeviceInfo.h"
 #include "Smartpen.h"
+#include <vector>
 uint16_t refreshDeviceState();
 #ifndef WX_PRECOMP
 	//(*HeadersPCH(GUIFrame)
@@ -57,6 +58,16 @@ struct applicationInfo {
     wxString name;
     wxString version;
     wxString size;
+};
+
+struct notebook {
+    const char* title;
+    const char* guid;
+};
+
+struct notebookPage {
+    short pageNumber;
+    const char* guid;
 };
 
 typedef struct {
@@ -140,6 +151,8 @@ class GUIFrame: public wxFrame
 		//*)
         wxImageList* treeImages;
         wxImageList* browserImages;
+        std::vector<notebook> notebooks;
+        std::vector<notebookPage> notebookPages;
 	protected:
 
         //(*Identifiers(GUIFrame)
