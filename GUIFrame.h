@@ -122,7 +122,6 @@ class GUIFrame: public wxFrame
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxListCtrl* notebookBrowser;
-		wxStaticText* notebookPageName;
 		wxMenuItem* renameSmartpenMenuItem;
 		wxMenuBar* menuBar;
 		wxMenuItem* refreshConnectionMenuItem;
@@ -133,7 +132,7 @@ class GUIFrame: public wxFrame
 		wxListCtrl* appList;
 		wxPanel* audioTab;
 		wxPanel* pagesTab;
-		wxStaticText* notebookPageSize;
+		wxStaticText* selectedNotebookName;
 		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
 		wxMenuItem* deleteNotebookMenuItem;
@@ -157,8 +156,7 @@ class GUIFrame: public wxFrame
 
         //(*Identifiers(GUIFrame)
         static const long idPageTreeCtrl;
-        static const long ID_STATICTEXT1;
-        static const long ID_STATICTEXT2;
+        static const long idSelectedNotebook;
         static const long idNotebookBrowserListCtrl;
         static const long idPagesTab;
         static const long idAudioListCtrl;
@@ -194,6 +192,7 @@ class GUIFrame: public wxFrame
 		void OntabContainerPageChanged(wxNotebookEvent& event);
 		void OnApplicationListColumnClick(wxListEvent& event);
 		void OnNotebookBrowserItemActivated(wxListEvent& event);
+		void OnPageTreeSelectionChanged(wxTreeEvent& event);
 		//*)
         enum {ASCENDING,DESCENDING};
 //        wxListCtrlCompare SortStringItems(long item1, long item2, long sortOrder);

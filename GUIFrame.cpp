@@ -35,8 +35,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 //(*IdInit(GUIFrame)
 const long GUIFrame::idPageTreeCtrl = wxNewId();
-const long GUIFrame::ID_STATICTEXT1 = wxNewId();
-const long GUIFrame::ID_STATICTEXT2 = wxNewId();
+const long GUIFrame::idSelectedNotebook = wxNewId();
 const long GUIFrame::idNotebookBrowserListCtrl = wxNewId();
 const long GUIFrame::idPagesTab = wxNewId();
 const long GUIFrame::idAudioListCtrl = wxNewId();
@@ -93,16 +92,12 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	pageTree->SetMaxSize(wxSize(255,-1));
 	pageTabContainer->Add(pageTree, 1, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	pageBrowser = new wxFlexGridSizer(0, 1, 0, 0);
-	notebookToolbar = new wxGridSizer(1, 2, 0, 0);
-	notebookPageSize = new wxStaticText(pagesTab, ID_STATICTEXT1, _("A5"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-	wxFont notebookPageSizeFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Sans"),wxFONTENCODING_DEFAULT);
-	notebookPageSize->SetFont(notebookPageSizeFont);
-	notebookToolbar->Add(notebookPageSize, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	notebookPageName = new wxStaticText(pagesTab, ID_STATICTEXT2, _("Tutorial"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	wxFont notebookPageNameFont(11,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
-	notebookPageName->SetFont(notebookPageNameFont);
-	notebookToolbar->Add(notebookPageName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
+	notebookToolbar = new wxGridSizer(1, 1, 0, 0);
+	selectedNotebookName = new wxStaticText(pagesTab, idSelectedNotebook, _("No Notebook Selected"), wxDefaultPosition, wxDefaultSize, 0, _T("idSelectedNotebook"));
+	wxFont selectedNotebookNameFont(11,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
+	selectedNotebookName->SetFont(selectedNotebookNameFont);
+	notebookToolbar->Add(selectedNotebookName, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	pageBrowser->Add(notebookToolbar, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	pageViewerContainer = new wxBoxSizer(wxHORIZONTAL);
 	notebookBrowser = new wxListCtrl(pagesTab, idNotebookBrowserListCtrl, wxDefaultPosition, wxSize(450,465), wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER, wxDefaultValidator, _T("idNotebookBrowserListCtrl"));
 	notebookBrowser->SetMaxSize(wxSize(-1,-1));
@@ -178,6 +173,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	contentSizer->SetSizeHints(this);
 	Center();
 
+	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_SEL_CHANGED,(wxObjectEventFunction)&GUIFrame::OnPageTreeSelectionChanged);
 	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
 	Connect(idNotebookBrowserListCtrl,wxEVT_COMMAND_LIST_ITEM_ACTIVATED,(wxObjectEventFunction)&GUIFrame::OnNotebookBrowserItemActivated);
 	Connect(idApplicatonListCtrl,wxEVT_COMMAND_LIST_COL_CLICK,(wxObjectEventFunction)&GUIFrame::OnApplicationListColumnClick);
@@ -765,3 +761,16 @@ void GUIFrame::SetActionAllowed(const int action, bool allow) {
             return;
     }
 }
+
+void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
+	wxTreeItemId item = event.GetItem();
+	wxString itemText = pageTree->GetItemText(item);
+	std::string textString = (std::string)itemText.mb_str();
+    printf("page tree selection changed. id: %d, text: \"%s\"\n", item, textString.c_str());
+    if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
+        selectedNotebookName->SetLabel(_("No Notebook Selected"));
+	} else {
+        selectedNotebookName->SetLabel(itemText);
+	}
+}
+
