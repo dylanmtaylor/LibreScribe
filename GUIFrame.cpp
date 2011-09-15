@@ -445,7 +445,13 @@ void RefreshListThread::refreshPageHierarchy() {
                                     m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid,ParsePageData(lsps)});
                                     wxMutexGuiLeave();
                                 } else {
-                                    printf("Duplicate notebook detected. Ignoring it.\n");
+                                    printf("Duplicate notebook detected. Not creating new notebook.\n");
+                                    for (int n = 0; n < m_pHandler->notebooks.size(); n++) { //search through all of the notebooks
+                                        if (strcmp((char*)title,m_pHandler->notebooks[n].title) == 0) { //find the one with the matching title
+                                            std::vector<notebookPage> newPages = ParsePageData(lsps);
+                                            m_pHandler->notebooks[n].notebookPages.insert(m_pHandler->notebooks[n].notebookPages.end(), newPages.begin(), newPages.end());
+                                        }
+                                    }
                                 }
                             }
                         }
