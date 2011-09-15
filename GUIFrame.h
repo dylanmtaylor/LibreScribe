@@ -60,14 +60,15 @@ struct applicationInfo {
     wxString size;
 };
 
+struct notebookPage {
+    int pageNumber;
+    const char* pageAddress;
+};
+
 struct notebook {
     const char* title;
     const char* guid;
-};
-
-struct notebookPage {
-    short pageNumber;
-    const char* pageAddress;
+    std::vector<notebookPage> notebookPages;
 };
 
 typedef struct {
@@ -100,6 +101,7 @@ class RefreshListThread : public wxThread
         void refreshAudioList();
         void refreshPageHierarchy();
         virtual ExitCode Entry();
+        std::vector<notebookPage> ParsePageData(xmlNodePtr cur);
         GUIFrame* m_pHandler;
 };
 
@@ -151,7 +153,6 @@ class GUIFrame: public wxFrame
         wxImageList* treeImages;
         wxImageList* browserImages;
         std::vector<notebook> notebooks;
-        std::vector<notebookPage> notebookPages;
 	protected:
 
         //(*Identifiers(GUIFrame)
