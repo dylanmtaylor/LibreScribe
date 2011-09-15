@@ -376,6 +376,27 @@ bool GUIFrame::PageHierarchyContains(const wxString query) {
 	return false; //item not found
 }
 
+std::vector<notebookPage> RefreshListThread::ParsePageData(xmlNodePtr cur) {
+    std::vector<notebookPage> pageData;
+    printf("parsing page data for notebook...\n");
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"lsp")) == 0) {
+        xmlNode* pages = cur->children;
+        for (pages = pages; pages; pages = pages->next) {
+             if (pages->type == XML_ELEMENT_NODE) {
+                if ((!xmlStrcmp(pages->name, (const xmlChar *)"page"))) { //if the current element's name is 'page'
+                    xmlChar* pageAddress = xmlGetProp(pages, (const xmlChar*)"pageaddress");
+                    xmlChar* pgNum = xmlGetProp(pages, (const xmlChar*)"page");
+                    int pageNumber = atoi((const char*)pgNum);
+                    pageNumber += 1; //pages start with the number 0, similar to elements in an array, etc. therefore, start with 1.
+                    printf("adding page %d\n",pageNumber);
+                    pageData.push_back(notebookPage{pageNumber, (const char*)pageAddress});
+                }
+             }
+        }
+    }
+    return pageData;
+}
+
 void RefreshListThread::refreshPageHierarchy() {
     printf("Attempting to retrieve changelist...\n");
     const char* changelist = smartpen->getChangeList(0);
@@ -404,7 +425,7 @@ void RefreshListThread::refreshPageHierarchy() {
                                 smartpen->getLspData((char*)guid);
                                 if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
                                     wxMutexGuiEnter();
-                                    if ((!xmlStrcmp(title, (const xmlChar *)"Tutorial"))) { //if it's the tutorial notebook
+                                    if ((!xmlStrcmp(title, (const xmlChar*)"Tutorial"))) { //if it's the tutorial notebook
                                         //override the default icon with the page icon to have consistend behavior with LS Desktop
                                         m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 1, 1);
                                     } else {
@@ -421,14 +442,14 @@ void RefreshListThread::refreshPageHierarchy() {
                                         }
                                     }
                                     printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
-                                    m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid});
+                                    m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid,ParsePageData(lsps)});
                                     wxMutexGuiLeave();
                                 } else {
                                     printf("Duplicate notebook detected. Ignoring it.\n");
                                 }
                             }
                         }
-                     }
+                    }
                 }
             }
         }
@@ -436,6 +457,10 @@ void RefreshListThread::refreshPageHierarchy() {
     printf("Done retrieving notebooks. The notebook vector now contains:\n");
     for (int i = 0; i < m_pHandler->notebooks.size(); i++) {
         printf("   [%d] \"%s\" (\"%s\")\n", i, m_pHandler->notebooks[i].title, m_pHandler->notebooks[i].guid);
+        printf("   Pages stored in the \"notebookPages\" vector of this notebook:\n");
+        for (int j = 0; j < m_pHandler->notebooks[i].notebookPages.size(); j++) {
+            printf("      [%d] \"%s\"\n", m_pHandler->notebooks[i].notebookPages[j].pageNumber, m_pHandler->notebooks[i].notebookPages[j].pageAddress);
+        }
     }
     wxMutexGuiEnter();
     m_pHandler->pageTree->ExpandAll();
