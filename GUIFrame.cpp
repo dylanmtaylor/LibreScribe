@@ -808,7 +808,7 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
             if (strcmp(text,notebooks[n].title) == 0) { //find the one with the matching title
                 for (int p = notebooks[n].notebookPages.size() - 1; p > -1 ; p--) { //search through all of the pages
                     int page = notebooks[n].notebookPages[p].pageNumber;
-                    printf("[%d] adding icon for page %d\n",p,page);
+                    printf("[%d] adding icon for page %d (address: \"%s\")\n",p,page,notebooks[n].notebookPages[p].pageAddress);
                     std::stringstream out;
                     out << page;
                     s = "Page " + out.str();
