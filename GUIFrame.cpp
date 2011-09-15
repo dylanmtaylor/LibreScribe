@@ -196,14 +196,6 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     browserImages = new wxImageList(32,32,false,0);
     browserImages->Add(wxBitmap(_("res/page-icon-32.png")));
     notebookBrowser->SetImageList(browserImages, wxIMAGE_LIST_NORMAL);
-    notebookBrowser->ClearAll();
-    std::string s;
-    for (int i = 0; i < 50; i++) {
-        std::stringstream out;
-        out << i + 1;
-        s = "Page " + out.str();
-        notebookBrowser->InsertItem(i, wxString(s.c_str(),wxConvUTF8), 0);
-    }
     mkdir("./data", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create data directory if it doesn't exist
     mkdir("./data/extracted", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); //create a directory for extracting archives to if it doesn't exist
     StartBackgroundMonitor();
@@ -810,6 +802,20 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
         selectedNotebookName->SetLabel(itemText);
         const char* guid = GetNotebookGUID(text);
         printf("The selected notebook's GUID is \"%s\"\n",guid);
+        std::string s;
+        int index = 0;
+        for (int n = 0; n < notebooks.size(); n++) { //search through all of the notebooks
+            if (strcmp(text,notebooks[n].title) == 0) { //find the one with the matching title
+                for (int p = notebooks[n].notebookPages.size() - 1; p > -1 ; p--) { //search through all of the pages
+                    int page = notebooks[n].notebookPages[p].pageNumber;
+                    printf("[%d] adding icon for page %d\n",p,page);
+                    std::stringstream out;
+                    out << page;
+                    s = "Page " + out.str();
+                    notebookBrowser->InsertItem(index++, wxString(s.c_str(),wxConvUTF8), 0);
+                }
+            }
+        }
 	}
 }
 
