@@ -235,7 +235,6 @@ void GUIFrame::setupPageHierarchy() {
     notebooks.clear();
     pageTree->SetImageList(treeImages);
     if ((smartpen != NULL) && (dev != NULL)) {
-
         wxString penName(smartpen->getName(), wxConvUTF8);
         root = pageTree->AddRoot(penName, 4); //use refresh icon while retrieving notebooks/pages from pen
     } else {
