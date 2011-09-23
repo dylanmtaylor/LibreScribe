@@ -53,10 +53,10 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	wxFlexGridSizer* dialogSizer;
 
 	Create(parent, wxID_ANY, _("Smartpen Device Information"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
-	SetClientSize(wxSize(585,165));
+	SetClientSize(wxSize(600,165));
 	SetMinSize(wxSize(585,165));
 	SetMaxSize(wxSize(585,165));
-	mainSizer = new wxFlexGridSizer(0, 3, 0, 0);
+	mainSizer = new wxFlexGridSizer(0, 2, 0, 0);
 	infoIcon = new wxStaticBitmap(this, idInformationIcon, wxBitmap(wxImage(_T("res/dialog-information-128.png")).Rescale(wxSize(128,128).GetWidth(),wxSize(128,128).GetHeight())), wxDefaultPosition, wxSize(128,128), 0, _T("idInformationIcon"));
 	mainSizer->Add(infoIcon, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	dialogSizer = new wxFlexGridSizer(0, 1, 0, 0);
@@ -78,7 +78,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	informationSizer->Add(batteryGauge, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	storageLabel = new wxStaticText(this, idStorageLabel, _("Storage:"), wxDefaultPosition, wxDefaultSize, 0, _T("idStorageLabel"));
 	informationSizer->Add(storageLabel, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	storageRemaining = new wxStaticText(this, idStorageRemaining, _("1.55GB of 2.13GB remaining"), wxDefaultPosition, wxDefaultSize, 0, _T("idStorageRemaining"));
+	storageRemaining = new wxStaticText(this, idStorageRemaining, _("1669.0 of 1925.0 MiB (86.70%) remaining."), wxDefaultPosition, wxDefaultSize, 0, _T("idStorageRemaining"));
 	informationSizer->Add(storageRemaining, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	dialogSizer->Add(informationSizer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
 	mainSizer->Add(dialogSizer, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 10);

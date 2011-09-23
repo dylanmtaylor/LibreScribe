@@ -2,12 +2,12 @@
 <wxsmith>
 	<object class="wxDialog" name="DeviceInfo">
 		<title>Smartpen Device Information</title>
-		<size>585,165</size>
+		<size>600,165</size>
 		<minsize>585,165</minsize>
 		<maxsize>585,165</maxsize>
 		<id_arg>0</id_arg>
 		<object class="wxFlexGridSizer" variable="mainSizer" member="no">
-			<cols>3</cols>
+			<cols>2</cols>
 			<object class="sizeritem">
 				<object class="wxStaticBitmap" name="idInformationIcon" variable="infoIcon" member="yes">
 					<bitmap>res/dialog-information-128.png</bitmap>
@@ -85,7 +85,7 @@
 							</object>
 							<object class="sizeritem">
 								<object class="wxStaticText" name="idStorageRemaining" variable="storageRemaining" member="yes">
-									<label>1.55GB of 2.13GB remaining</label>
+									<label>1669.0 of 1925.0 MiB (86.70%) remaining.</label>
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
 								<border>5</border>
