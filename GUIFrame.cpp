@@ -759,7 +759,7 @@ void GUIFrame::decryptStfFile(char* filename) {
 void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
     int page = event.GetIndex() + 1;
     printf("Notebook browser page clicked: %d\n",page);
-    wxMessageBox(_("Sorry, the data in the notebook page browser is simulated.\nThis feature is not implemented yet."), event.GetText());
+    wxMessageBox(_("Sorry, this feature is not implemented yet."), event.GetText());
 }
 
 void GUIFrame::SetActionAllowed(const int action, bool allow) {
