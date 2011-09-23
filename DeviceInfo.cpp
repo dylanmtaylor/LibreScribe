@@ -97,7 +97,10 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
     unsigned long long int freeBytes = getFreeBytes(cur);
     unsigned long long int totalBytes = getTotalBytes(cur);
     char fs[256];
-    sprintf(fs, "%.02f of %.02f MiB remaining.\n",convertBytesToMiB(freeBytes),convertBytesToMiB(totalBytes)); //stores formatted string in fs
+    float freeMiB = convertBytesToMiB(freeBytes);
+    float totalMiB = convertBytesToMiB(totalBytes);
+    float pctRemaining = (freeMiB/totalMiB) * 100;
+    sprintf(fs, "%.02f of %.02f MiB (%.02f%%) remaining.\n",freeMiB,totalMiB,pctRemaining); //stores formatted string in fs
     printf("%s",fs); //displays fs on stdout
     printf("Setting device name label\n");
     const char* n = smartpen->getName();
