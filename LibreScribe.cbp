@@ -48,6 +48,7 @@
 			<Add library="xml2" />
 			<Add library="udev" />
 			<Add library="python2.7" />
+			<Add library="libusb" />
 		</Linker>
 		<ExtraCommands>
 			<Add before="cd $(PROJECT_DIRECTORY)" />
