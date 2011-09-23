@@ -41,7 +41,7 @@ class DeviceInfo: public wxDialog
 
         DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen, wxWindowID id=wxID_ANY, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize);
 		virtual ~DeviceInfo();
-        float convertBytesToMiB(long long int bytes);
+        float convertBytesToMiB(unsigned long long int bytes);
 		//(*Declarations(DeviceInfo)
 		wxGauge* batteryGauge;
 		wxStaticText* storageRemaining;
@@ -72,8 +72,8 @@ class DeviceInfo: public wxDialog
 
         int getBatteryRemaining(xmlNode *a_node);
         float getBatteryVoltage(xmlNode *a_node);
-        long long int getFreeBytes(xmlNode *a_node);
-        long long int getTotalBytes(xmlNode *a_node);
+        unsigned long long int getFreeBytes(xmlNode *a_node);
+        unsigned long long int getTotalBytes(xmlNode *a_node);
 
 		//(*Handlers(DeviceInfo)
 		//*)

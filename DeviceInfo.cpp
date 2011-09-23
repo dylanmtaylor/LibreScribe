@@ -94,8 +94,8 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
     int batteryLevel = getBatteryRemaining(cur);
     printf("batteryLevel: %d\n", batteryLevel);
     batteryGauge->SetValue(batteryLevel);
-    int freeBytes = getFreeBytes(cur);
-    int totalBytes = getTotalBytes(cur);
+    unsigned long long int freeBytes = getFreeBytes(cur);
+    unsigned long long int totalBytes = getTotalBytes(cur);
     char fs[256];
     sprintf(fs, "%.02f of %.02f MiB remaining.\n",convertBytesToMiB(freeBytes),convertBytesToMiB(totalBytes)); //stores formatted string in fs
     printf("%s",fs); //displays fs on stdout
@@ -126,12 +126,13 @@ DeviceInfo::~DeviceInfo()
 }
 
 //This function will strip out all non-numeric characters from a char*
-int stripNonNumericChars(const char* s) {
-    int res;
-    bool success = sscanf(s, "%d%%", &res) == 1;
+unsigned long long int stripNonNumericChars(const char* s) {
+    unsigned long long int res;
+    bool success = sscanf(s, "%llu%%", &res) == 1;
     if (!success) {
         printf("Error matching '%s'", s);
     }
+//    printf("after stripping non-numeric characters: %llu\n", res);
     return res;
 }
 
@@ -162,8 +163,10 @@ xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
     return 0;
 }
 
-float DeviceInfo::convertBytesToMiB(long long int bytes) {
-    return (bytes / 1048576); //there are 1,048,576 bytes in one megabyte.
+float DeviceInfo::convertBytesToMiB(unsigned long long int bytes) {
+    float mib = (bytes / 1048576);  //there are 1,048,576 bytes in one megabyte.
+    printf("converting %llu bytes to MiB: %.02f MiB\n",bytes,mib);
+    return mib;
 }
 
 float DeviceInfo::getBatteryVoltage(xmlNode *root) {
@@ -184,7 +187,7 @@ int DeviceInfo::getBatteryRemaining(xmlNode *root) {
     return stripNonNumericChars(level);
 }
 
-long long int DeviceInfo::getFreeBytes(xmlNode *root) {
+unsigned long long int DeviceInfo::getFreeBytes(xmlNode *root) {
     //first we need to locate the "peninfo" node which contains the "memory" node
     xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
@@ -194,7 +197,7 @@ long long int DeviceInfo::getFreeBytes(xmlNode *root) {
     return stripNonNumericChars(bytes);
 }
 
-long long int DeviceInfo::getTotalBytes(xmlNode *root) {
+unsigned long long int DeviceInfo::getTotalBytes(xmlNode *root) {
     //first we need to locate the "peninfo" node which contains the "memory" node
     xmlNode *cur_node = getSubNode(root, (const xmlChar *)"peninfo");
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
