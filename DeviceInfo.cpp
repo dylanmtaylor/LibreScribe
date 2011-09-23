@@ -51,7 +51,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	wxFlexGridSizer* mainSizer;
 	wxFlexGridSizer* informationSizer;
 	wxFlexGridSizer* dialogSizer;
-	
+
 	Create(parent, wxID_ANY, _("Smartpen Device Information"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
 	SetClientSize(wxSize(585,165));
 	SetMinSize(wxSize(585,165));
@@ -190,6 +190,7 @@ long long int DeviceInfo::getFreeBytes(xmlNode *root) {
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
     cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
     char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"freebytes");
+    printf("free bytes: %s\n", bytes);
     return stripNonNumericChars(bytes);
 }
 
@@ -199,6 +200,7 @@ long long int DeviceInfo::getTotalBytes(xmlNode *root) {
     //once we find our "peninfo" node, search through the nodes, looking for the "memory" node
     cur_node = getSubNode(cur_node, (const xmlChar *)"memory");
     char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
+    printf("total bytes: %s\n", bytes);
     return stripNonNumericChars(bytes);
 }
 
