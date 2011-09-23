@@ -437,6 +437,28 @@ std::string space_hex(const std::string& src) {
      return ret;
 }
 
+bool get_parameter_exists(const char * xml) {
+        xmlDocPtr doc = xmlParseMemory(xml, strlen(xml));
+        xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
+        if (cur == NULL) {
+            printf("cur is NULL!\n");
+            xmlFreeDoc(doc);
+            return ""; //do nothing if the xml document is empty
+        }
+        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return ""; //do nothing if the current element's name is not 'xml'
+        cur = cur->children;
+        for (cur = cur; cur; cur = cur->next) {
+            if (cur->type == XML_ELEMENT_NODE) {
+                if ((!xmlStrcmp(cur->name, (const xmlChar *)"parameter"))) { //if the current element's name is 'parameter'
+                    const xmlChar* value = xmlGetProp(cur, (const xmlChar*)"exists");
+                    return ((!xmlStrcmp(value, (const xmlChar *)"true"))); //return whether exists is true
+                }
+            }
+        }
+        assert(false);
+        return false;
+}
+
 const char* get_parameter_value(const char * xml) {
         xmlDocPtr doc = xmlParseMemory(xml, strlen(xml));
         xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
@@ -465,12 +487,17 @@ const char* Smartpen::getName() {
     const char* retrieved = getNamedObject(name, &len);
     if (retrieved != NULL) {
         printf("retrieved: %s\n", retrieved);
-        const char* value = get_parameter_value(retrieved);
-        std::string dN = value;
-        dN = dN.substr(2);
-        printf("device name (hex): %s\n", dN.c_str());
-        printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
-        return from_hex(space_hex(dN)).c_str();
+        if (get_parameter_exists(retrieved)) {
+            const char* value = get_parameter_value(retrieved);
+            std::string dN = value;
+            dN = dN.substr(2);
+            printf("device name (hex): %s\n", dN.c_str());
+            printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
+            return from_hex(space_hex(dN)).c_str();
+        } else {
+            printf("device name is not set.\n");
+            return "Unnamed Smartpen";
+        }
     }
     assert(false);
     return 0;
