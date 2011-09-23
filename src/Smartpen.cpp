@@ -496,7 +496,7 @@ const char* Smartpen::getName() {
             return from_hex(space_hex(dN)).c_str();
         } else {
             printf("device name is not set.\n");
-            return "Unnamed Smartpen";
+            return "(Unnamed Smartpen)";
         }
     }
     assert(false);
