@@ -587,7 +587,7 @@ void GUIFrame::doRefreshDeviceState() {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
-            printf("assigning smartpen.\n");
+            printf("assigning smartpen. vendor id: %x product id: %x\n", dev->descriptor.idVendor, dev->descriptor.idProduct);
             smartpen = Smartpen::connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
             if (smartpen == NULL) printf("smartpen assignment failure.\n");
         }
