@@ -395,52 +395,53 @@ void RefreshListThread::refreshPageHierarchy() {
     printf("strlen of changelist: %d\n", strlen(changelist));
     xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
     xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
-    if (cur == NULL) {
+    if (cur == NULL) { //do nothing if the xml document is empty
         printf("cur is NULL!\n");
         xmlFreeDoc(doc);
-        return; //do nothing if the xml document is empty
-    }
-    if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
-    cur = cur->children;
-    for (cur = cur; cur; cur = cur->next) {
-        if (cur->type == XML_ELEMENT_NODE) {
-            if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
-                xmlNode *lsps = cur->children; //get the children of the 'lsps' element
-                for (lsps = lsps; lsps; lsps = lsps->next) {
-                     if (lsps->type == XML_ELEMENT_NODE) {
-                        if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                            xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
-                            xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
-                            if (guid != NULL) {
-                                printf("Notebook detected: %s (%s)\n",title,guid);
-                                smartpen->getLspData((char*)guid);
-                                if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
-                                    wxMutexGuiEnter();
-                                    if ((!xmlStrcmp(title, (const xmlChar*)"Tutorial"))) { //if it's the tutorial notebook
-                                        //override the default icon with the page icon to have consistend behavior with LS Desktop
-                                        m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 1, 1);
-                                    } else {
-                                        std::string path = "./data/extracted/";
-                                        path = path + (char*)guid + "/userdata/icon/active_32x32.png";
-                                        if (FILE * file = fopen(path.c_str(), "r")) {
-                                            fclose(file); //the file already exists
-                                            printf("Notebook icon file exists: %s\n",path.c_str());
-                                            int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
-                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+    } else { //the xml document is not empty. we should be able to parse this.
+        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) == 0) { //make sure that the current element's name is 'xml'
+            cur = cur->children;
+            for (cur = cur; cur; cur = cur->next) {
+                if (cur->type == XML_ELEMENT_NODE) {
+                    if ((!xmlStrcmp(cur->name, (const xmlChar *)"changelist"))) { //if the current element's name is 'lsps'
+                        xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                        for (lsps = lsps; lsps; lsps = lsps->next) {
+                             if (lsps->type == XML_ELEMENT_NODE) {
+                                if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                                    xmlChar* title = xmlGetProp(lsps, (const xmlChar*)"title");
+                                    xmlChar* guid = xmlGetProp(lsps, (const xmlChar*)"guid");
+                                    if (guid != NULL) {
+                                        printf("Notebook detected: %s (%s)\n",title,guid);
+                                        smartpen->getLspData((char*)guid);
+                                        if (!m_pHandler->PageHierarchyContains(wxString((char*)title,wxConvUTF8))) {
+                                            wxMutexGuiEnter();
+                                            if ((!xmlStrcmp(title, (const xmlChar*)"Tutorial"))) { //if it's the tutorial notebook
+                                                //override the default icon with the page icon to have consistend behavior with LS Desktop
+                                                m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 1, 1);
+                                            } else {
+                                                std::string path = "./data/extracted/";
+                                                path = path + (char*)guid + "/userdata/icon/active_32x32.png";
+                                                if (FILE * file = fopen(path.c_str(), "r")) {
+                                                    fclose(file); //the file already exists
+                                                    printf("Notebook icon file exists: %s\n",path.c_str());
+                                                    int bmpID = m_pHandler->treeImages->Add(m_pHandler->ScaleImage(path.c_str()));
+                                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), bmpID, bmpID);
+                                                } else {
+                                                    printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
+                                                    m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
+                                                }
+                                            }
+                                            printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
+                                            m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid,ParsePageData(lsps)});
+                                            wxMutexGuiLeave();
                                         } else {
-                                            printf("Notebook icon does not exist at \"%s\". Using default icon.\n",path.c_str());
-                                            m_pHandler->pageTree->AppendItem(root, wxString((char*)title,wxConvUTF8), 2, 2);
-                                        }
-                                    }
-                                    printf("Adding notebook with title \"%s\" to notebooks vector.\n",(char*)title);
-                                    m_pHandler->notebooks.push_back(notebook{(char*)title,(char*)guid,ParsePageData(lsps)});
-                                    wxMutexGuiLeave();
-                                } else {
-                                    printf("Duplicate notebook detected. Not creating new notebook.\n");
-                                    for (int n = 0; n < m_pHandler->notebooks.size(); n++) { //search through all of the notebooks
-                                        if (strcmp((char*)title,m_pHandler->notebooks[n].title) == 0) { //find the one with the matching title
-                                            std::vector<notebookPage> newPages = ParsePageData(lsps);
-                                            m_pHandler->notebooks[n].notebookPages.insert(m_pHandler->notebooks[n].notebookPages.end(), newPages.begin(), newPages.end());
+                                            printf("Duplicate notebook detected. Not creating new notebook.\n");
+                                            for (int n = 0; n < m_pHandler->notebooks.size(); n++) { //search through all of the notebooks
+                                                if (strcmp((char*)title,m_pHandler->notebooks[n].title) == 0) { //find the one with the matching title
+                                                    std::vector<notebookPage> newPages = ParsePageData(lsps);
+                                                    m_pHandler->notebooks[n].notebookPages.insert(m_pHandler->notebooks[n].notebookPages.end(), newPages.begin(), newPages.end());
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -449,22 +450,22 @@ void RefreshListThread::refreshPageHierarchy() {
                     }
                 }
             }
+            printf("Done retrieving notebooks. The notebook vector now contains:\n");
+            for (int i = 0; i < m_pHandler->notebooks.size(); i++) {
+                printf("   [%d] \"%s\" (\"%s\")\n", i, m_pHandler->notebooks[i].title, m_pHandler->notebooks[i].guid);
+                printf("   Pages stored in the \"notebookPages\" vector of this notebook:\n");
+                for (int j = 0; j < m_pHandler->notebooks[i].notebookPages.size(); j++) {
+                    printf("      [%d] \"%s\"\n", m_pHandler->notebooks[i].notebookPages[j].pageNumber, m_pHandler->notebooks[i].notebookPages[j].pageAddress);
+                }
+            }
+            wxMutexGuiEnter();
+            m_pHandler->pageTree->ExpandAll();
+            m_pHandler->pageTree->SetItemImage(root, 0); //set icon to pen icon once the notebooks are done being retrieved
+            m_pHandler->pageTree->SortChildren(root); //sort the list of notebooks in ascending alphabetical order
+            wxMutexGuiLeave();
+            printf("Done parsing change list!\n");
         }
     }
-    printf("Done retrieving notebooks. The notebook vector now contains:\n");
-    for (int i = 0; i < m_pHandler->notebooks.size(); i++) {
-        printf("   [%d] \"%s\" (\"%s\")\n", i, m_pHandler->notebooks[i].title, m_pHandler->notebooks[i].guid);
-        printf("   Pages stored in the \"notebookPages\" vector of this notebook:\n");
-        for (int j = 0; j < m_pHandler->notebooks[i].notebookPages.size(); j++) {
-            printf("      [%d] \"%s\"\n", m_pHandler->notebooks[i].notebookPages[j].pageNumber, m_pHandler->notebooks[i].notebookPages[j].pageAddress);
-        }
-    }
-    wxMutexGuiEnter();
-    m_pHandler->pageTree->ExpandAll();
-    m_pHandler->pageTree->SetItemImage(root, 0); //set icon to pen icon once the notebooks are done being retrieved
-    m_pHandler->pageTree->SortChildren(root); //sort the list of notebooks in ascending alphabetical order
-    wxMutexGuiLeave();
-    printf("Done parsing change list!\n");
 }
 
 void RefreshListThread::refreshAudioList() {
