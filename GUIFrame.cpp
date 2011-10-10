@@ -318,7 +318,6 @@ void GUIFrame::refreshLists() {
 }
 
 void RefreshListThread::refreshApplicationList() {
-
     if ((dev != NULL) && (smartpen != NULL)) {
         const char* s = smartpen->getPenletList();
         int index = 0;
@@ -326,28 +325,29 @@ void RefreshListThread::refreshApplicationList() {
         printf("strlen of s: %d\n", strlen(s));
         xmlDocPtr doc = xmlParseMemory(s, strlen(s));
         xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
-        if (cur == NULL) {
+        if (cur == NULL) { //do nothing if the xml document is empty
             printf("cur is NULL!\n");
             xmlFreeDoc(doc);
-            return; //do nothing if the xml document is empty
-        }
-        if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) != 0) return; //do nothing if the current element's name is not 'xml'
-        cur = cur->children;
-        for (cur = cur; cur; cur = cur->next) {
-            if (cur->type == XML_ELEMENT_NODE) {
-                if ((!xmlStrcmp(cur->name, (const xmlChar *)"lsps"))) { //if the current element's name is 'lsps'
-                    xmlNode *lsps = cur->children; //get the children of the 'lsps' element
-                    for (lsps = lsps; lsps; lsps = lsps->next) {
-                         if (lsps->type == XML_ELEMENT_NODE) {
-                            if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
-                                m_pHandler->handleLsp(lsps,index);
+        } else { //the xml document is not empty, we should be able to parse this.
+            if ((xmlStrcmp(cur->name, (const xmlChar *)"xml")) == 0) { //if the current element's name is 'xml'
+                cur = cur->children;
+                for (cur = cur; cur; cur = cur->next) {
+                    if (cur->type == XML_ELEMENT_NODE) {
+                        if ((!xmlStrcmp(cur->name, (const xmlChar *)"lsps"))) { //if the current element's name is 'lsps'
+                            xmlNode *lsps = cur->children; //get the children of the 'lsps' element
+                            for (lsps = lsps; lsps; lsps = lsps->next) {
+                                if (lsps->type == XML_ELEMENT_NODE) {
+                                    if ((!xmlStrcmp(lsps->name, (const xmlChar *)"lsp"))) { //if the current element's name is 'lsp'
+                                        m_pHandler->handleLsp(lsps,index);
+                                    }
+                                }
                             }
-                         }
+                        }
                     }
                 }
+                printf("Done parsing application list!\n");
             }
         }
-        printf("Done parsing application list!\n");
     }
 }
 
