@@ -311,7 +311,6 @@ void GUIFrame::refreshLists() {
             }
         } else {
             printf("It doesn't appear that a smartpen is connected. Sorry!\n");
-            return;
         }
     } catch(...) {
         wxMessageBox(_("Error: Unable to refresh lists."), _("LibreScribe Smartpen Manager"));
