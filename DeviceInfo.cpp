@@ -139,22 +139,6 @@ unsigned long long int stripNonNumericChars(const char* s) {
     return res;
 }
 
-static void showBatteryStatistics(xmlNode * a_node) {
-    xmlNode *cur_node = NULL;
-    //scan for battery element
-    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
-        if (cur_node->type == XML_ELEMENT_NODE) {
-            if (strcmp((const char*)cur_node->name,"battery") == 0) {
-                char* voltage = (char*)xmlGetProp(cur_node, (const xmlChar*)"voltage");
-                char* level = (char*)xmlGetProp(cur_node, (const xmlChar*)"level");
-                printf("Battery Level: %s, Voltage: %s\n", level, voltage);
-                return;
-            }
-        }
-        showBatteryStatistics(cur_node->children);
-    }
-}
-
 //searches through a node until an element with the specified node is detected.
 xmlNode * getSubNode(xmlNode *root, const xmlChar *node) {
     for(xmlNode *cur_node = root->children; cur_node != NULL; cur_node = cur_node->next) {
