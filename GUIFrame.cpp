@@ -545,11 +545,12 @@ void GUIFrame::StartBackgroundMonitor() {
 }
 
 uint16_t GUIFrame::refreshDeviceState() {
+    uint16_t productID; //the product id of the device. a dummy value of 0x0000 is returned if dev is NULL.
     printf("Searching for your Smartpen... ");
     dev = findSmartpen();
     if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
         printf("Sorry! No compatible smartpen device found!\n");
-        return 0x0000;
+        productID = 0x0000;
     } else {
         printf("detecting smartpen...");
         printf("smartpen idProduct: %d\n", dev->descriptor.idProduct);
@@ -560,8 +561,9 @@ uint16_t GUIFrame::refreshDeviceState() {
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
         }
-        return dev->descriptor.idProduct;
+        productID = dev->descriptor.idProduct;
     }
+    return productID;
 }
 
 void GUIFrame::doRefreshDeviceState() {
@@ -593,7 +595,6 @@ void GUIFrame::doRefreshDeviceState() {
     } catch(...) {
         printf("Failed to search for your Smartpen\n");
     }
-    return;
 }
 
 void GUIFrame::OnRefresh(wxCommandEvent& event)
@@ -606,7 +607,6 @@ void GUIFrame::OnRefresh(wxCommandEvent& event)
     if (smartpen == NULL) {
         printf("smartpen is NULL.\n");
         wxMessageBox(_("A connection to your Smartpen could not be established. Is it already in use?"), _("Smartpen Connection Failure"));
-        return;
     }
 }
 
