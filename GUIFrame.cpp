@@ -465,13 +465,11 @@ void RefreshListThread::refreshPageHierarchy() {
     m_pHandler->pageTree->SortChildren(root); //sort the list of notebooks in ascending alphabetical order
     wxMutexGuiLeave();
     printf("Done parsing change list!\n");
-    return;
 }
 
 void RefreshListThread::refreshAudioList() {
 //    char* s = smartpen->getPaperReplay(0);
     printf("Parsing audio list...\n");
-    return;
 }
 
 void GUIFrame::handleLsp(xmlNode *lsp, int& index) {
