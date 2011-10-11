@@ -3,8 +3,8 @@
 	<object class="wxFrame" name="GUIFrame">
 		<title>LibreScribe Smartpen Manager [Alpha]</title>
 		<centered>1</centered>
-		<size>750,550</size>
-		<minsize>750,550</minsize>
+		<size>850,550</size>
+		<minsize>850,550</minsize>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
@@ -13,7 +13,7 @@
 			<object class="sizeritem">
 				<object class="wxNotebook" name="idTabContainer" variable="tabContainer" member="yes">
 					<size>-1,550</size>
-					<minsize>750,550</minsize>
+					<minsize>800,550</minsize>
 					<object class="notebookpage">
 						<object class="wxSplitterWindow" name="idPagesTab" variable="pagesTab" member="yes">
 							<minsize>255</minsize>
@@ -21,8 +21,8 @@
 							<pos>13,75</pos>
 							<minsize>255,255</minsize>
 							<object class="wxTreeCtrl" name="idPageTreeCtrl" variable="pageTree" member="yes">
-								<size>255,-1</size>
-								<minsize>255,-1</minsize>
+								<size>320,-1</size>
+								<minsize>320,-1</minsize>
 								<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
 								<handler function="OnPageTreeItemCollapsed" entry="EVT_TREE_ITEM_COLLAPSED" />
 								<handler function="OnPageTreeSelectionChanged" entry="EVT_TREE_SEL_CHANGED" />
