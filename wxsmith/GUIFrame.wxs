@@ -30,7 +30,8 @@
 							</object>
 							<object class="wxPanel" name="idNotebookBrowserPanel" variable="notebookBrowserPanel" member="yes">
 								<pos>214,59</pos>
-								<maxsize>480,-1</maxsize>
+								<minsize>500,-1</minsize>
+								<maxsize>500,-1</maxsize>
 								<object class="wxFlexGridSizer" variable="pageBrowser" member="no">
 									<cols>1</cols>
 									<object class="sizeritem">
