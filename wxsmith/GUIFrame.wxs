@@ -20,6 +20,7 @@
 							<orientation>vertical</orientation>
 							<pos>13,75</pos>
 							<minsize>255,255</minsize>
+							<style>wxSP_3D|wxSP_LIVE_UPDATE</style>
 							<object class="wxTreeCtrl" name="idPageTreeCtrl" variable="pageTree" member="yes">
 								<size>320,-1</size>
 								<minsize>320,-1</minsize>

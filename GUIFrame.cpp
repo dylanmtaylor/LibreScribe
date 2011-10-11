@@ -86,7 +86,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	contentSizer = new wxBoxSizer(wxVERTICAL);
 	tabContainer = new wxNotebook(this, idTabContainer, wxDefaultPosition, wxSize(-1,550), 0, _T("idTabContainer"));
 	tabContainer->SetMinSize(wxSize(800,550));
-	pagesTab = new wxSplitterWindow(tabContainer, idPagesTab, wxPoint(13,75), wxDefaultSize, wxSP_3D, _T("idPagesTab"));
+	pagesTab = new wxSplitterWindow(tabContainer, idPagesTab, wxPoint(13,75), wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE, _T("idPagesTab"));
 	pagesTab->SetMinSize(wxSize(255,255));
 	pagesTab->SetMinimumPaneSize(255);
 	pageTree = new wxTreeCtrl(pagesTab, idPageTreeCtrl, wxDefaultPosition, wxSize(320,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("idPageTreeCtrl"));
