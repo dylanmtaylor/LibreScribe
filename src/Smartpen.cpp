@@ -76,8 +76,7 @@ static void obex_requestdone(struct obex_state* state, obex_t* hdl,
     state->req_done++;
 }
 
-static void obex_event(obex_t* hdl, obex_object_t* obj, int mode,
-            int event, int obex_cmd, int obex_rsp) {
+static void obex_event(obex_t* hdl, obex_object_t* obj, int mode, int event, int obex_cmd, int obex_rsp) {
     struct obex_state* state;
     obex_headerdata_t hd;
 
@@ -87,28 +86,22 @@ static void obex_event(obex_t* hdl, obex_object_t* obj, int mode,
         hd.bq4 = state->connid;
         const int size = 4;
         const unsigned int flags = 0;
-        const int rc = OBEX_ObjectAddHeader(
-                            hdl, obj, OBEX_HDR_CONNECTION, hd, size, flags);
+        const int rc = OBEX_ObjectAddHeader(hdl, obj, OBEX_HDR_CONNECTION, hd, size, flags);
         if (rc < 0) {
             printf("oah fail %d\n", rc);
         }
-        return;
-    }
-
-    if (obex_rsp != OBEX_RSP_SUCCESS && obex_rsp != OBEX_RSP_CONTINUE) {
+    } else if (obex_rsp != OBEX_RSP_SUCCESS && obex_rsp != OBEX_RSP_CONTINUE) {
         printf("FAIL %x %x\n", obex_rsp, event);
-//      assert(0);
+//        assert(0);
         state->req_done++;
-        return;
-    }
-
-    switch (event) {
-        case OBEX_EV_REQDONE:
-            obex_requestdone(state, hdl, obj, obex_cmd, obex_rsp);
-            break;
-
-        default:
-            printf("Funny event\n");
+    } else {
+        switch (event) {
+            case OBEX_EV_REQDONE:
+                obex_requestdone(state, hdl, obj, obex_cmd, obex_rsp);
+                break;
+            default:
+                printf("Funny event\n");
+        }
     }
 }
 
