@@ -55,7 +55,7 @@
 			<Add before="rm -rfv ./bin" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res" />
-			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh" />
+			<Add after="find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh ./xdg-open" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="DeviceInfo.cpp" />
