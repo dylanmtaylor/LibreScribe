@@ -215,7 +215,6 @@ class GUIFrame: public wxFrame
         std::vector<std::string> GetDirectoryContents(const char* path, const bool ignorePNG = true);
         bool CheckIfFileExists(const char* path);
         void xdgOpenFile(const char* path);
-
 };
 
 #endif
