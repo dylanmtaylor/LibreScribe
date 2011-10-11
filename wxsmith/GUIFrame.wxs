@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="GUIFrame">
-		<title>LibreScribe Smartpen Manager [Alpha]</title>
+		<title>LibreScribe Smartpen Manager [Alpha] </title>
 		<centered>1</centered>
 		<size>750,550</size>
 		<minsize>750,550</minsize>
@@ -15,75 +15,67 @@
 					<size>-1,550</size>
 					<minsize>750,550</minsize>
 					<object class="notebookpage">
-						<object class="wxPanel" name="idPagesTab" variable="pagesTab" member="yes">
+						<object class="wxSplitterWindow" name="idPagesTab" variable="pagesTab" member="yes">
+							<minsize>255</minsize>
+							<orientation>vertical</orientation>
 							<pos>13,75</pos>
-							<object class="wxFlexGridSizer" variable="pageTabContainer" member="no">
-								<cols>2</cols>
-								<rows>1</rows>
-								<object class="sizeritem">
-									<object class="wxTreeCtrl" name="idPageTreeCtrl" variable="pageTree" member="yes">
-										<size>255,-1</size>
-										<minsize>255,-1</minsize>
-										<maxsize>255,-1</maxsize>
-										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
-										<handler function="OnPageTreeItemCollapsed" entry="EVT_TREE_ITEM_COLLAPSED" />
-										<handler function="OnPageTreeSelectionChanged" entry="EVT_TREE_SEL_CHANGED" />
-										<handler function="OnPageTreeItemMenu" entry="EVT_TREE_ITEM_MENU" />
-									</object>
-									<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
-									<border>5</border>
-									<option>1</option>
-								</object>
-								<object class="sizeritem">
-									<object class="wxFlexGridSizer" variable="pageBrowser" member="no">
-										<cols>1</cols>
-										<object class="sizeritem">
-											<object class="wxGridSizer" variable="notebookToolbar" member="no">
-												<cols>1</cols>
-												<rows>1</rows>
-												<object class="sizeritem">
-													<object class="wxStaticText" name="idSelectedNotebook" variable="selectedNotebookName" member="yes">
-														<label>No Notebook Selected</label>
-														<font>
-															<size>11</size>
-															<style>normal</style>
-															<weight>normal</weight>
-															<underlined>0</underlined>
-															<family>swiss</family>
-															<face>Sans</face>
-														</font>
-													</object>
-													<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
-													<border>5</border>
-													<option>1</option>
+							<minsize>255,255</minsize>
+							<object class="wxTreeCtrl" name="idPageTreeCtrl" variable="pageTree" member="yes">
+								<size>255,-1</size>
+								<minsize>255,-1</minsize>
+								<maxsize>255,-1</maxsize>
+								<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
+								<handler function="OnPageTreeItemCollapsed" entry="EVT_TREE_ITEM_COLLAPSED" />
+								<handler function="OnPageTreeSelectionChanged" entry="EVT_TREE_SEL_CHANGED" />
+								<handler function="OnPageTreeItemMenu" entry="EVT_TREE_ITEM_MENU" />
+							</object>
+							<object class="wxPanel" name="idNotebookBrowserPanel" variable="notebookBrowserPanel" member="yes">
+								<pos>214,59</pos>
+								<object class="wxFlexGridSizer" variable="pageBrowser" member="no">
+									<cols>1</cols>
+									<object class="sizeritem">
+										<object class="wxGridSizer" variable="notebookToolbar" member="no">
+											<cols>1</cols>
+											<rows>1</rows>
+											<object class="sizeritem">
+												<object class="wxStaticText" name="idSelectedNotebook" variable="selectedNotebookName" member="yes">
+													<label>No Notebook Selected</label>
+													<font>
+														<size>11</size>
+														<style>normal</style>
+														<weight>normal</weight>
+														<underlined>0</underlined>
+														<family>swiss</family>
+														<face>Sans</face>
+													</font>
 												</object>
+												<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+												<border>5</border>
+												<option>1</option>
 											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-											<option>1</option>
 										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="pageViewerContainer" member="no">
-												<object class="sizeritem">
-													<object class="wxListCtrl" name="idNotebookBrowserListCtrl" variable="notebookBrowser" member="yes">
-														<size>450,465</size>
-														<fg>wxSYS_COLOUR_MENUTEXT</fg>
-														<bg>wxSYS_COLOUR_MENU</bg>
-														<maxsize>-1,-1</maxsize>
-														<style>wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
-														<handler function="OnNotebookBrowserItemActivated" entry="EVT_LIST_ITEM_ACTIVATED" />
-													</object>
-													<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-													<option>1</option>
-												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-											<border>5</border>
-											<option>1</option>
-										</object>
+										<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<option>1</option>
 									</object>
-									<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
-									<border>5</border>
-									<option>1</option>
+									<object class="sizeritem">
+										<object class="wxBoxSizer" variable="pageViewerContainer" member="no">
+											<object class="sizeritem">
+												<object class="wxListCtrl" name="idNotebookBrowserListCtrl" variable="notebookBrowser" member="yes">
+													<size>450,465</size>
+													<fg>wxSYS_COLOUR_MENUTEXT</fg>
+													<bg>wxSYS_COLOUR_MENU</bg>
+													<maxsize>-1,-1</maxsize>
+													<style>wxLC_ICON|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+													<handler function="OnNotebookBrowserItemActivated" entry="EVT_LIST_ITEM_ACTIVATED" />
+												</object>
+												<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+												<option>1</option>
+											</object>
+										</object>
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
 								</object>
 							</object>
 						</object>
@@ -130,40 +122,40 @@
 		</object>
 		<object class="wxMenuBar" variable="menuBar" member="yes">
 			<object class="wxMenu" variable="fileMenu" member="yes">
-				<label>&amp;File</label>
+				<label>File</label>
 				<object class="wxMenuItem" name="idMenuFilePrint" variable="printMenuItem" member="yes">
-					<label>&amp;Print</label>
+					<label>Print</label>
 					<accel>Ctrl+P</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="idMenuFileDeletePages" variable="deletePagesMenuItem" member="yes">
-					<label>Delete &amp;Page(s)</label>
+					<label>Delete Page(s)</label>
 					<accel>Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="wxMenuItem" name="idMenuFileArchiveNotebook" variable="archiveNotebookMenuItem" member="yes">
-					<label>&amp;Archive Notebook</label>
+					<label>Archive Notebook</label>
 					<accel>Shift+Ctrl+A</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="wxMenuItem" name="idMenuFileDeleteNotebok" variable="deleteNotebookMenuItem" member="yes">
-					<label>&amp;Delete Notebook</label>
+					<label>Delete Notebook</label>
 					<accel>Shift+Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="idMenuFileQuit" variable="quitMenuItem" member="yes">
-					<label>&amp;Quit</label>
+					<label>Quit</label>
 					<accel>Ctrl+Q</accel>
 					<help>Quit this application.</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="helpMenu" member="yes">
-				<label>&amp;Help</label>
+				<label>Help</label>
 				<object class="wxMenuItem" name="idMenuHelpAbout" variable="aboutMenuItem" member="yes">
-					<label>&amp;About</label>
+					<label>About</label>
 					<accel>F1</accel>
 					<help>Show info about this application</help>
 					<handler function="OnAbout" entry="EVT_MENU" />
@@ -201,17 +193,17 @@
 		</object>
 		<object class="wxMenu" variable="rootItemMenu" member="yes">
 			<object class="wxMenuItem" name="idRootItemMenuInformation" variable="deviceInformationMenuItem" member="yes">
-				<label>Device &amp;Information</label>
+				<label>Device Information</label>
 				<help>Display information about the connected smartpen</help>
 				<handler function="OnInfo" entry="EVT_MENU" />
 			</object>
 			<object class="wxMenuItem" name="idRootItemMenuRenameDevice" variable="renameSmartpenMenuItem" member="yes">
-				<label>Re&amp;name Smartpen</label>
+				<label>Rename Smartpen</label>
 				<help>Change the name of the connected smartpen</help>
 				<handler function="RenameSmartpen" entry="EVT_MENU" />
 			</object>
 			<object class="wxMenuItem" name="idRootItemMenuRefresh" variable="refreshConnectionMenuItem" member="yes">
-				<label>&amp;Refresh Connection</label>
+				<label>Refresh Connection</label>
 				<help>Refresh the connection to the attached smartpen</help>
 				<handler function="OnRefresh" entry="EVT_MENU" />
 			</object>
