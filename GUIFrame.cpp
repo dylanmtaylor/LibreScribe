@@ -62,6 +62,7 @@ const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 struct usb_device *dev;
 Smartpen* smartpen;
 wxTreeItemId root;
+notebook* currentNotebook;
 
 BEGIN_EVENT_TABLE(GUIFrame,wxFrame)
 	//(*EventTable(GUIFrame)
@@ -756,8 +757,16 @@ void GUIFrame::decryptStfFile(char* filename) {
 }
 
 void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
-    int page = event.GetIndex() + 1;
-    printf("Notebook browser page clicked: %d\n",page);
+    if (currentNotebook != NULL) {
+        for (std::vector<notebookPage>::iterator it = currentNotebook->notebookPages.begin(); it != currentNotebook->notebookPages.end(); ++it) {
+            if (strcmp(event.GetText().mb_str(),GeneratePageString(it->pageNumber).c_str()) == 0) { //this could be done much more efficiently.
+                printf("Notebook Page Clicked: %d; Page Address: %s\n", it->pageNumber, it->pageAddress);
+                break; //exits the for statement prematurely in order to reduce delays
+            } /* else {
+                printf("Page clicked does not match page with address %s and page number %d.\n",it->pageAddress,it->pageNumber);
+            } */
+        }
+    }
     wxMessageBox(_("Sorry, this feature is not implemented yet."), event.GetText());
 }
 
@@ -788,6 +797,12 @@ const char* GUIFrame::GetNotebookGUID(const char* title) {
     }
 }
 
+std::string GUIFrame::GeneratePageString(int pageNumber) {
+    std::stringstream out;
+    out << pageNumber;
+    return "Page " + out.str();
+}
+
 void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
 	wxTreeItemId item = event.GetItem();
 	wxString itemText = pageTree->GetItemText(item);
@@ -797,21 +812,19 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
     printf("page tree selection changed. id: %d, text: \"%s\"\n", item, text);
     if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         selectedNotebookName->SetLabel(_("No Notebook Selected"));
+        currentNotebook = NULL;
 	} else {
         selectedNotebookName->SetLabel(itemText);
         const char* guid = GetNotebookGUID(text);
         printf("The selected notebook's GUID is \"%s\"\n",guid);
-        std::string s;
         int index = 0;
         for (int n = 0; n < notebooks.size(); n++) { //search through all of the notebooks
             if (strcmp(text,notebooks[n].title) == 0) { //find the one with the matching title
-                for (int p = notebooks[n].notebookPages.size() - 1; p > -1 ; p--) { //search through all of the pages
-                    int page = notebooks[n].notebookPages[p].pageNumber;
-                    printf("[%d] adding icon for page %d (address: \"%s\")\n",p,page,notebooks[n].notebookPages[p].pageAddress);
-                    std::stringstream out;
-                    out << page;
-                    s = "Page " + out.str();
-                    notebookBrowser->InsertItem(index++, wxString(s.c_str(),wxConvUTF8), 0);
+                currentNotebook = &notebooks[n];
+                for (int p = currentNotebook->notebookPages.size() - 1; p > -1 ; p--) { //search through all of the pages
+                    int page = currentNotebook->notebookPages[p].pageNumber;
+                    printf("[%d] adding icon for page %d (address: \"%s\")\n",p,page,currentNotebook->notebookPages[p].pageAddress);
+                    notebookBrowser->InsertItem(index++, wxString(GeneratePageString(page).c_str(),wxConvUTF8), 0);
                 }
             }
         }
