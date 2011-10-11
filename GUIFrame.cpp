@@ -715,10 +715,12 @@ int wxCALLBACK SortStringItems(long item1, long item2, long sortData) {
         if (!SortOrder) result = result * -1;
     } else { //version or size column
         long num1, num2;
-        if(string1.ToLong(&num1, 10) == true)
-        num1 = wxAtol(string1); //string to number
-        if(string2.ToLong(&num2, 10) == true)
-        num2 = wxAtol(string2); //string to number
+        if(string1.ToLong(&num1, 10) == true) {
+            num1 = wxAtol(string1); //string to number
+        }
+        if(string2.ToLong(&num2, 10) == true) {
+            num2 = wxAtol(string2); //string to number
+        }
         if((num1 < num2)) {
             result = SortOrder ? -1 : 1;
         } else if((num1 > num2)) {
@@ -829,7 +831,7 @@ void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
             } */
         }
     }
-    wxMessageBox(_("Sorry, this feature is not implemented yet."), event.GetText());
+//    wxMessageBox(_("Sorry, this feature is not implemented yet."), event.GetText());
 }
 
 void GUIFrame::SetActionAllowed(const int action, bool allow) {

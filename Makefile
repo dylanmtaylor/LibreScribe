@@ -15,12 +15,12 @@ AR = ar
 RANLIB = ranlib
 WINDRES = windres
 
-INC =  `pkg-config --libs --cflags glib-2.0` `python-config --include` -I/usr/include/libxml2 -I/usr/include/libusb-1.0/ -Iinclude
-CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h -DWX_PRECOMP
+INC =  -I/usr/include/libxml2 -I/usr/include/libusb-1.0/ -Iinclude
+CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h `python-config --include` `pkg-config --libs --cflags glib-2.0` -DWX_PRECOMP
 RESINC = 
 RCFLAGS = 
 LIBDIR = 
-LIB =  -lopenobex -lxml2 -ludev
+LIB =  -lopenobex -lxml2 -ludev python2.7 -llibusb
 LDFLAGS =  `wx-config --libs` `python-config --libs` -lusb-1.0 -lglib-2.0
 
 INC_DEBUG =  $(INC)
@@ -60,7 +60,7 @@ before_build:
 after_build: 
 	cd $(PROJECT_DIRECTORY)
 	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res
-	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh
+	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh ./xdg-open
 
 before_Debug: 
 	test -d bin/Debug || mkdir -p bin/Debug
