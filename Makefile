@@ -20,7 +20,7 @@ CFLAGS =  -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h `python-con
 RESINC = 
 RCFLAGS = 
 LIBDIR = 
-LIB =  -lopenobex -lxml2 -ludev python2.7 -llibusb
+LIB =  -lopenobex -lxml2 -ludev -llibusb
 LDFLAGS =  `wx-config --libs` `python-config --libs` -lusb-1.0 -lglib-2.0
 
 INC_DEBUG =  $(INC)
@@ -60,7 +60,7 @@ before_build:
 after_build: 
 	cd $(PROJECT_DIRECTORY)
 	find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg
-	find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh
+	find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh
 
 before_Debug: 
 	test -d bin/Debug || mkdir -p bin/Debug

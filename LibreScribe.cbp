@@ -47,7 +47,6 @@
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
-			<Add library="python2.7" />
 			<Add library="libusb" />
 		</Linker>
 		<ExtraCommands>
@@ -55,7 +54,7 @@
 			<Add before="rm -rfv ./bin" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg" />
-			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh" />
+			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="DeviceInfo.cpp" />
