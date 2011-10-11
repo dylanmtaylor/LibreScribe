@@ -249,7 +249,6 @@ void GUIFrame::setupPageHierarchy() {
     pageTree->SelectItem(root,true);
     notebookBrowser->ClearAll(); //clear the notebook page browser of all previous data
     selectedNotebookName->SetLabel(_("No Notebook Selected"));
-    //this is a huge work in progress... tons of work to do!
 }
 
 const wxString audioColumns[] = {_("Session Name"),
