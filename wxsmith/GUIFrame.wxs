@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="GUIFrame">
-		<title>LibreScribe Smartpen Manager [Alpha] </title>
+		<title>LibreScribe Smartpen Manager [Alpha]</title>
 		<centered>1</centered>
 		<size>750,550</size>
 		<minsize>750,550</minsize>
@@ -123,40 +123,40 @@
 		</object>
 		<object class="wxMenuBar" variable="menuBar" member="yes">
 			<object class="wxMenu" variable="fileMenu" member="yes">
-				<label>File</label>
+				<label>&amp;File</label>
 				<object class="wxMenuItem" name="idMenuFilePrint" variable="printMenuItem" member="yes">
-					<label>Print</label>
+					<label>&amp;Print</label>
 					<accel>Ctrl+P</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="idMenuFileDeletePages" variable="deletePagesMenuItem" member="yes">
-					<label>Delete Page(s)</label>
+					<label>Delete Pa&amp;ge(s)</label>
 					<accel>Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="wxMenuItem" name="idMenuFileArchiveNotebook" variable="archiveNotebookMenuItem" member="yes">
-					<label>Archive Notebook</label>
+					<label>&amp;Archive Notebook</label>
 					<accel>Shift+Ctrl+A</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="wxMenuItem" name="idMenuFileDeleteNotebok" variable="deleteNotebookMenuItem" member="yes">
-					<label>Delete Notebook</label>
+					<label>&amp;Delete Notebook</label>
 					<accel>Shift+Ctrl+D</accel>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="idMenuFileQuit" variable="quitMenuItem" member="yes">
-					<label>Quit</label>
+					<label>&amp;Quit</label>
 					<accel>Ctrl+Q</accel>
 					<help>Quit this application.</help>
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
 			<object class="wxMenu" variable="helpMenu" member="yes">
-				<label>Help</label>
+				<label>&amp;Help</label>
 				<object class="wxMenuItem" name="idMenuHelpAbout" variable="aboutMenuItem" member="yes">
-					<label>About</label>
+					<label>&amp;About</label>
 					<accel>F1</accel>
 					<help>Show info about this application</help>
 					<handler function="OnAbout" entry="EVT_MENU" />
@@ -194,17 +194,17 @@
 		</object>
 		<object class="wxMenu" variable="rootItemMenu" member="yes">
 			<object class="wxMenuItem" name="idRootItemMenuInformation" variable="deviceInformationMenuItem" member="yes">
-				<label>Device Information</label>
+				<label>Device &amp;Information</label>
 				<help>Display information about the connected smartpen</help>
 				<handler function="OnInfo" entry="EVT_MENU" />
 			</object>
 			<object class="wxMenuItem" name="idRootItemMenuRenameDevice" variable="renameSmartpenMenuItem" member="yes">
-				<label>Rename Smartpen</label>
+				<label>Re&amp;name Smartpen</label>
 				<help>Change the name of the connected smartpen</help>
 				<handler function="RenameSmartpen" entry="EVT_MENU" />
 			</object>
 			<object class="wxMenuItem" name="idRootItemMenuRefresh" variable="refreshConnectionMenuItem" member="yes">
-				<label>Refresh Connection</label>
+				<label>&amp;Refresh Connection</label>
 				<help>Refresh the connection to the attached smartpen</help>
 				<handler function="OnRefresh" entry="EVT_MENU" />
 			</object>
