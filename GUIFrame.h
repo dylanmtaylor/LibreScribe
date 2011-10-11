@@ -42,6 +42,7 @@ uint16_t refreshDeviceState();
 #include <dirent.h>
 //(*Headers(GUIFrame)
 #include <wx/notebook.h>
+#include <wx/splitter.h>
 #include <wx/treectrl.h>
 //*)
 
@@ -125,6 +126,7 @@ class GUIFrame: public wxFrame
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
 		wxListCtrl* notebookBrowser;
+		wxSplitterWindow* pagesTab;
 		wxMenuItem* renameSmartpenMenuItem;
 		wxMenuBar* menuBar;
 		wxMenuItem* refreshConnectionMenuItem;
@@ -134,7 +136,6 @@ class GUIFrame: public wxFrame
 		wxTreeCtrl* pageTree;
 		wxListCtrl* appList;
 		wxPanel* audioTab;
-		wxPanel* pagesTab;
 		wxStaticText* selectedNotebookName;
 		wxMenuItem* quitMenuItem;
 		wxNotebook* tabContainer;
@@ -145,6 +146,7 @@ class GUIFrame: public wxFrame
 		wxToolBarToolBase* quitButton;
 		wxToolBar* mainToolbar;
 		wxToolBarToolBase* refreshButton;
+		wxPanel* notebookBrowserPanel;
 		wxMenuItem* aboutMenuItem;
 		wxMenuItem* printMenuItem;
 		wxMenu rootItemMenu;
@@ -160,6 +162,7 @@ class GUIFrame: public wxFrame
         static const long idPageTreeCtrl;
         static const long idSelectedNotebook;
         static const long idNotebookBrowserListCtrl;
+        static const long idNotebookBrowserPanel;
         static const long idPagesTab;
         static const long idAudioListCtrl;
         static const long idAudioTab;
@@ -196,6 +199,7 @@ class GUIFrame: public wxFrame
 		void OnNotebookBrowserItemActivated(wxListEvent& event);
 		void OnPageTreeSelectionChanged(wxTreeEvent& event);
 		void OnPageTreeItemCollapsed(wxTreeEvent& event);
+		void OntabContainerPageChanged1(wxNotebookEvent& event);
 		//*)
         enum {ASCENDING,DESCENDING};
         const char* GetNotebookGUID(const char* title);
