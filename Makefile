@@ -59,8 +59,8 @@ before_build:
 
 after_build: 
 	cd $(PROJECT_DIRECTORY)
-	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg
-	find ./bin/ -mindepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh
+	find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg
+	find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./parsestf.py ./convert_stfs.sh
 
 before_Debug: 
 	test -d bin/Debug || mkdir -p bin/Debug
