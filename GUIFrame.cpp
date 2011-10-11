@@ -749,9 +749,9 @@ void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
 }
 
 void GUIFrame::xdgOpenFile(const char* path) {
-    if (CheckIfFileExists("xdg-open")) {
+    if (CheckIfFileExists("xdg/xdg-open")) {
         printf("Attempting to open file: %s\n",path);
-        std::string cmd = "xdg-open ";
+        std::string cmd = "xdg/xdg-open ";
         cmd = cmd + path;
         system(cmd.c_str());
     } else {
