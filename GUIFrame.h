@@ -206,6 +206,7 @@ class GUIFrame: public wxFrame
         void setupPageHierarchy();
         void setupLists();
         void refreshLists();
+        std::string GeneratePageString(int pageNumber);
 };
 
 #endif
