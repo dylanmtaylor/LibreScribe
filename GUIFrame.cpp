@@ -246,6 +246,9 @@ void GUIFrame::setupPageHierarchy() {
     pageTree->ExpandAll();
     pageTree->SetIndent(10);
     pageTree->SetSpacing(0);
+    pageTree->SelectItem(root,true);
+    notebookBrowser->ClearAll(); //clear the notebook page browser of all previous data
+    selectedNotebookName->SetLabel(_("No Notebook Selected"));
     //this is a huge work in progress... tons of work to do!
 }
 
