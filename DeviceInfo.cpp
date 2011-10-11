@@ -193,4 +193,3 @@ unsigned long long int DeviceInfo::getTotalBytes(xmlNode *root) {
     printf("total bytes: %s\n", bytes);
     return stripNonNumericChars(bytes);
 }
-

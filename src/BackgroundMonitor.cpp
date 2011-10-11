@@ -48,28 +48,28 @@ wxThread::ExitCode BackgroundMonitor::Entry() {
         if (ret > 0 && FD_ISSET(fd, &fds)) {
             udevice = udev_monitor_receive_device(mon);
             strcpy(action,udev_device_get_action(udevice));
-            if (action == NULL) {
-                printf("ERROR: null udev action detected. Skipping to avoid crashing.");
-                continue;
-            }
-            if ((strcmp(action,lastAction) != 0) && (strcmp(action,"change") != 0)) {
-                printf("udev device action detected: %s; refreshing device state...\n",action);
-//                if (strcmp(lastAction,"(none)")) printf("previous action detected: %s\n",lastAction);
-                strcpy(lastAction,action);
-                if (udevice) {
-                    udev_device_unref(udevice);
-                    try {
-                        wxMutexGuiEnter();
-                        m_pHandler->doRefreshDeviceState();
-                        wxMutexGuiLeave();
-                    } catch(...) {
-                        printf("Error refreshing device state");
+            if (action != NULL) {
+                if ((strcmp(action,lastAction) != 0) && (strcmp(action,"change") != 0)) {
+                    printf("udev device action detected: %s; refreshing device state...\n",action);
+//                    if (strcmp(lastAction,"(none)")) printf("previous action detected: %s\n",lastAction);
+                    strcpy(lastAction,action);
+                    if (udevice) {
+                        udev_device_unref(udevice);
+                        try {
+                            wxMutexGuiEnter();
+                            m_pHandler->doRefreshDeviceState();
+                            wxMutexGuiLeave();
+                        } catch(...) {
+                            printf("Error refreshing device state");
+                        }
+                        printf("Done refreshing device state.\n");
                     }
-                    printf("Done refreshing device state.\n");
+                    usleep(250*1000);
                 }
-            } else continue;
+            } else {
+                printf("ERROR: null udev action detected. Skipping to avoid crashing.");
+            }
         }
-        usleep(250*1000);
     }
     printf("Exited background monitor while loop\n");
     // signal the event handler that this thread is going to be destroyed
