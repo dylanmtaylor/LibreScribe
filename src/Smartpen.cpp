@@ -351,15 +351,14 @@ void Smartpen::disconnect() {
     OBEX_ObjectAddHeader(handle, obj, OBEX_HDR_CONNECTION,
         hd, size, OBEX_FL_FIT_ONE_PACKET);
 
-    if (OBEX_Request(handle, obj) < 0)
-        return;
-
-    req_done = state->req_done;
-    while (state->req_done == req_done) {
-        OBEX_HandleInput(handle, 100);
+    if (OBEX_Request(handle, obj) >= 0) {
+        req_done = state->req_done;
+        while (state->req_done == req_done) {
+            OBEX_HandleInput(handle, 100);
+        }
+        handle = NULL;
+        printf("disconnected.\n");
     }
-    handle = NULL;
-    printf("disconnected.\n");
 }
 
 int Smartpen::getGuid(FILE* out, const char* guid, long long int startTime) {
