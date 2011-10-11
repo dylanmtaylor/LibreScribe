@@ -1,16 +1,16 @@
 MKDIR      	= mkdir -p
 RMDIR      	= rmdir
-INSTALL         = @INSTALL@ $(INSTALL_FLAGS)
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(INSTALL_PROGRAM_FLAGS)
-INSTALL_LIBRARY = @INSTALL_PROGRAM@ $(INSTALL_PROGRAM_FLAGS)
-INSTALL_SCRIPT  = @INSTALL_SCRIPT@ $(INSTALL_SCRIPT_FLAGS)
-INSTALL_DATA    = @INSTALL_DATA@ $(INSTALL_DATA_FLAGS)
-XMLTO           = @XMLTO@
+INSTALL         = /usr/bin/install -c $(INSTALL_FLAGS)
+INSTALL_PROGRAM = ${INSTALL} $(INSTALL_PROGRAM_FLAGS)
+INSTALL_LIBRARY = ${INSTALL} $(INSTALL_PROGRAM_FLAGS)
+INSTALL_SCRIPT  = ${INSTALL} $(INSTALL_SCRIPT_FLAGS)
+INSTALL_DATA    = ${INSTALL} -m 644 $(INSTALL_DATA_FLAGS)
+XMLTO           = /usr/bin/xmlto
 
-prefix          = @prefix@
-exec_prefix     = @exec_prefix@
-bindir          = @bindir@
-mandir          = @mandir@
+prefix          = /usr/local
+exec_prefix     = ${prefix}
+bindir          = ${exec_prefix}/bin
+mandir          = ${prefix}/man
 
 SCRIPTS		= \
     xdg-desktop-menu \
