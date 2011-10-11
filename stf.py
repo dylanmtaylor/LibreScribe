@@ -265,9 +265,39 @@ class STFParser(object):
 surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 8000, 8000)
 ctx = cairo.Context(surface)
 
-ctx.set_source_rgb(255, 255, 255)
+try:
+    bgRed
+except NameError:
+    bgRed = 255
+
+try:
+    bgGreen
+except NameError:
+    bgGreen = 255
+
+try:
+    bgBlue
+except NameError:
+    bgBlue = 255
+
+try:
+    fgRed
+except NameError:
+    fgRed = 0
+
+try:
+    fgGreen
+except NameError:
+    fgGreen = 0
+
+try:
+    fgBlue
+except NameError:
+    fgBlue = 0
+
+ctx.set_source_rgb(bgRed, bgGreen, bgBlue)
 ctx.paint()
-ctx.set_source_rgb(0,0,0)
+ctx.set_source_rgb(fgRed, fgGreen, fgBlue)
 
 class Parser(STFParser):
     def __init__(self, *args):
