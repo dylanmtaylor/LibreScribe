@@ -81,16 +81,16 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	wxBoxSizer* appTabContainer;
 
 	Create(parent, wxID_ANY, _("LibreScribe Smartpen Manager [Alpha]"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
-	SetClientSize(wxSize(750,550));
-	SetMinSize(wxSize(750,550));
+	SetClientSize(wxSize(850,550));
+	SetMinSize(wxSize(850,550));
 	contentSizer = new wxBoxSizer(wxVERTICAL);
 	tabContainer = new wxNotebook(this, idTabContainer, wxDefaultPosition, wxSize(-1,550), 0, _T("idTabContainer"));
-	tabContainer->SetMinSize(wxSize(750,550));
+	tabContainer->SetMinSize(wxSize(800,550));
 	pagesTab = new wxSplitterWindow(tabContainer, idPagesTab, wxPoint(13,75), wxDefaultSize, wxSP_3D, _T("idPagesTab"));
 	pagesTab->SetMinSize(wxSize(255,255));
 	pagesTab->SetMinimumPaneSize(255);
-	pageTree = new wxTreeCtrl(pagesTab, idPageTreeCtrl, wxDefaultPosition, wxSize(255,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("idPageTreeCtrl"));
-	pageTree->SetMinSize(wxSize(255,-1));
+	pageTree = new wxTreeCtrl(pagesTab, idPageTreeCtrl, wxDefaultPosition, wxSize(320,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("idPageTreeCtrl"));
+	pageTree->SetMinSize(wxSize(320,-1));
 	notebookBrowserPanel = new wxPanel(pagesTab, idNotebookBrowserPanel, wxPoint(214,59), wxDefaultSize, wxTAB_TRAVERSAL, _T("idNotebookBrowserPanel"));
 	notebookBrowserPanel->SetMinSize(wxSize(500,-1));
 	notebookBrowserPanel->SetMaxSize(wxSize(500,-1));
