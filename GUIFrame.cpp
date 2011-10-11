@@ -813,7 +813,10 @@ void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
                     if (fileList.size() > 0) {
                         filePath = filePath + "/" + fileList[0];
                         printf("File path of page clicked: %s\nDecrypting stf file...\n", filePath.c_str());
+                        wxString oldStatus = statusBar->GetStatusText(1);
+                        statusBar->SetStatusText(_("Decrypting the STF file, please wait..."), 1);
                         decryptStfFile(filePath.c_str());
+                        statusBar->SetStatusText(oldStatus, 1);
                         filePath = filePath + ".png";
                         if (CheckIfFileExists(filePath.c_str())) {
                             printf("STF file decrypted. Path of PNG file: %s\n", filePath.c_str());
