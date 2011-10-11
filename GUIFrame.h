@@ -194,6 +194,7 @@ class GUIFrame: public wxFrame
 		void OnApplicationListColumnClick(wxListEvent& event);
 		void OnNotebookBrowserItemActivated(wxListEvent& event);
 		void OnPageTreeSelectionChanged(wxTreeEvent& event);
+		void OnPageTreeItemCollapsed(wxTreeEvent& event);
 		//*)
         enum {ASCENDING,DESCENDING};
         const char* GetNotebookGUID(const char* title);

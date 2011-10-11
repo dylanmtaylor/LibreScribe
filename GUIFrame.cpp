@@ -173,6 +173,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	contentSizer->SetSizeHints(this);
 	Center();
 
+	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_ITEM_COLLAPSED,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemCollapsed);
 	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_SEL_CHANGED,(wxObjectEventFunction)&GUIFrame::OnPageTreeSelectionChanged);
 	Connect(idPageTreeCtrl,wxEVT_COMMAND_TREE_ITEM_MENU,(wxObjectEventFunction)&GUIFrame::OnPageTreeItemMenu);
 	Connect(idNotebookBrowserListCtrl,wxEVT_COMMAND_LIST_ITEM_ACTIVATED,(wxObjectEventFunction)&GUIFrame::OnNotebookBrowserItemActivated);
@@ -817,3 +818,6 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
 	}
 }
 
+void GUIFrame::OnPageTreeItemCollapsed(wxTreeEvent& event) {
+    pageTree->ExpandAll(); //prevent collapsing items in the tree
+}

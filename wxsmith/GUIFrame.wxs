@@ -26,6 +26,7 @@
 										<minsize>255,-1</minsize>
 										<maxsize>255,-1</maxsize>
 										<style>wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER</style>
+										<handler function="OnPageTreeItemCollapsed" entry="EVT_TREE_ITEM_COLLAPSED" />
 										<handler function="OnPageTreeSelectionChanged" entry="EVT_TREE_SEL_CHANGED" />
 										<handler function="OnPageTreeItemMenu" entry="EVT_TREE_ITEM_MENU" />
 									</object>
