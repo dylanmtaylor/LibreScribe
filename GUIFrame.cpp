@@ -746,7 +746,18 @@ void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
     appList->SortItems(SortStringItems,(long)&SortInfo);
 }
 
-void GUIFrame::decryptStfFile(char* filename) {
+void GUIFrame::xdgOpenFile(const char* path) {
+    if (CheckIfFileExists("xdg-open")) {
+        printf("Attempting to open file: %s\n",path);
+        std::string cmd = "xdg-open ";
+        cmd = cmd + path;
+        system(cmd.c_str());
+    } else {
+        printf("Critical Error: xdg-open is not present. Cannot open file.\n");
+    }
+}
+
+void GUIFrame::decryptStfFile(const char* filename) {
     Py_Initialize();
     FILE* parsestf = fopen("stf.py", "r");
     std::string setFiles = "stf_file = \"" + (std::string)filename + "\"\n" +
@@ -756,11 +767,62 @@ void GUIFrame::decryptStfFile(char* filename) {
     Py_Finalize();
 }
 
+bool GUIFrame::CheckIfFileExists(const char* path) {
+    struct stat st;
+    return (stat(path,&st) == 0);
+}
+
+std::vector<std::string> GUIFrame::GetDirectoryContents(const char* path, const bool ignorePNG) {
+    //reference: http://www.daniweb.com/software-development/cpp/code/216812
+    std::vector<std::string> files;
+    printf("attempting to open \"%s\"...\n",path);
+    DIR* dir = opendir(path);
+    if (dir) {
+        struct dirent *d;
+        printf("scanning \"%s\"...\n",path);
+        while((d = readdir(dir)) != 0) {
+            if(/*d->d_type == DT_DIR && */strcmp(d->d_name,".") != 0 && strcmp(d->d_name,"..") != 0) {
+                std::string dname = d->d_name;
+                if ((!ignorePNG) || (dname.find(".png") == std::string::npos)) {
+                    //we either aren't ignoring png files or the filename doesn't contain ".png"
+                    files.push_back(d->d_name);
+                    printf("   %s\n",d->d_name);
+                }
+            }
+        }
+        closedir(dir);
+    } else {
+        printf("Error getting contents of directory: %s\n",path);
+    }
+    return files;
+}
+
 void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
     if (currentNotebook != NULL) {
         for (std::vector<notebookPage>::iterator it = currentNotebook->notebookPages.begin(); it != currentNotebook->notebookPages.end(); ++it) {
             if (strcmp(event.GetText().mb_str(),GeneratePageString(it->pageNumber).c_str()) == 0) { //this could be done much more efficiently.
                 printf("Notebook Page Clicked: %d; Page Address: %s\n", it->pageNumber, it->pageAddress);
+                std::string filePath = "data/extracted/";
+                filePath = filePath + currentNotebook->guid + "/data/" + it->pageAddress;
+                std::vector<std::string> firstDirListing = GetDirectoryContents(filePath.c_str());
+                if (firstDirListing.size() > 0) {
+                    filePath = filePath + "/" + firstDirListing[0]; //I'm actually not sure how to predict this directory name yet
+                    std::vector<std::string> fileList = GetDirectoryContents(filePath.c_str());
+                    if (fileList.size() > 0) {
+                        filePath = filePath + "/" + fileList[0];
+                        printf("File path of page clicked: %s\nDecrypting stf file...\n", filePath.c_str());
+                        decryptStfFile(filePath.c_str());
+                        filePath = filePath + ".png";
+                        if (CheckIfFileExists(filePath.c_str())) {
+                            printf("STF file decrypted. Path of PNG file: %s\n", filePath.c_str());
+                            xdgOpenFile(filePath.c_str());
+                        } else {
+                            printf("STF file decryption error: file does not exist: %s\n", filePath.c_str());
+                        }
+                    } else {
+                        printf("Unable to determine the name of the stf file...\n");
+                    }
+                }
                 break; //exits the for statement prematurely in order to reduce delays
             } /* else {
                 printf("Page clicked does not match page with address %s and page number %d.\n",it->pageAddress,it->pageNumber);

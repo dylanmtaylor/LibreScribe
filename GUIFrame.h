@@ -39,6 +39,7 @@ uint16_t refreshDeviceState();
 #include <wx/sysopt.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <dirent.h>
 //(*Headers(GUIFrame)
 #include <wx/notebook.h>
 #include <wx/treectrl.h>
@@ -113,7 +114,7 @@ class GUIFrame: public wxFrame
 		virtual ~GUIFrame();
         void doRefreshDeviceState();
         void addAudioClipToList(audioClipInfo info);
-        void decryptStfFile(char* filename);
+        void decryptStfFile(const char* filename);
         void SetActionAllowed(int action, bool allow);
         wxBitmap ScaleImage(const char* filename);
         bool PageHierarchyContains(const wxString query);
@@ -207,6 +208,10 @@ class GUIFrame: public wxFrame
         void setupLists();
         void refreshLists();
         std::string GeneratePageString(int pageNumber);
+        std::vector<std::string> GetDirectoryContents(const char* path, const bool ignorePNG = true);
+        bool CheckIfFileExists(const char* path);
+        void xdgOpenFile(const char* path);
+
 };
 
 #endif
