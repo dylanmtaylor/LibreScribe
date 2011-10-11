@@ -91,8 +91,9 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	pagesTab->SetMinimumPaneSize(255);
 	pageTree = new wxTreeCtrl(pagesTab, idPageTreeCtrl, wxDefaultPosition, wxSize(255,-1), wxTR_NO_BUTTONS|wxTR_NO_LINES|wxTR_FULL_ROW_HIGHLIGHT|wxSUNKEN_BORDER, wxDefaultValidator, _T("idPageTreeCtrl"));
 	pageTree->SetMinSize(wxSize(255,-1));
-	pageTree->SetMaxSize(wxSize(255,-1));
 	notebookBrowserPanel = new wxPanel(pagesTab, idNotebookBrowserPanel, wxPoint(214,59), wxDefaultSize, wxTAB_TRAVERSAL, _T("idNotebookBrowserPanel"));
+	notebookBrowserPanel->SetMinSize(wxSize(500,-1));
+	notebookBrowserPanel->SetMaxSize(wxSize(500,-1));
 	pageBrowser = new wxFlexGridSizer(0, 1, 0, 0);
 	notebookToolbar = new wxGridSizer(1, 1, 0, 0);
 	selectedNotebookName = new wxStaticText(notebookBrowserPanel, idSelectedNotebook, _("No Notebook Selected"), wxDefaultPosition, wxDefaultSize, 0, _T("idSelectedNotebook"));
