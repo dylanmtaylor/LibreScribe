@@ -77,6 +77,7 @@ class DeviceInfo: public wxDialog
         unsigned long long int getTotalBytes(xmlNode *a_node);
 
 		//(*Handlers(DeviceInfo)
+		void OnKeyDownEvent(wxKeyEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()

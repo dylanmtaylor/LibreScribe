@@ -6,6 +6,7 @@
 		<minsize>585,165</minsize>
 		<maxsize>585,165</maxsize>
 		<id_arg>0</id_arg>
+		<handler function="OnKeyDownEvent" entry="EVT_KEY_DOWN" />
 		<object class="wxFlexGridSizer" variable="mainSizer" member="no">
 			<cols>2</cols>
 			<object class="sizeritem">
