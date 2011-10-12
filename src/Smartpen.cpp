@@ -16,24 +16,33 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Smartpen.h"
 
-struct usb_device *findSmartpen() {
+struct libusb_device *findSmartpen() {
+    //reference: http://www.dreamincode.net/forums/topic/148707-introduction-to-using-libusb-10/
     printf("\nentering findSmartpen()\n");
-    struct usb_bus *bus;
-    struct usb_device *dev;
-    struct usb_bus *busses;
-
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-    busses = usb_get_busses();
-    for (bus = busses; bus; bus = bus->next) {
-        for (dev = bus->devices; dev; dev = dev->next) {
-            if ((dev->descriptor.idVendor == LS_VENDOR_ID)) {
-                printf("\nexiting findSmartpen() returning device\n");
-                return dev;
-            }
+    libusb_device **devs; //pointer to pointer of device, used to retrieve a list of devices
+    libusb_context *ctx = NULL; //a libusb session
+    int r; //for return values
+    ssize_t cnt; //holding number of devices in list
+    printf("initializing libusb...\n");
+    r = libusb_init(&ctx); //initialize a library session
+    libusb_set_debug(ctx, 3); //set verbosity level to 3, as suggested in the documentation
+    printf("getting device list...\n");
+    cnt = libusb_get_device_list(ctx, &devs); //get the list of devices
+    if(cnt < 0) printf("Get device error\n"); //there was an error
+    ssize_t i; //for iterating through the list
+    libusb_device_descriptor descriptor; //for getting information on the devices
+    printf("checking for livescribe pen...\n");
+    for(i = 0; i < cnt; i++) {
+//        printf("getting descriptor...\n");
+        libusb_get_device_descriptor(devs[i],&descriptor);
+//        printf("checking if it matches LS vendor id...\n");
+        if ((descriptor.idVendor == LS_VENDOR_ID)) {
+            printf("\nexiting findSmartpen() returning device\n");
+            return devs[i];
         }
     }
+    printf("no devices match. freeing device list...\n");
+    libusb_free_device_list(devs, 1); //free the list, unref the devices in it
     printf("\nexiting findSmartpen() returning NULL\n");
     return NULL;
 }

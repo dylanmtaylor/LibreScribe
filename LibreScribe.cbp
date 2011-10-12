@@ -13,8 +13,12 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-O3" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add directory="libusb/libusb" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/LibreScribe" prefix_auto="1" extension_auto="1" />
@@ -39,23 +43,24 @@
 			<Add option="`pkg-config --libs --cflags glib-2.0`" />
 			<Add option="-DWX_PRECOMP" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="/usr/include/libusb-1.0/" />
 			<Add directory="include" />
+			<Add directory="libusb/libusb" />
 		</Compiler>
 		<Linker>
-			<Add option="`wx-config --libs` `python-config --libs` -lusb-1.0 -lglib-2.0" />
+			<Add option="`wx-config --libs` `python-config --libs` -lglib-2.0" />
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
-			<Add library="libusb" />
+			<Add library="libusb/libusb/.libs/libusb-1.0.a" />
+			<Add library="libusb/libusb/.libs/libusb-1.0.so" />
+			<Add directory="libusb/libusb/.libs" />
+			<Add directory="libusb/libusb" />
 		</Linker>
 		<ExtraCommands>
-			<Add before="cd $(PROJECT_DIRECTORY)" />
-			<Add before="rm -rfv ./bin" />
-			<Add before="cd $(PROJECT_DIRECTORY)/libusb" />
-			<Add before="make distclean" />
-			<Add before="./configure" />
-			<Add before="make" />
+			<Add before="cd $(PROJECT_DIRECTORY) &amp;&amp; rm -rfv ./bin" />
+			<Add before="echo cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; echo sh $(PROJECT_DIRECTORY)libusb/autogen.sh" />
+			<Add before="echo cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; echo ./configure" />
+			<Add before="echo cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; echo make" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />

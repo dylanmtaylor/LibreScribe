@@ -60,7 +60,8 @@ const long GUIFrame::idRootItemMenuRenameDevice = wxNewId();
 const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 //*)
 
-struct usb_device *dev;
+struct libusb_device *dev;
+libusb_device_descriptor* descriptor;
 Smartpen* smartpen;
 wxTreeItemId root;
 notebook* currentNotebook;
@@ -559,15 +560,16 @@ uint16_t GUIFrame::refreshDeviceState() {
         productID = 0x0000;
     } else {
         printf("detecting smartpen...");
-        printf("smartpen idProduct: %d\n", dev->descriptor.idProduct);
-        if (is_ls_pulse(dev->descriptor.idProduct)) {
+        libusb_get_device_descriptor(dev,descriptor);
+        printf("smartpen idProduct: %d\n", descriptor->idProduct);
+        if (is_ls_pulse(descriptor->idProduct)) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-        } else if(is_ls_echo(dev->descriptor.idProduct)) {
+        } else if(is_ls_echo(descriptor->idProduct)) {
             printf("LiveScribe Echo(TM) Smartpen Detected!\n");
         } else {
             printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
         }
-        productID = dev->descriptor.idProduct;
+        productID = descriptor->idProduct;
     }
     return productID;
 }
@@ -582,19 +584,20 @@ void GUIFrame::doRefreshDeviceState() {
             printf("Sorry! No compatible smartpen device found!\n");
             statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
         } else {
+            libusb_get_device_descriptor(dev,descriptor);
             SetActionAllowed(INFORMATION,true);
-            if (is_ls_pulse(dev->descriptor.idProduct)) {
+            if (is_ls_pulse(descriptor->idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
                 printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
-            } else if (is_ls_echo(dev->descriptor.idProduct)) {
+            } else if (is_ls_echo(descriptor->idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Echo(TM) Smartpen Detected!"), 1);
                 printf("LiveScribe Echo(TM) Smartpen Detected!\n");
             } else {
                 statusBar->SetStatusText(_("Unknown LiveScribe Device Detected!"), 1);
                 printf("Unknown LiveScribe device detected! Attempting to use this device anyways...\n");
             }
-            printf("assigning smartpen. vendor id: %x product id: %x\n", dev->descriptor.idVendor, dev->descriptor.idProduct);
-            smartpen = Smartpen::connect(dev->descriptor.idVendor, dev->descriptor.idProduct);
+            printf("assigning smartpen. vendor id: %x product id: %x\n", descriptor->idVendor, descriptor->idProduct);
+            smartpen = Smartpen::connect(descriptor->idVendor, descriptor->idProduct);
             if (smartpen == NULL) printf("smartpen assignment failure.\n");
         }
         refreshLists();
@@ -622,7 +625,7 @@ void GUIFrame::OnInfo(wxCommandEvent& event)
     if ((smartpen != NULL) && (dev != NULL)) {
         SetActionAllowed(REFRESH,false);
         SetActionAllowed(RENAME,false);
-        DeviceInfo d(this, dev->descriptor.idProduct, smartpen);
+        DeviceInfo d(this, descriptor->idProduct, smartpen);
         printf("attempting to show device information dialog\n");
         d.ShowModal(); //display the information dialog
         printf("dialog was displayed without a problem\n");
