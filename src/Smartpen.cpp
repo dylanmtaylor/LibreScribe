@@ -515,8 +515,7 @@ bool Smartpen::setName(const char* newName) {
     printf("Attempting to set smartpen name to \"%s\"...\n",newName);
     bool success = putNamedObject(name_header, newName);
     if (success) {
-        printf("Name changed successfully.\n");
-        printf("Retrieving smartpen name: %s\n", getName());
+        printf("Name should have been changed successfully.\n");
     } else {
         printf("Error occured while changing smartpen name.\n");
     }
