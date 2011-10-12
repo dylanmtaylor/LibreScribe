@@ -35,7 +35,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 inline bool is_ls_pulse(unsigned int c) { return c == 0x1020; } //LiveScribe Pulse(TM) Smartpen
 inline bool is_ls_echo(unsigned int c) { return c == 0x1030 || c == 0x1032; } //LiveScribe Echo(TM) Smartpen
 
-struct libusb_device *findSmartpen();
+struct libusb_device_handle *findSmartpen();
 
 struct obex_state {
     obex_t *handle;

@@ -60,7 +60,7 @@ const long GUIFrame::idRootItemMenuRenameDevice = wxNewId();
 const long GUIFrame::idRootItemMenuRefresh = wxNewId();
 //*)
 
-struct libusb_device *dev;
+struct libusb_device_handle *dev;
 libusb_device_descriptor descriptor;
 Smartpen* smartpen;
 wxTreeItemId root;
@@ -560,7 +560,7 @@ uint16_t GUIFrame::refreshDeviceState() {
         productID = 0x0000;
     } else {
         printf("detecting smartpen...");
-        libusb_get_device_descriptor(dev,&descriptor);
+        libusb_get_device_descriptor(libusb_get_device(dev),&descriptor);
         printf("smartpen idProduct: %d\n", descriptor.idProduct);
         if (is_ls_pulse(descriptor.idProduct)) {
             printf("LiveScribe Pulse(TM) Smartpen Detected!\n");
@@ -584,7 +584,7 @@ void GUIFrame::doRefreshDeviceState() {
             printf("Sorry! No compatible smartpen device found!\n");
             statusBar->SetStatusText(_("Unable to locate a compatible Smartpen device"), 1);
         } else {
-            libusb_get_device_descriptor(dev,&descriptor);
+            libusb_get_device_descriptor(libusb_get_device(dev),&descriptor);
             SetActionAllowed(INFORMATION,true);
             if (is_ls_pulse(descriptor.idProduct)) {
                 statusBar->SetStatusText(_("LiveScribe Pulse(TM) Smartpen Detected!"), 1);
