@@ -47,7 +47,7 @@
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
-			<Add library="libusb" />
+			<Add library="usb-1.0" />
 		</Linker>
 		<ExtraCommands>
 			<Add before="cd $(PROJECT_DIRECTORY)" />
