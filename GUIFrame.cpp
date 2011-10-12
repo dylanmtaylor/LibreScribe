@@ -835,6 +835,7 @@ void GUIFrame::OnNotebookBrowserItemActivated(wxListEvent& event) {
                             xdgOpenFile(filePath.c_str());
                         } else {
                             printf("STF file decryption error: file does not exist: %s\n", filePath.c_str());
+                            wxMessageBox(_("An error occured while decrypting the STF file."),_("STF Decryption Failure"));
                         }
                     } else {
                         printf("Unable to determine the name of the stf file...\n");
