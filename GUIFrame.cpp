@@ -691,7 +691,10 @@ void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
         if (confirmationDialog.ShowModal() == wxID_YES) {
             printf("Request confirmed. Attempting to rename device...\n");
             smartpen->setName((char*)desiredName.c_str());
-            printf("returned from setting pen name\n");
+            printf("returned from setting pen name. resetting device.\n");
+            libusb_close(dev);
+            dev = findSmartpen();
+            printf("Retrieving smartpen name: %s\n", smartpen->getName());
         } else printf("Rename operation cancelled.\n");
     }
 }
