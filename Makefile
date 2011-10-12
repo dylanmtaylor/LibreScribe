@@ -55,9 +55,9 @@ clean: clean_Debug clean_Release
 
 before_build: 
 	cd $(PROJECT_DIRECTORY) && rm -rfv ./bin
-	cd $(PROJECT_DIRECTORY)libusb/ && [ -f $(PROJECT_DIRECTORY)libusb/configure ] || sh $(PROJECT_DIRECTORY)libusb/autogen.sh
-	cd $(PROJECT_DIRECTORY)libusb/ && [ -f $(PROJECT_DIRECTORY)libusb/Makefile ] || echo ./configure
-	cd $(PROJECT_DIRECTORY)libusb/ && [ -f $(PROJECT_DIRECTORY)libusb/libusb/.libs/libusb-1.0.a ] || make
+	cd $(PROJECT_DIRECTORY)libusb/ && [ -f configure ] || sh autogen.sh
+	cd $(PROJECT_DIRECTORY)libusb/ && [ -f Makefile ] || ./configure
+	cd $(PROJECT_DIRECTORY)libusb/ && [ -f libusb/.libs/libusb-1.0.a ] || make
 
 after_build: 
 	cd $(PROJECT_DIRECTORY)

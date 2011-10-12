@@ -58,9 +58,9 @@
 		</Linker>
 		<ExtraCommands>
 			<Add before="cd $(PROJECT_DIRECTORY) &amp;&amp; rm -rfv ./bin" />
-			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f $(PROJECT_DIRECTORY)libusb/configure ] || sh $(PROJECT_DIRECTORY)libusb/autogen.sh" />
-			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f $(PROJECT_DIRECTORY)libusb/Makefile ] || echo ./configure" />
-			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f $(PROJECT_DIRECTORY)libusb/libusb/.libs/libusb-1.0.a ] || make" />
+			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f configure ] || sh autogen.sh" />
+			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f Makefile ] || ./configure" />
+			<Add before="cd $(PROJECT_DIRECTORY)libusb/ &amp;&amp; [ -f libusb/.libs/libusb-1.0.a ] || make" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />
