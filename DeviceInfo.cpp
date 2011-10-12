@@ -84,6 +84,8 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	mainSizer->Add(dialogSizer, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 10);
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
+
+	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&DeviceInfo::OnKeyDownEvent);
 	//*)
 
     this->smartpen = smartpen;
@@ -192,4 +194,13 @@ unsigned long long int DeviceInfo::getTotalBytes(xmlNode *root) {
     char* bytes = (char*)xmlGetProp(cur_node, (const xmlChar*)"totalbytes");
     printf("total bytes: %s\n", bytes);
     return stripNonNumericChars(bytes);
+}
+
+void DeviceInfo::OnKeyDownEvent(wxKeyEvent& event) { //does not work. needs to be fixed.
+    if (event.GetKeyCode() == WXK_ESCAPE) {
+        printf("Escape key press detected. Closing dialog...\n");
+//        close(0);
+    } else {
+        printf("A key was pressed.\n");
+    }
 }
