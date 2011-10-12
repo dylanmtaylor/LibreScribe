@@ -47,11 +47,15 @@
 			<Add library="openobex" />
 			<Add library="xml2" />
 			<Add library="udev" />
-			<Add library="usb-1.0" />
+			<Add library="libusb" />
 		</Linker>
 		<ExtraCommands>
 			<Add before="cd $(PROJECT_DIRECTORY)" />
 			<Add before="rm -rfv ./bin" />
+			<Add before="cd $(PROJECT_DIRECTORY)/libusb" />
+			<Add before="make distclean" />
+			<Add before="./configure" />
+			<Add before="make" />
 			<Add after="cd $(PROJECT_DIRECTORY)" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -rfv -L ./res ./xdg" />
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />
