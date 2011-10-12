@@ -21,7 +21,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
-#include <libusb.h>
+#include "libusb.h"
 #include <assert.h>
 #include <arpa/inet.h>
 #include <libxml/tree.h>
