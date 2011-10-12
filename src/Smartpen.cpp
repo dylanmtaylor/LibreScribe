@@ -38,6 +38,7 @@ struct libusb_device_handle *findSmartpen() {
             if ((descriptor.idVendor == LS_VENDOR_ID)) {
                  static struct libusb_device_handle *devHandle = NULL;
                 libusb_open(devs[i], &devHandle);
+                libusb_reset_device(devHandle);
                 printf("\nexiting findSmartpen() returning device\n");
                 return devHandle;
             }
