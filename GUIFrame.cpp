@@ -554,6 +554,7 @@ void GUIFrame::StartBackgroundMonitor() {
 uint16_t GUIFrame::refreshDeviceState() {
     uint16_t productID; //the product id of the device. a dummy value of 0x0000 is returned if dev is NULL.
     printf("Searching for your Smartpen... ");
+    if (dev != NULL) libusb_reset_device(dev);
     dev = findSmartpen();
     if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
         printf("Sorry! No compatible smartpen device found!\n");
@@ -578,6 +579,7 @@ void GUIFrame::doRefreshDeviceState() {
     printf("Searching for your Smartpen... ");
     statusBar->SetStatusText(_("Searching for a compatible smartpen device..."), 1);
     try {
+        if (dev != NULL) libusb_reset_device(dev);
         dev = findSmartpen();
         if (dev == NULL) { //If the smartpen wasn't found the function will have returned NULL
             SetActionAllowed(INFORMATION,false);
