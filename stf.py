@@ -3,6 +3,44 @@
 import cairo
 import sys
 
+try:
+    bgRed
+except NameError:
+    bgRed = 255
+
+try:
+    bgGreen
+except NameError:
+    bgGreen = 255
+
+try:
+    bgBlue
+except NameError:
+    bgBlue = 255
+
+try:
+    fgRed
+except NameError:
+    fgRed = 0
+
+try:
+    fgGreen
+except NameError:
+    fgGreen = 0
+
+try:
+    fgBlue
+except NameError:
+    fgBlue = 0
+
+#print fgRed
+#print fgGreen
+#print fgBlue
+#print
+#print bgRed
+#print bgGreen
+#print bgBlue
+
 class BitReader(object):
     def __init__(self, stream):
         self.stream = stream
@@ -265,39 +303,9 @@ class STFParser(object):
 surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 8000, 8000)
 ctx = cairo.Context(surface)
 
-try:
-    bgRed
-except NameError:
-    bgRed = 255
-
-try:
-    bgGreen
-except NameError:
-    bgGreen = 255
-
-try:
-    bgBlue
-except NameError:
-    bgBlue = 255
-
-try:
-    fgRed
-except NameError:
-    fgRed = 0
-
-try:
-    fgGreen
-except NameError:
-    fgGreen = 0
-
-try:
-    fgBlue
-except NameError:
-    fgBlue = 0
-
-ctx.set_source_rgb(bgRed, bgGreen, bgBlue)
+ctx.set_source_rgb(float(bgRed), float(bgGreen), float(bgBlue))
 ctx.paint()
-ctx.set_source_rgb(fgRed, fgGreen, fgBlue)
+ctx.set_source_rgb(float(fgRed), float(fgGreen), float(fgBlue))
 
 class Parser(STFParser):
     def __init__(self, *args):
@@ -320,11 +328,6 @@ try:
     stf_file
 except NameError:
     stf_file = sys.argv[1]
-
-try:
-    png_file
-except NameError:
-    png_file = sys.argv[2]
 
 f = file(stf_file)
 p = Parser(f)
