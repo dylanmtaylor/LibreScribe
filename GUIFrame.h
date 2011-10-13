@@ -26,6 +26,7 @@ uint16_t refreshDeviceState();
 	#include <wx/toolbar.h>
 	#include <wx/sizer.h>
 	#include <wx/listctrl.h>
+	#include <wx/colordlg.h>
 	#include <wx/menu.h>
 	#include <wx/panel.h>
 	#include <wx/statusbr.h>
@@ -33,6 +34,7 @@ uint16_t refreshDeviceState();
 	#include <wx/stattext.h>
 	//*)
 #endif
+#include <wx/colordlg.h>
 #include <wx/imaglist.h>
 #include <wx/thread.h>
 #include <wx/defs.h>
@@ -125,6 +127,7 @@ class GUIFrame: public wxFrame
         void handleLsp(xmlNode* lsp,int& index);
 		//(*Declarations(GUIFrame)
 		wxToolBarToolBase* devInfoButton;
+		wxMenuItem* selectRenderingColorsMenuItem;
 		wxListCtrl* notebookBrowser;
 		wxSplitterWindow* pagesTab;
 		wxMenuItem* renameSmartpenMenuItem;
@@ -142,8 +145,10 @@ class GUIFrame: public wxFrame
 		wxMenuItem* deleteNotebookMenuItem;
 		wxMenuItem* deviceInformationMenuItem;
 		wxListCtrl* audioList;
+		wxColourDialog* colorDialog;
 		wxMenu* fileMenu;
 		wxToolBarToolBase* quitButton;
+		wxMenu* preferencesMenu;
 		wxToolBar* mainToolbar;
 		wxToolBarToolBase* refreshButton;
 		wxPanel* notebookBrowserPanel;
@@ -155,6 +160,8 @@ class GUIFrame: public wxFrame
 		//*)
         wxImageList* treeImages;
         wxImageList* browserImages;
+        wxColour* renderingForegroundColor;
+        wxColour* renderingBackgroundColor;
         std::vector<notebook> notebooks;
 	protected:
 
@@ -174,6 +181,7 @@ class GUIFrame: public wxFrame
         static const long idMenuFileArchiveNotebook;
         static const long idMenuFileDeleteNotebok;
         static const long idMenuFileQuit;
+        static const long idSelectRenderingColors;
         static const long idMenuHelpAbout;
         static const long idToolbarRefresh;
         static const long idToolbarInfo;
@@ -215,6 +223,7 @@ class GUIFrame: public wxFrame
         std::vector<std::string> GetDirectoryContents(const char* path, const bool ignorePNG = true);
         bool CheckIfFileExists(const char* path);
         void xdgOpenFile(const char* path);
+        std::string ConvertIntegerToString(int i);
 };
 
 #endif
