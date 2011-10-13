@@ -33,14 +33,6 @@ try:
 except NameError:
     fgBlue = 0
 
-#print fgRed
-#print fgGreen
-#print fgBlue
-#print
-#print bgRed
-#print bgGreen
-#print bgBlue
-
 class BitReader(object):
     def __init__(self, stream):
         self.stream = stream
@@ -302,6 +294,14 @@ class STFParser(object):
 
 surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 8000, 8000)
 ctx = cairo.Context(surface)
+
+print float(fgRed)
+print float(fgGreen)
+print float(fgBlue)
+print
+print float(bgRed)
+print float(bgGreen)
+print float(bgBlue)
 
 ctx.set_source_rgb(float(bgRed), float(bgGreen), float(bgBlue))
 ctx.paint()

@@ -220,7 +220,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 #endif
     //set what colors to render the STF files
     renderingForegroundColor = new wxColor(0,0,0); //black
-    renderingBackgroundColor = new wxColor(150,255,255); //white
+    renderingBackgroundColor = new wxColor(155,155,0); //yellow
     printf("fg color: %d,%d,%d\n", (int)renderingForegroundColor->Red(), (int)renderingForegroundColor->Green(), (int)renderingForegroundColor->Blue());
     printf("bg color: %d,%d,%d\n", (int)renderingBackgroundColor->Red(), (int)renderingBackgroundColor->Green(), (int)renderingBackgroundColor->Blue());
 //    colorDialog->SetTitle(_("Select A Color"));
