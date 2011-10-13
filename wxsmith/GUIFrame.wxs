@@ -154,6 +154,13 @@
 					<handler function="OnQuit" entry="EVT_MENU" />
 				</object>
 			</object>
+			<object class="wxMenu" variable="preferencesMenu" member="yes">
+				<label>&amp;Preferences</label>
+				<object class="wxMenuItem" name="idSelectRenderingColors" variable="selectRenderingColorsMenuItem" member="yes">
+					<label>Select Rendering Colors</label>
+					<accel>Shift+Ctrl+C</accel>
+				</object>
+			</object>
 			<object class="wxMenu" variable="helpMenu" member="yes">
 				<label>&amp;Help</label>
 				<object class="wxMenuItem" name="idMenuHelpAbout" variable="aboutMenuItem" member="yes">
@@ -210,5 +217,6 @@
 				<handler function="OnRefresh" entry="EVT_MENU" />
 			</object>
 		</object>
+		<object class="wxColourDialog" variable="colorDialog" member="yes" />
 	</object>
 </wxsmith>

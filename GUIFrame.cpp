@@ -49,6 +49,7 @@ const long GUIFrame::idMenuFileDeletePages = wxNewId();
 const long GUIFrame::idMenuFileArchiveNotebook = wxNewId();
 const long GUIFrame::idMenuFileDeleteNotebok = wxNewId();
 const long GUIFrame::idMenuFileQuit = wxNewId();
+const long GUIFrame::idSelectRenderingColors = wxNewId();
 const long GUIFrame::idMenuHelpAbout = wxNewId();
 const long GUIFrame::idToolbarRefresh = wxNewId();
 const long GUIFrame::idToolbarInfo = wxNewId();
@@ -151,6 +152,10 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	quitMenuItem = new wxMenuItem(fileMenu, idMenuFileQuit, _("&Quit\tCtrl+Q"), _("Quit this application."), wxITEM_NORMAL);
 	fileMenu->Append(quitMenuItem);
 	menuBar->Append(fileMenu, _("&File"));
+	preferencesMenu = new wxMenu();
+	selectRenderingColorsMenuItem = new wxMenuItem(preferencesMenu, idSelectRenderingColors, _("Select Rendering Colors\tShift+Ctrl+C"), wxEmptyString, wxITEM_NORMAL);
+	preferencesMenu->Append(selectRenderingColorsMenuItem);
+	menuBar->Append(preferencesMenu, _("&Preferences"));
 	helpMenu = new wxMenu();
 	aboutMenuItem = new wxMenuItem(helpMenu, idMenuHelpAbout, _("&About\tF1"), _("Show info about this application"), wxITEM_NORMAL);
 	helpMenu->Append(aboutMenuItem);
@@ -174,6 +179,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	rootItemMenu.Append(renameSmartpenMenuItem);
 	refreshConnectionMenuItem = new wxMenuItem((&rootItemMenu), idRootItemMenuRefresh, _("&Refresh Connection"), _("Refresh the connection to the attached smartpen"), wxITEM_NORMAL);
 	rootItemMenu.Append(refreshConnectionMenuItem);
+	colorDialog = new wxColourDialog(this);
 	contentSizer->SetSizeHints(this);
 	Center();
 
@@ -212,6 +218,13 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
     applicationInfo sampleAppInfo = {_("Sample LiveScribe Application"), _("1.0"), _("1.44 MiB")};
     addApplicationToList(sampleAppInfo);
 #endif
+    //set what colors to render the STF files
+    renderingForegroundColor = new wxColor(0,0,0); //black
+    renderingBackgroundColor = new wxColor(255,255,255); //white
+    printf("fg color: %d,%d,%d\n", (int)renderingForegroundColor->Red(), (int)renderingForegroundColor->Green(), (int)renderingForegroundColor->Blue());
+    printf("bg color: %d,%d,%d\n", (int)renderingBackgroundColor->Red(), (int)renderingBackgroundColor->Green(), (int)renderingBackgroundColor->Blue());
+//    colorDialog->SetTitle(_("Select A Color"));
+//    colorDialog->ShowModal();
 }
 
 GUIFrame::~GUIFrame()
@@ -771,12 +784,26 @@ void GUIFrame::xdgOpenFile(const char* path) {
     }
 }
 
+std::string GUIFrame::ConvertIntegerToString(int i) {
+    std::stringstream ss;
+    ss << i;
+    return ss.str();
+}
+
 void GUIFrame::decryptStfFile(const char* filename) {
     Py_Initialize();
     FILE* parsestf = fopen("stf.py", "r");
-    std::string setFiles = "stf_file = \"" + (std::string)filename + "\"\n" +
-                       "png_file = \"" + (std::string)filename + ".png\"\n";
-    PyRun_SimpleString(setFiles.c_str());
+    int fgRGB[] = {(int)renderingForegroundColor->Red(), (int)renderingForegroundColor->Green(), (int)renderingForegroundColor->Blue()};
+    int bgRGB[] = {(int)renderingBackgroundColor->Red(), (int)renderingBackgroundColor->Green(), (int)renderingBackgroundColor->Blue()};
+    std::string setFilesAndColors = "stf_file = \"" + (std::string)filename + "\"\n" +
+                       "png_file = \"" + (std::string)filename + ".png\"\n"; // +
+                       "fgRed = \"" + ConvertIntegerToString(fgRGB[0]) + "\"\n" +
+                       "fgGreen = \"" + ConvertIntegerToString(fgRGB[1]) + "\"\n" +
+                       "fgBlue = \"" + ConvertIntegerToString(fgRGB[2]) + "\"\n" +
+                       "bgRed = \"" + ConvertIntegerToString(bgRGB[0]) + "\"\n" +
+                       "bgGreen = \"" + ConvertIntegerToString(bgRGB[1]) + "\"\n" +
+                       "bgBlue = \"" + ConvertIntegerToString(bgRGB[2]) + "\"\n";
+    PyRun_SimpleString(setFilesAndColors.c_str());
     PyRun_SimpleFile(parsestf,"stf.py");
     Py_Finalize();
 }
