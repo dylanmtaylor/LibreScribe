@@ -220,7 +220,7 @@ GUIFrame::GUIFrame(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 #endif
     //set what colors to render the STF files
     renderingForegroundColor = new wxColor(0,0,0); //black
-    renderingBackgroundColor = new wxColor(255,255,255); //white
+    renderingBackgroundColor = new wxColor(150,255,255); //white
     printf("fg color: %d,%d,%d\n", (int)renderingForegroundColor->Red(), (int)renderingForegroundColor->Green(), (int)renderingForegroundColor->Blue());
     printf("bg color: %d,%d,%d\n", (int)renderingBackgroundColor->Red(), (int)renderingBackgroundColor->Green(), (int)renderingBackgroundColor->Blue());
 //    colorDialog->SetTitle(_("Select A Color"));
@@ -796,13 +796,14 @@ void GUIFrame::decryptStfFile(const char* filename) {
     int fgRGB[] = {(int)renderingForegroundColor->Red(), (int)renderingForegroundColor->Green(), (int)renderingForegroundColor->Blue()};
     int bgRGB[] = {(int)renderingBackgroundColor->Red(), (int)renderingBackgroundColor->Green(), (int)renderingBackgroundColor->Blue()};
     std::string setFilesAndColors = "stf_file = \"" + (std::string)filename + "\"\n" +
-                       "png_file = \"" + (std::string)filename + ".png\"\n"; // +
+                       "png_file = \"" + (std::string)filename + ".png\"\n" +
                        "fgRed = \"" + ConvertIntegerToString(fgRGB[0]) + "\"\n" +
                        "fgGreen = \"" + ConvertIntegerToString(fgRGB[1]) + "\"\n" +
                        "fgBlue = \"" + ConvertIntegerToString(fgRGB[2]) + "\"\n" +
                        "bgRed = \"" + ConvertIntegerToString(bgRGB[0]) + "\"\n" +
                        "bgGreen = \"" + ConvertIntegerToString(bgRGB[1]) + "\"\n" +
                        "bgBlue = \"" + ConvertIntegerToString(bgRGB[2]) + "\"\n";
+    printf("setting python variables...\n%s\n",setFilesAndColors.c_str());
     PyRun_SimpleString(setFilesAndColors.c_str());
     PyRun_SimpleFile(parsestf,"stf.py");
     Py_Finalize();
