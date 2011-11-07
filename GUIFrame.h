@@ -18,6 +18,7 @@ along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 #define GUIFRAME_H
 
 #include "DeviceInfo.h"
+#include "AboutDialog.h"
 #include "Smartpen.h"
 #include <vector>
 uint16_t refreshDeviceState();

@@ -658,7 +658,9 @@ void GUIFrame::OnQuit(wxCommandEvent& event)
 
 void GUIFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox(_("Written by Dylan Taylor. A large portion of the code is taken from libsmartpen, written by Steven Walter. This is alpha quality software. Use in production environments is NOT recommended."), _("LibreScribe Smartpen Manager"));
+    AboutDialog d(this);
+    d.ShowModal();
+//    wxMessageBox(_("Written by Dylan Taylor. A large portion of the code is taken from libsmartpen, written by Steven Walter. This is alpha quality software. Use in production environments is NOT recommended."), _("LibreScribe Smartpen Manager"));
 }
 
 void GUIFrame::OnClose(wxCloseEvent& event)
