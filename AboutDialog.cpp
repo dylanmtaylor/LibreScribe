@@ -32,7 +32,7 @@ AboutDialog::AboutDialog(wxWindow* parent,wxWindowID id)
 
 	Create(parent, wxID_ANY, _("About LibreScribe Smartpen Manager"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
 	primarySizer = new wxFlexGridSizer(2, 1, 0, 0);
-	libreScribeLogoBitmap = new wxStaticBitmap(this, idLogoBitmap, wxBitmap(wxImage(_T("/home/dylan/cpp/LibreScribe/res/librescribe.png"))), wxDefaultPosition, wxDefaultSize, 0, _T("idLogoBitmap"));
+	libreScribeLogoBitmap = new wxStaticBitmap(this, idLogoBitmap, wxBitmap(wxImage(_T("res/librescribe.png"))), wxDefaultPosition, wxDefaultSize, 0, _T("idLogoBitmap"));
 	primarySizer->Add(libreScribeLogoBitmap, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	contentSizer = new wxFlexGridSizer(0, 1, 0, 0);
 	libreScribeVersionLabel = new wxStaticText(this, idLibreScribeVersionLabel, _("LibreScribe Smartpen Manager; Version 0.30 Alpha"), wxDefaultPosition, wxDefaultSize, 0, _T("idLibreScribeVersionLabel"));
