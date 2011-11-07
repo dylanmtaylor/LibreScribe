@@ -66,6 +66,8 @@
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />
 			<Mode after="always" />
 		</ExtraCommands>
+		<Unit filename="AboutDialog.cpp" />
+		<Unit filename="AboutDialog.h" />
 		<Unit filename="DeviceInfo.cpp" />
 		<Unit filename="DeviceInfo.h" />
 		<Unit filename="GUIFrame.cpp" />
@@ -91,6 +93,7 @@
 				<resources>
 					<wxFrame wxs="wxsmith/GUIFrame.wxs" src="GUIFrame.cpp" hdr="GUIFrame.h" name="GUIFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/DeviceInfo.wxs" src="DeviceInfo.cpp" hdr="DeviceInfo.h" name="DeviceInfo" language="CPP" />
+					<wxDialog wxs="wxsmith/AboutDialog.wxs" src="AboutDialog.cpp" hdr="AboutDialog.h" name="AboutDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
