@@ -39,7 +39,7 @@ AboutDialog::AboutDialog(wxWindow* parent,wxWindowID id)
 	contentSizer->Add(libreScribeVersionLabel, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	aboutDialogSeparator = new wxStaticLine(this, idAboutDialogSeparator, wxDefaultPosition, wxSize(400,-1), wxLI_HORIZONTAL, _T("idAboutDialogSeparator"));
 	contentSizer->Add(aboutDialogSeparator, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	descriptionText = new wxStaticText(this, idDescriptionText, _("LibreScribe is an effort to create an open source, easy-to-use and feature complete LiveScribe desktop client replacement for the Linux operating system. LibreScribe is written and maintained by Dylan Taylor. A large portion of the \"behind-the-scenes\" code is based off of libsmartpen, by Steven Walter. This project is licensed under version 2 of the GNU General Public License."), wxDefaultPosition, wxSize(390,100), wxALIGN_CENTRE, _T("idDescriptionText"));
+	descriptionText = new wxStaticText(this, idDescriptionText, _("LibreScribe is an effort to create an open source, easy-to-use and feature complete LiveScribe desktop client replacement for the Linux operating system. LibreScribe is written and maintained by Dylan Taylor. A large portion of the \"behind-the-scenes\" code is based off of libsmartpen, by Steven Walter. This project is licensed under version 2 of the GNU General Public License."), wxDefaultPosition, wxSize(390,120), wxALIGN_CENTRE, _T("idDescriptionText"));
 	contentSizer->Add(descriptionText, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	primarySizer->Add(contentSizer, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(primarySizer);
