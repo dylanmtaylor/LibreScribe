@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/LibreScribe
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/DeviceInfo.o $(OBJDIR_DEBUG)/GUIFrame.o $(OBJDIR_DEBUG)/LibreScribe.o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o $(OBJDIR_DEBUG)/src/Smartpen.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/AboutDialog.o $(OBJDIR_DEBUG)/DeviceInfo.o $(OBJDIR_DEBUG)/GUIFrame.o $(OBJDIR_DEBUG)/LibreScribe.o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o $(OBJDIR_DEBUG)/src/Smartpen.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/DeviceInfo.o $(OBJDIR_RELEASE)/GUIFrame.o $(OBJDIR_RELEASE)/LibreScribe.o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o $(OBJDIR_RELEASE)/src/Smartpen.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/AboutDialog.o $(OBJDIR_RELEASE)/DeviceInfo.o $(OBJDIR_RELEASE)/GUIFrame.o $(OBJDIR_RELEASE)/LibreScribe.o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o $(OBJDIR_RELEASE)/src/Smartpen.o
 
 all: before_build build_Debug build_Release after_build
 
@@ -72,6 +72,9 @@ Debug: before_build build_Debug after_build
 
 out_Debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
+
+$(OBJDIR_DEBUG)/AboutDialog.o: AboutDialog.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c AboutDialog.cpp -o $(OBJDIR_DEBUG)/AboutDialog.o
 
 $(OBJDIR_DEBUG)/DeviceInfo.o: DeviceInfo.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c DeviceInfo.cpp -o $(OBJDIR_DEBUG)/DeviceInfo.o
@@ -107,6 +110,9 @@ Release: before_build build_Release after_build
 
 out_Release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
+
+$(OBJDIR_RELEASE)/AboutDialog.o: AboutDialog.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c AboutDialog.cpp -o $(OBJDIR_RELEASE)/AboutDialog.o
 
 $(OBJDIR_RELEASE)/DeviceInfo.o: DeviceInfo.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c DeviceInfo.cpp -o $(OBJDIR_RELEASE)/DeviceInfo.o
