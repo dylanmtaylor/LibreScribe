@@ -22,9 +22,9 @@ class AboutDialog: public wxDialog
 
 		//(*Declarations(AboutDialog)
 		wxStaticText* libreScribeVersionLabel;
-		wxStaticText* StaticText1;
-		wxStaticLine* StaticLine1;
 		wxStaticBitmap* libreScribeLogoBitmap;
+		wxStaticText* descriptionText;
+		wxStaticLine* aboutDialogSeparator;
 		//*)
 
 	protected:
@@ -32,8 +32,8 @@ class AboutDialog: public wxDialog
 		//(*Identifiers(AboutDialog)
 		static const long idLogoBitmap;
 		static const long idLibreScribeVersionLabel;
-		static const long ID_STATICLINE1;
-		static const long ID_STATICTEXT1;
+		static const long idAboutDialogSeparator;
+		static const long idDescriptionText;
 		//*)
 
 	private:
