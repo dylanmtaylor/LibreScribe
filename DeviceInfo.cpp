@@ -51,7 +51,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	wxFlexGridSizer* mainSizer;
 	wxFlexGridSizer* informationSizer;
 	wxFlexGridSizer* dialogSizer;
-
+	
 	Create(parent, wxID_ANY, _("Smartpen Device Information"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
 	SetClientSize(wxSize(600,165));
 	SetMinSize(wxSize(585,165));
@@ -84,7 +84,7 @@ DeviceInfo::DeviceInfo(wxWindow* parent, uint16_t productID, Smartpen* smartpen,
 	mainSizer->Add(dialogSizer, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 10);
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
-
+	
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&DeviceInfo::OnKeyDownEvent);
 	//*)
 
