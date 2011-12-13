@@ -82,6 +82,7 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="wxsmith/AboutDialog.wxs" />
 		<Unit filename="wxsmith/DeviceInfo.wxs" />
 		<Unit filename="wxsmith/GUIFrame.wxs" />
 		<Extensions>

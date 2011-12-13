@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="AboutDialog">
+		<title>About LibreScribe Smartpen Manager</title>
+		<centered>1</centered>
+		<size>430,283</size>
+		<id_arg>0</id_arg>
+		<style>wxSTAY_ON_TOP|wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxCLOSE_BOX</style>
+		<object class="wxFlexGridSizer" variable="primarySizer" member="no">
+			<cols>1</cols>
+			<rows>2</rows>
+			<object class="sizeritem">
+				<object class="wxStaticBitmap" name="idLogoBitmap" variable="libreScribeLogoBitmap" member="yes">
+					<bitmap>res/librescribe.png</bitmap>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxFlexGridSizer" variable="contentSizer" member="no">
+					<cols>1</cols>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="idLibreScribeVersionLabel" variable="libreScribeVersionLabel" member="yes">
+							<label>LibreScribe Smartpen Manager; Version 0.30 Alpha</label>
+						</object>
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticLine" name="idAboutDialogSeparator" variable="aboutDialogSeparator" member="yes">
+							<size>400,-1</size>
+						</object>
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="idDescriptionText" variable="descriptionText" member="yes">
+							<label>LibreScribe is an effort to create an open source, easy-to-use and feature complete LiveScribe desktop client replacement for the Linux operating system. LibreScribe is written and maintained by Dylan Taylor. A large portion of the &quot;behind-the-scenes&quot; code is based off of libsmartpen, by Steven Walter. This project is licensed under version 2 of the GNU General Public License.</label>
+							<size>390,160</size>
+							<style>wxALIGN_CENTRE</style>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>
