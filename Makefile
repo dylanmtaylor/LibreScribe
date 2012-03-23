@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/LibreScribe
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/AboutDialog.o $(OBJDIR_DEBUG)/DeviceInfo.o $(OBJDIR_DEBUG)/GUIFrame.o $(OBJDIR_DEBUG)/LibreScribe.o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o $(OBJDIR_DEBUG)/src/Smartpen.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/AboutDialog.o $(OBJDIR_DEBUG)/src/DeviceInfo.o $(OBJDIR_DEBUG)/src/GUIFrame.o $(OBJDIR_DEBUG)/src/LibreScribe.o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o $(OBJDIR_DEBUG)/src/Smartpen.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/AboutDialog.o $(OBJDIR_RELEASE)/DeviceInfo.o $(OBJDIR_RELEASE)/GUIFrame.o $(OBJDIR_RELEASE)/LibreScribe.o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o $(OBJDIR_RELEASE)/src/Smartpen.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/AboutDialog.o $(OBJDIR_RELEASE)/src/DeviceInfo.o $(OBJDIR_RELEASE)/src/GUIFrame.o $(OBJDIR_RELEASE)/src/LibreScribe.o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o $(OBJDIR_RELEASE)/src/Smartpen.o
 
 all: before_build build_debug build_release after_build
 
@@ -61,7 +61,6 @@ after_build:
 
 before_debug: 
 	test -d bin/Debug || mkdir -p bin/Debug
-	test -d $(OBJDIR_DEBUG) || mkdir -p $(OBJDIR_DEBUG)
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
 
 after_debug: 
@@ -73,17 +72,17 @@ debug: before_build build_debug after_build
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)"
 
-$(OBJDIR_DEBUG)/AboutDialog.o: AboutDialog.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c AboutDialog.cc -o $(OBJDIR_DEBUG)/AboutDialog.o"
+$(OBJDIR_DEBUG)/src/AboutDialog.o: src/AboutDialog.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/AboutDialog.cc -o $(OBJDIR_DEBUG)/src/AboutDialog.o"
 
-$(OBJDIR_DEBUG)/DeviceInfo.o: DeviceInfo.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c DeviceInfo.cc -o $(OBJDIR_DEBUG)/DeviceInfo.o"
+$(OBJDIR_DEBUG)/src/DeviceInfo.o: src/DeviceInfo.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/DeviceInfo.cc -o $(OBJDIR_DEBUG)/src/DeviceInfo.o"
 
-$(OBJDIR_DEBUG)/GUIFrame.o: GUIFrame.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c GUIFrame.cc -o $(OBJDIR_DEBUG)/GUIFrame.o"
+$(OBJDIR_DEBUG)/src/GUIFrame.o: src/GUIFrame.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/GUIFrame.cc -o $(OBJDIR_DEBUG)/src/GUIFrame.o"
 
-$(OBJDIR_DEBUG)/LibreScribe.o: LibreScribe.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c LibreScribe.cc -o $(OBJDIR_DEBUG)/LibreScribe.o"
+$(OBJDIR_DEBUG)/src/LibreScribe.o: src/LibreScribe.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/LibreScribe.cc -o $(OBJDIR_DEBUG)/src/LibreScribe.o"
 
 $(OBJDIR_DEBUG)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
 	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/BackgroundMonitor.cc -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o"
@@ -94,12 +93,10 @@ $(OBJDIR_DEBUG)/src/Smartpen.o: src/Smartpen.cc
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
 	rm -rf bin/Debug
-	rm -rf $(OBJDIR_DEBUG)
 	rm -rf $(OBJDIR_DEBUG)/src
 
 before_release: 
 	test -d bin/Release || mkdir -p bin/Release
-	test -d $(OBJDIR_RELEASE) || mkdir -p $(OBJDIR_RELEASE)
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
 
 after_release: 
@@ -111,17 +108,17 @@ release: before_build build_release after_build
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)"
 
-$(OBJDIR_RELEASE)/AboutDialog.o: AboutDialog.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c AboutDialog.cc -o $(OBJDIR_RELEASE)/AboutDialog.o"
+$(OBJDIR_RELEASE)/src/AboutDialog.o: src/AboutDialog.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/AboutDialog.cc -o $(OBJDIR_RELEASE)/src/AboutDialog.o"
 
-$(OBJDIR_RELEASE)/DeviceInfo.o: DeviceInfo.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c DeviceInfo.cc -o $(OBJDIR_RELEASE)/DeviceInfo.o"
+$(OBJDIR_RELEASE)/src/DeviceInfo.o: src/DeviceInfo.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/DeviceInfo.cc -o $(OBJDIR_RELEASE)/src/DeviceInfo.o"
 
-$(OBJDIR_RELEASE)/GUIFrame.o: GUIFrame.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c GUIFrame.cc -o $(OBJDIR_RELEASE)/GUIFrame.o"
+$(OBJDIR_RELEASE)/src/GUIFrame.o: src/GUIFrame.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/GUIFrame.cc -o $(OBJDIR_RELEASE)/src/GUIFrame.o"
 
-$(OBJDIR_RELEASE)/LibreScribe.o: LibreScribe.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c LibreScribe.cc -o $(OBJDIR_RELEASE)/LibreScribe.o"
+$(OBJDIR_RELEASE)/src/LibreScribe.o: src/LibreScribe.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/LibreScribe.cc -o $(OBJDIR_RELEASE)/src/LibreScribe.o"
 
 $(OBJDIR_RELEASE)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
 	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/BackgroundMonitor.cc -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o"
@@ -132,7 +129,6 @@ $(OBJDIR_RELEASE)/src/Smartpen.o: src/Smartpen.cc
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
 	rm -rf bin/Release
-	rm -rf $(OBJDIR_RELEASE)
 	rm -rf $(OBJDIR_RELEASE)/src
 
 .PHONY: before_build after_build before_debug after_debug clean_debug before_release after_release clean_release
