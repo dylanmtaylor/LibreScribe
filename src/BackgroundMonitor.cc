@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License
 along with LibreScribe.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../GUIFrame.h"
+#include "GUIFrame.h"
 #include <string>
 
 struct udev *udev;

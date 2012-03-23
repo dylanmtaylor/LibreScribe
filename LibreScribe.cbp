@@ -67,18 +67,18 @@
 			<Add after="find ./bin/ -mindepth 1 -maxdepth 1 -type d | xargs -n 1 cp -fv -L ./stf.py ./convert_stfs.sh" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="AboutDialog.cc" />
-		<Unit filename="AboutDialog.h" />
-		<Unit filename="DeviceInfo.cc" />
-		<Unit filename="DeviceInfo.h" />
-		<Unit filename="GUIFrame.cc" />
-		<Unit filename="GUIFrame.h" />
-		<Unit filename="LibreScribe.cc" />
-		<Unit filename="LibreScribe.h" />
+		<Unit filename="src/AboutDialog.cc" />
+		<Unit filename="include/AboutDialog.h" />
+		<Unit filename="src/DeviceInfo.cc" />
+		<Unit filename="include/DeviceInfo.h" />
+		<Unit filename="src/GUIFrame.cc" />
+		<Unit filename="include/GUIFrame.h" />
+		<Unit filename="src/LibreScribe.cc" />
+		<Unit filename="include/LibreScribe.h" />
 		<Unit filename="include/Smartpen.h" />
 		<Unit filename="src/BackgroundMonitor.cc" />
 		<Unit filename="src/Smartpen.cc" />
-		<Unit filename="wx_pch.h">
+		<Unit filename="include/wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
