@@ -73,23 +73,23 @@ debug: before_build build_debug after_build
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)"
 
-$(OBJDIR_DEBUG)/AboutDialog.o: AboutDialog.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c AboutDialog.cpp -o $(OBJDIR_DEBUG)/AboutDialog.o"
+$(OBJDIR_DEBUG)/AboutDialog.o: AboutDialog.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c AboutDialog.cc -o $(OBJDIR_DEBUG)/AboutDialog.o"
 
-$(OBJDIR_DEBUG)/DeviceInfo.o: DeviceInfo.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c DeviceInfo.cpp -o $(OBJDIR_DEBUG)/DeviceInfo.o"
+$(OBJDIR_DEBUG)/DeviceInfo.o: DeviceInfo.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c DeviceInfo.cc -o $(OBJDIR_DEBUG)/DeviceInfo.o"
 
-$(OBJDIR_DEBUG)/GUIFrame.o: GUIFrame.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c GUIFrame.cpp -o $(OBJDIR_DEBUG)/GUIFrame.o"
+$(OBJDIR_DEBUG)/GUIFrame.o: GUIFrame.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c GUIFrame.cc -o $(OBJDIR_DEBUG)/GUIFrame.o"
 
-$(OBJDIR_DEBUG)/LibreScribe.o: LibreScribe.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c LibreScribe.cpp -o $(OBJDIR_DEBUG)/LibreScribe.o"
+$(OBJDIR_DEBUG)/LibreScribe.o: LibreScribe.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c LibreScribe.cc -o $(OBJDIR_DEBUG)/LibreScribe.o"
 
-$(OBJDIR_DEBUG)/src/BackgroundMonitor.o: src/BackgroundMonitor.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/BackgroundMonitor.cpp -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o"
+$(OBJDIR_DEBUG)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/BackgroundMonitor.cc -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o"
 
-$(OBJDIR_DEBUG)/src/Smartpen.o: src/Smartpen.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Smartpen.cpp -o $(OBJDIR_DEBUG)/src/Smartpen.o"
+$(OBJDIR_DEBUG)/src/Smartpen.o: src/Smartpen.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Smartpen.cc -o $(OBJDIR_DEBUG)/src/Smartpen.o"
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
@@ -111,23 +111,23 @@ release: before_build build_release after_build
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)"
 
-$(OBJDIR_RELEASE)/AboutDialog.o: AboutDialog.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c AboutDialog.cpp -o $(OBJDIR_RELEASE)/AboutDialog.o"
+$(OBJDIR_RELEASE)/AboutDialog.o: AboutDialog.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c AboutDialog.cc -o $(OBJDIR_RELEASE)/AboutDialog.o"
 
-$(OBJDIR_RELEASE)/DeviceInfo.o: DeviceInfo.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c DeviceInfo.cpp -o $(OBJDIR_RELEASE)/DeviceInfo.o"
+$(OBJDIR_RELEASE)/DeviceInfo.o: DeviceInfo.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c DeviceInfo.cc -o $(OBJDIR_RELEASE)/DeviceInfo.o"
 
-$(OBJDIR_RELEASE)/GUIFrame.o: GUIFrame.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c GUIFrame.cpp -o $(OBJDIR_RELEASE)/GUIFrame.o"
+$(OBJDIR_RELEASE)/GUIFrame.o: GUIFrame.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c GUIFrame.cc -o $(OBJDIR_RELEASE)/GUIFrame.o"
 
-$(OBJDIR_RELEASE)/LibreScribe.o: LibreScribe.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c LibreScribe.cpp -o $(OBJDIR_RELEASE)/LibreScribe.o"
+$(OBJDIR_RELEASE)/LibreScribe.o: LibreScribe.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c LibreScribe.cc -o $(OBJDIR_RELEASE)/LibreScribe.o"
 
-$(OBJDIR_RELEASE)/src/BackgroundMonitor.o: src/BackgroundMonitor.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/BackgroundMonitor.cpp -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o"
+$(OBJDIR_RELEASE)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/BackgroundMonitor.cc -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o"
 
-$(OBJDIR_RELEASE)/src/Smartpen.o: src/Smartpen.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Smartpen.cpp -o $(OBJDIR_RELEASE)/src/Smartpen.o"
+$(OBJDIR_RELEASE)/src/Smartpen.o: src/Smartpen.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Smartpen.cc -o $(OBJDIR_RELEASE)/src/Smartpen.o"
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
