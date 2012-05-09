@@ -303,6 +303,7 @@ print float(bgRed)
 print float(bgGreen)
 print float(bgBlue)
 
+ctx.set_line_width(10)
 ctx.set_source_rgb(float(bgRed), float(bgGreen), float(bgBlue))
 ctx.paint()
 ctx.set_source_rgb(float(fgRed), float(fgGreen), float(fgBlue))
