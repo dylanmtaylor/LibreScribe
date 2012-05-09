@@ -292,7 +292,40 @@ class STFParser(object):
         assert False
 
 
-surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 8000, 8000)
+class PreParser(STFParser):
+    def __init__(self, *args):
+        super(PreParser, self).__init__(*args)
+        self.minx=8000
+        self.miny=8000
+        self.maxx=0
+        self.maxy=0
+
+    def handle_point(self, x, y, f, time):
+        if f:
+            if x > self.maxx:
+                self.maxx=x
+            if x < self.minx:
+                self.minx=x
+            if y > self.maxy:
+                self.maxy=y
+            if y < self.miny:
+                self.miny=y
+
+try:
+    stf_file
+except NameError:
+    stf_file = sys.argv[1]
+
+pref = file(stf_file)
+prep = PreParser(pref)
+prep.parse()
+
+if prep.maxx > 8000:
+    prep.maxx = 8000
+if prep.maxy > 8000:
+    prep.maxy = 8000
+
+surface = cairo.ImageSurface(cairo.FORMAT_RGB24, prep.maxx-prep.minx, prep.maxy-prep.miny)
 ctx = cairo.Context(surface)
 
 print float(fgRed)
@@ -320,9 +353,9 @@ class Parser(STFParser):
     def handle_point(self, x, y, f, time):
         if f:
             if self.last_force:
-                ctx.line_to(x, y)
+                ctx.line_to(x-prep.minx, y-prep.miny)
             else:
-                ctx.move_to(x, y)
+                ctx.move_to(x-prep.minx, y-prep.miny)
         self.last_force = 1
 
 try:
