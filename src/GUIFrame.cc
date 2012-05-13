@@ -706,10 +706,16 @@ void GUIFrame::RenameSmartpen(wxCommandEvent& event) {
         if (confirmationDialog.ShowModal() == wxID_YES) {
             printf("Request confirmed. Attempting to rename device...\n");
             smartpen->setName((char*)desiredName.c_str());
-            printf("returned from setting pen name. resetting device.\n");
+            printf("returned from setting pen name. Disconnecting old smartpen instance.\n");
+            smartpen->disconnect();
+            printf("Destory old smartpen object.");
+            delete smartpen;
+            smartpen = NULL;
+            printf("Close usb decice connection");
             libusb_close(dev);
-            dev = findSmartpen();
-            printf("Retrieving smartpen name: %s\n", smartpen->getName());
+            dev = NULL;
+            printf("Refresh decice. Device should be detected under new name.\n");
+            doRefreshDeviceState();
         } else printf("Rename operation cancelled.\n");
     }
 }
