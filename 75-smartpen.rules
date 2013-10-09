@@ -1,0 +1,4 @@
+ATTRS{idVendor}=="1cfb", ATTRS{idProduct}=="1010", GROUP="plugdev", MODE="0664"
+ATTRS{idVendor}=="1cfb", ATTRS{idProduct}=="1020", GROUP="plugdev", MODE="0664"
+ATTRS{idVendor}=="1cfb", ATTRS{idProduct}=="1030", GROUP="plugdev", MODE="0664"
+ATTRS{idVendor}=="1cfb", ATTRS{idProduct}=="1032", GROUP="plugdev", MODE="0664"

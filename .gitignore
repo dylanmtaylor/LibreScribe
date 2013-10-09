@@ -2,6 +2,8 @@ bin/
 obj/
 data/
 wx_pch.h.gch/
+libusb/libusb/libusb-1.0.rc
+libusb/m4/
 *.stf
 *.pyc
 *.depend
