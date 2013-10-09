@@ -3,7 +3,7 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="LibreScribe" />
-		<Option pch_mode="2" />
+		<!-- <Option pch_mode="2" /> -->
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option projectLinkerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="3" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-g" />
@@ -25,7 +25,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option projectLinkerOptionsRelation="2" />
+				<Option projectLinkerOptionsRelation="3" />
 				<Compiler>
 					<Add option="-O3" />
 				</Compiler>

@@ -35,7 +35,7 @@ RESINC_RELEASE =  $(RESINC)
 RCFLAGS_RELEASE =  $(RCFLAGS)
 LIBDIR_RELEASE =  $(LIBDIR)
 LIB_RELEASE = $(LIB)
-LDFLAGS_RELEASE =  -s $(LDFLAGS)
+LDFLAGS_RELEASE =  $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/LibreScribe
@@ -70,25 +70,25 @@ build_debug: before_debug out_debug after_debug
 debug: before_build build_debug after_build
 
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
-	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)"
+	$(LD) $(OBJ_DEBUG) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)"
 
 $(OBJDIR_DEBUG)/src/AboutDialog.o: src/AboutDialog.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/AboutDialog.cc -o $(OBJDIR_DEBUG)/src/AboutDialog.o"
+	$(CC) -c src/AboutDialog.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/AboutDialog.o"
 
 $(OBJDIR_DEBUG)/src/DeviceInfo.o: src/DeviceInfo.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/DeviceInfo.cc -o $(OBJDIR_DEBUG)/src/DeviceInfo.o"
+	$(CC) -c src/DeviceInfo.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/DeviceInfo.o"
 
 $(OBJDIR_DEBUG)/src/GUIFrame.o: src/GUIFrame.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/GUIFrame.cc -o $(OBJDIR_DEBUG)/src/GUIFrame.o"
+	$(CC)  -c src/GUIFrame.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/GUIFrame.o"
 
 $(OBJDIR_DEBUG)/src/LibreScribe.o: src/LibreScribe.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/LibreScribe.cc -o $(OBJDIR_DEBUG)/src/LibreScribe.o"
+	$(CC) -c src/LibreScribe.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/LibreScribe.o"
 
 $(OBJDIR_DEBUG)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/BackgroundMonitor.cc -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o"
+	$(CC) -c src/BackgroundMonitor.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/BackgroundMonitor.o"
 
 $(OBJDIR_DEBUG)/src/Smartpen.o: src/Smartpen.cc
-	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Smartpen.cc -o $(OBJDIR_DEBUG)/src/Smartpen.o"
+	$(CC) -c src/Smartpen.cc $(CFLAGS_DEBUG) $(INC_DEBUG) -o $(OBJDIR_DEBUG)/src/Smartpen.o"
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
@@ -106,25 +106,25 @@ build_release: before_release out_release after_release
 release: before_build build_release after_build
 
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
-	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)"
+	$(LD) $(OBJ_RELEASE) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)"
 
 $(OBJDIR_RELEASE)/src/AboutDialog.o: src/AboutDialog.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/AboutDialog.cc -o $(OBJDIR_RELEASE)/src/AboutDialog.o"
+	$(CC) -c src/AboutDialog.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/AboutDialog.o"
 
 $(OBJDIR_RELEASE)/src/DeviceInfo.o: src/DeviceInfo.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/DeviceInfo.cc -o $(OBJDIR_RELEASE)/src/DeviceInfo.o"
+	$(CC) -c src/DeviceInfo.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/DeviceInfo.o"
 
 $(OBJDIR_RELEASE)/src/GUIFrame.o: src/GUIFrame.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/GUIFrame.cc -o $(OBJDIR_RELEASE)/src/GUIFrame.o"
+	$(CC) -c src/GUIFrame.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/GUIFrame.o"
 
 $(OBJDIR_RELEASE)/src/LibreScribe.o: src/LibreScribe.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/LibreScribe.cc -o $(OBJDIR_RELEASE)/src/LibreScribe.o"
+	$(CC) -c src/LibreScribe.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/LibreScribe.o"
 
 $(OBJDIR_RELEASE)/src/BackgroundMonitor.o: src/BackgroundMonitor.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/BackgroundMonitor.cc -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o"
+	$(CC) -c src/BackgroundMonitor.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/BackgroundMonitor.o"
 
 $(OBJDIR_RELEASE)/src/Smartpen.o: src/Smartpen.cc
-	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Smartpen.cc -o $(OBJDIR_RELEASE)/src/Smartpen.o"
+	$(CC) -c src/Smartpen.cc $(CFLAGS_RELEASE) $(INC_RELEASE) -o $(OBJDIR_RELEASE)/src/Smartpen.o"
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
