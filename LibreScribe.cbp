@@ -39,7 +39,7 @@
 			<Add option="`wx-config --cflags`" />
 			<Add option="-Winvalid-pch" />
 			<Add option="-include wx_pch.h" />
-			<Add option="`python-config --include`" />
+			<Add option="`python-config --includes`" />
 			<Add option="`pkg-config --libs --cflags glib-2.0`" />
 			<Add option="-DWX_PRECOMP" />
 			<Add directory="/usr/include/libxml2" />
