@@ -260,6 +260,9 @@ class STFParser(object):
                         else:
                             deltax = br.get_bits(8)
                             deltay = br.get_bits(8)
+                            # sign-extend
+                            if deltax & 0x80: deltax = deltax | -0x100
+                            if deltay & 0x80: deltay = deltay | -0x100
                     else:
                         deltax = self.get_deltax()
                         deltay = self.get_deltay()
