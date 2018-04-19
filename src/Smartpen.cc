@@ -21,15 +21,14 @@ struct libusb_device_handle *findSmartpen() {
     printf("\nentering findSmartpen()\n");
     libusb_device **devs = NULL; //pointer to pointer of device, used to retrieve a list of devices
     libusb_context *ctx = NULL; //a libusb session
-    int r; //for return values
     ssize_t cnt; //holding number of devices in list
     printf("initializing libusb...\n");
-    r = libusb_init(&ctx); //initialize a library session
+    libusb_init(&ctx); //initialize a library session
     libusb_set_debug(ctx, 3); //set verbosity level to 3, as suggested in the documentation
     printf("getting device list...\n");
     cnt = libusb_get_device_list(ctx, &devs); //get the list of devices
     if(cnt >= 0) {
-        printf("device count: %d\n",cnt);
+        printf("device count: %d\n", (int) cnt);
         ssize_t i; //for iterating through the list
         libusb_device_descriptor descriptor; //for getting information on the devices
         printf("checking for livescribe pen...\n");
@@ -157,13 +156,13 @@ static void swizzle_usb(short vendor, short product) {
 
 Smartpen* Smartpen::connect(short vendor, short product) {
     obex_t* handle;
-    obex_object_t* obj;
+    obex_object_t* obj = 0;
     int rc, num, i;
-    struct obex_state* state;
-    obex_interface_t* obex_intf;
+    struct obex_state* state = 0;
+    obex_interface_t* obex_intf = 0;
     obex_headerdata_t hd;
     int size, count;
-    Smartpen* smartpen;
+    Smartpen* smartpen = 0;
 
     while (true) {
         handle = OBEX_Init(OBEX_TRANS_USB, obex_event, 0);
@@ -193,7 +192,7 @@ Smartpen* Smartpen::connect(short vendor, short product) {
 
         swizzle_usb(vendor, product);
 
-        rc = OBEX_InterfaceConnect(handle, &obex_intf[i]);
+        rc = OBEX_InterfaceConnect(handle, obex_intf);
         if (rc < 0) {
             printf("Sorry! Connecting to your device failed. Miserably. Is it in use already?\n");
             printf("Connect failed %d\n", rc);
@@ -291,12 +290,10 @@ bool Smartpen::putNamedObject(const char* name, const char* body) {
     //reference: http://dev.zuckschwerdt.org/openobex/doxygen/
     printf("Attempting to set \"%s\" to \"%s\"\n",name,body);
     struct obex_state *state;
-    int req_done;
     obex_object_t *obj;
     obex_headerdata_t hd;
     int name_size, body_size, i;
     glong nnum;
-    glong bnum;
     printf("getting obex state...\n");
     state = (obex_state*)OBEX_GetUserData(handle);
     OBEX_SetTransportMTU(handle, OBEX_MAXIMUM_MTU, OBEX_MAXIMUM_MTU);
@@ -381,22 +378,8 @@ int Smartpen::getGuid(FILE* out, const char* guid, long long int startTime) {
     return len;
 }
 
-//int Smartpen::getPaperReplay(FILE *out, long long int startTime) {
-//  char name[256];
-//  char *buf;
-//  int len;
-//
-//  snprintf(name, sizeof(name), "lspdata?name=com.livescribe.paperreplay.PaperReplay&start_time=%lld&returnVersion=0.3&remoteCaller=WIN_LD_200",
-//      startTime);
-//
-//  buf = getNamedObject(name, &len);
-//  fwrite(buf, len, 1, out);
-//  return 1;
-//}
-
 const char* Smartpen::getPaperReplay(long long int startTime) {
     char name[256];
-    char *buf;
     int len;
 
     snprintf(name, sizeof(name), "lspdata?name=com.livescribe.paperreplay.PaperReplay&start_time=%lld&returnVersion=0.3&remoteCaller=WIN_LD_200", startTime);
