@@ -4,6 +4,7 @@
 
 
 WORKDIR = `pwd`
+PROJECT_DIRECTORY = ./
 
 CC = gcc
 CXX = g++
