@@ -12,7 +12,7 @@ LD = g++
 WINDRES = windres
 
 INC = -I/usr/include/libxml2 -Iinclude -Ilibusb/libusb
-CFLAGS = -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h `python-config --include` `pkg-config --libs --cflags glib-2.0` -DWX_PRECOMP
+CFLAGS = -std=c++11 -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h `python-config --include` `pkg-config --libs --cflags glib-2.0` -DWX_PRECOMP
 RESINC =
 LIBDIR = -Llibusb/libusb/.libs -Llibusb/libusb
 LIB = -lopenobex -lxml2 -ludev libusb/libusb/.libs/libusb-1.0.a libusb/libusb/.libs/libusb-1.0.so

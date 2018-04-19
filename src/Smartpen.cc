@@ -28,7 +28,7 @@ struct libusb_device_handle *findSmartpen() {
     printf("getting device list...\n");
     cnt = libusb_get_device_list(ctx, &devs); //get the list of devices
     if(cnt >= 0) {
-        printf("device count: %d\n", (int) cnt);
+        printf("device count: %zu\n",cnt);
         ssize_t i; //for iterating through the list
         libusb_device_descriptor descriptor; //for getting information on the devices
         printf("checking for livescribe pen...\n");
@@ -547,6 +547,7 @@ bool Smartpen::resetPassword() {
 void Smartpen::getLspData(const char* object_name, long long int start_time) {
     char name[256];
     int len;
+    int ok;
     snprintf(name, sizeof(name), "lspdata?name=%s&start_time=%d",object_name,int(start_time));
     char* loc = (char*)malloc(snprintf(NULL, 0, "%s%s", "./data/", object_name) + 1);
     sprintf(loc, "%s%s", "./data/", object_name);
@@ -559,6 +560,9 @@ void Smartpen::getLspData(const char* object_name, long long int start_time) {
         fwrite(buf, len, 1, out);
         fclose(out);
         std::string cmd = "unzip -qq -o -d ./data/extracted/" + (std::string)object_name + " ./data/" + (std::string)object_name;
-        system(cmd.c_str()); //I know... this is a horrible way to unzip the files, but it's so easy!
-    }
+		ok = system(cmd.c_str()); //I know... this is a horrible way to unzip the files, but it's so easy!
+		if (ok == -1) {
+			printf("A problem occured unzipping.\n");
+		}    
+	}
 }

@@ -307,6 +307,7 @@ wxThread::ExitCode RefreshListThread::Entry() {
     m_pHandler->SetActionAllowed(INFORMATION,true);
     m_pHandler->SetActionAllowed(RENAME,true);
     wxMutexGuiLeave();
+	return (wxThread::ExitCode)0;
 }
 
 //This method will clear the lists, set them up again, and fill them with new information.
@@ -342,7 +343,7 @@ void RefreshListThread::refreshApplicationList() {
         const char* s = smartpen->getPenletList();
         int index = 0;
         printf("Parsing application list...\n%s\n",s);
-        printf("strlen of s: %d\n", strlen(s));
+        printf("strlen of s: %zu\n", strlen(s));
         xmlDocPtr doc = xmlParseMemory(s, strlen(s));
         xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
         if (cur == NULL) { //do nothing if the xml document is empty
@@ -412,7 +413,7 @@ void RefreshListThread::refreshPageHierarchy() {
     printf("Attempting to retrieve changelist...\n");
     const char* changelist = smartpen->getChangeList(0);
     printf("Parsing changelist...\n%s\n",changelist);
-    printf("strlen of changelist: %d\n", strlen(changelist));
+    printf("strlen of changelist: %zu\n", strlen(changelist));
     xmlDocPtr doc = xmlParseMemory(changelist, strlen(changelist));
     xmlNodePtr cur = xmlDocGetRootElement(doc); //current element should be "xml" at this point.
     if (cur == NULL) { //do nothing if the xml document is empty
@@ -456,7 +457,7 @@ void RefreshListThread::refreshPageHierarchy() {
                                             wxMutexGuiLeave();
                                         } else {
                                             printf("Duplicate notebook detected. Not creating new notebook.\n");
-                                            for (int n = 0; n < m_pHandler->notebooks.size(); n++) { //search through all of the notebooks
+                                            for (unsigned int n = 0; n < m_pHandler->notebooks.size(); n++) { //search through all of the notebooks
                                                 if (strcmp((char*)title,m_pHandler->notebooks[n].title) == 0) { //find the one with the matching title
                                                     std::vector<notebookPage> newPages = ParsePageData(lsps);
                                                     m_pHandler->notebooks[n].notebookPages.insert(m_pHandler->notebooks[n].notebookPages.end(), newPages.begin(), newPages.end());
@@ -471,10 +472,10 @@ void RefreshListThread::refreshPageHierarchy() {
                 }
             }
             printf("Done retrieving notebooks. The notebook vector now contains:\n");
-            for (int i = 0; i < m_pHandler->notebooks.size(); i++) {
+            for (unsigned int i = 0; i < m_pHandler->notebooks.size(); i++) {
                 printf("   [%d] \"%s\" (\"%s\")\n", i, m_pHandler->notebooks[i].title, m_pHandler->notebooks[i].guid);
                 printf("   Pages stored in the \"notebookPages\" vector of this notebook:\n");
-                for (int j = 0; j < m_pHandler->notebooks[i].notebookPages.size(); j++) {
+                for (unsigned int j = 0; j < m_pHandler->notebooks[i].notebookPages.size(); j++) {
                     printf("      [%d] \"%s\"\n", m_pHandler->notebooks[i].notebookPages[j].pageNumber, m_pHandler->notebooks[i].notebookPages[j].pageAddress);
                 }
             }
@@ -769,26 +770,21 @@ int wxCALLBACK SortStringItems(long item1, long item2, long sortData) {
 void GUIFrame::OnApplicationListColumnClick(wxListEvent& event) {
     //reference: http://forums.wxwidgets.org/viewtopic.php?t=30245
     SortingInformation SortInfo;
-    if(event.GetColumn() == SortInfo.Column) { // user clicked same column as last time, change the sorting order
-        SortInfo.SortOrder = SortInfo.SortOrder ? FALSE : TRUE;
-    } else { // user clicked new column, sort ascending
-        SortInfo.SortOrder = TRUE;
-    }
+    SortInfo.SortOrder = TRUE;
     SortInfo.Column = event.GetColumn(); // set the column
     SortInfo.ListCtrl = (wxListCtrl*)appList; // set the list control pointer
     printf("Application list column click detected. Column: %d Sorting list...\n", event.GetColumn());
-    SortingInformation sortInfo;
     appList->SortItems(SortStringItems,(long)&SortInfo);
 }
 
 void GUIFrame::xdgOpenFile(const char* path) {
-    if (CheckIfFileExists("xdg/xdg-open")) {
-        printf("Attempting to open file: %s\n",path);
-        std::string cmd = "xdg/xdg-open ";
-        cmd = cmd + path;
-        system(cmd.c_str());
-    } else {
-        printf("Critical Error: xdg-open is not present. Cannot open file.\n");
+
+	printf("Attempting to open file: %s\n",path);
+	std::string cmd = "xdg-open ";
+	cmd = cmd + path;
+	int ok = system(cmd.c_str());
+    if (ok == -1) {
+		printf("Critical Error: could not find xdg-open utility, cannot open file.\n");
     }
 }
 
@@ -906,11 +902,12 @@ void GUIFrame::SetActionAllowed(const int action, bool allow) {
 }
 
 const char* GUIFrame::GetNotebookGUID(const char* title) {
-    for (int n = 0; n < notebooks.size(); n++) {
+    for (unsigned int n = 0; n < notebooks.size(); n++) {
         if (strcmp(title,notebooks[n].title) == 0) {
             return notebooks[n].guid;
         }
     }
+	return "";
 }
 
 std::string GUIFrame::GeneratePageString(int pageNumber) {
@@ -925,7 +922,7 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
 	std::string textString = (std::string)itemText.mb_str();
     const char* text = textString.c_str();
     notebookBrowser->ClearAll(); //clear the notebook page browser of all previous data
-    printf("page tree selection changed. id: %d, text: \"%s\"\n", item, text);
+    printf("page tree selection changed. id: %d, text: \"%s\"\n", static_cast<int>(item), text);
     if (item == root) { //the root item is either the smartpen or the placeholder when no pen is connected
         selectedNotebookName->SetLabel(_("No Notebook Selected"));
         currentNotebook = NULL;
@@ -934,7 +931,7 @@ void GUIFrame::OnPageTreeSelectionChanged(wxTreeEvent& event) {
         const char* guid = GetNotebookGUID(text);
         printf("The selected notebook's GUID is \"%s\"\n",guid);
         int index = 0;
-        for (int n = 0; n < notebooks.size(); n++) { //search through all of the notebooks
+        for (unsigned int n = 0; n < notebooks.size(); n++) { //search through all of the notebooks
             if (strcmp(text,notebooks[n].title) == 0) { //find the one with the matching title
                 currentNotebook = &notebooks[n];
                 for (int p = currentNotebook->notebookPages.size() - 1; p > -1 ; p--) { //search through all of the pages
