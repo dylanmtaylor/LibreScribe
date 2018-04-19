@@ -192,7 +192,7 @@ Smartpen* Smartpen::connect(short vendor, short product) {
 
         swizzle_usb(vendor, product);
 
-        rc = OBEX_InterfaceConnect(handle, obex_intf);
+        rc = OBEX_InterfaceConnect(handle, &obex_intf[i]);
         if (rc < 0) {
             printf("Sorry! Connecting to your device failed. Miserably. Is it in use already?\n");
             printf("Connect failed %d\n", rc);
@@ -483,7 +483,7 @@ const char* Smartpen::getName() {
             dN = dN.substr(2);
             printf("device name (hex): %s\n", dN.c_str());
             printf("From HEX: %s\n",from_hex(space_hex(dN)).c_str());
-            return from_hex(space_hex(dN)).c_str();
+            return strdup( from_hex(space_hex(dN)).c_str() );
         } else {
             printf("device name is not set.\n");
             return "(Unnamed Smartpen)";
@@ -523,7 +523,7 @@ const char* Smartpen::getCertificate() {
         hexCert = hexCert.substr(2);
 //        printf("Certificate (hex): %s\n", hexCert.c_str());
         printf("From HEX: %s\n",from_hex(space_hex(hexCert)).c_str());
-        return strdup( from_hex(space_hex(dN)).c_str() );
+        return from_hex(space_hex(hexCert)).c_str();
     }
     assert(false);
     return 0;
@@ -560,7 +560,7 @@ void Smartpen::getLspData(const char* object_name, long long int start_time) {
         fwrite(buf, len, 1, out);
         fclose(out);
         std::string cmd = "unzip -qq -o -d ./data/extracted/" + (std::string)object_name + " ./data/" + (std::string)object_name;
-		ok = system(cmd.c_str()); //I know... this is a horrible way to unzip the files, but it's so easy!
+        ok = system(cmd.c_str()); //I know... this is a horrible way to unzip the files, but it's so easy!
 		if (ok == -1) {
 			printf("A problem occured unzipping.\n");
 		}    
