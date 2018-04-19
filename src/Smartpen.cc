@@ -523,7 +523,7 @@ const char* Smartpen::getCertificate() {
         hexCert = hexCert.substr(2);
 //        printf("Certificate (hex): %s\n", hexCert.c_str());
         printf("From HEX: %s\n",from_hex(space_hex(hexCert)).c_str());
-        return from_hex(space_hex(hexCert)).c_str();
+        return strdup( from_hex(space_hex(dN)).c_str() );
     }
     assert(false);
     return 0;
