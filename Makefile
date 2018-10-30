@@ -12,9 +12,9 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-CFLAGS = -std=c++11 -Wall `wx-config --cflags` -Winvalid-pch -include wx_pch.h	`python-config --includes` `pkg-config --cflags glib-2.0` -DWX_PRECOMP `pkg-config --cflags libxml-2.0` `pkg-config --cflags libusb-1.0` -Iinclude
+CFLAGS = -std=c++11 -Wall `wx-config --version=2.8 --cflags` -Winvalid-pch -include wx_pch.h	`python-config --includes` `pkg-config --cflags glib-2.0` -DWX_PRECOMP `pkg-config --cflags libxml-2.0` `pkg-config --cflags libusb-1.0` -Iinclude
 LIBDIR =
-LDFLAGS = `wx-config --libs` -Winvalid-pch -include wx_pch.h `python-config --libs` `pkg-config --libs glib-2.0` `pkg-config --libs libxml-2.0` `pkg-config --libs openobex` `pkg-config --libs libudev` `pkg-config --libs libusb-1.0`
+LDFLAGS = `wx-config --version=2.8 --libs` -Winvalid-pch -include wx_pch.h `python-config --libs` `pkg-config --libs glib-2.0` `pkg-config --libs libxml-2.0` `pkg-config --libs openobex` `pkg-config --libs libudev` `pkg-config --libs libusb-1.0`
 CFLAGS_DEBUG = $(CFLAGS) -O3 -g
 RCFLAGS_DEBUG = $(RCFLAGS)
 LIBDIR_DEBUG = $(LIBDIR)
