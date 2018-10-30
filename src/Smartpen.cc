@@ -170,9 +170,10 @@ Smartpen* Smartpen::connect(short vendor, short product) {
             return smartpen;
         }
 
-        num = OBEX_FindInterfaces(handle, &obex_intf);
+        num = OBEX_EnumerateInterfaces(handle);
         for (i=0; i<num; i++) {
-            if (!strcmp(obex_intf[i].usb.manufacturer, "Livescribe")) {
+            obex_intf = OBEX_GetInterfaceByIndex(handle, i);
+            if (!strcmp(obex_intf->usb.manufacturer, "Livescribe")) {
                 break;
             }
         }
